@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/register_page"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/grey"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/register_topic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:gravity="center"
+        android:text="@string/set_user_information"
+        android:textColor="@color/black"
+        android:textSize="35sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.1" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.8"
+            android:background="@drawable/shape_1"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/register_userName1"
+                style="@style/register_style1"
+                android:text="@string/username" />
+
+            <EditText
+                android:id="@+id/register_userName2"
+                style="@style/register_style2"
+                android:background="@drawable/shape_1"
+                android:hint="@string/input_username"
+                tools:ignore="Autofill,TextFields" />
+        </LinearLayout>
+
+        <TextView
+            style="@style/register_style3"
+            android:layout_weight="0.1"
+            android:text="@string/required" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.1" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.8"
+            android:background="@drawable/shape_1"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/register_password1"
+                style="@style/register_style1"
+                android:text="@string/password" />
+
+            <EditText
+                android:id="@+id/register_password2"
+                style="@style/register_style2"
+                android:background="@drawable/shape_1"
+                android:hint="@string/input_password"
+                android:inputType="textPassword"
+                tools:ignore="Autofill,TextFields" />
+        </LinearLayout>
+
+        <TextView
+            style="@style/register_style3"
+            android:layout_weight="0.1"
+            android:text="@string/required" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.1" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.8"
+            android:background="@drawable/shape_1"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/register_nick1"
+                style="@style/register_style1"
+                android:text="@string/nick" />
+
+            <EditText
+                android:id="@+id/register_nick2"
+                style="@style/register_style2"
+                android:background="@drawable/shape_1"
+                android:hint="@string/input_nick"
+                tools:ignore="Autofill,TextFields" />
+        </LinearLayout>
+
+        <TextView
+            style="@style/register_style3"
+            android:layout_weight="0.1"
+            android:text="@string/required"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.1" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.8"
+            android:background="@drawable/shape_1"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/register_birthday1"
+                style="@style/register_style1"
+                android:text="@string/birthday" />
+
+            <EditText
+                android:id="@+id/register_birthday2"
+                style="@style/register_style2"
+                android:background="@drawable/shape_1"
+                android:hint="@string/input_birthday"
+                android:inputType="date"
+                tools:ignore="Autofill,TextFields" />
+        </LinearLayout>
+
+        <TextView
+            style="@style/register_style3"
+            android:layout_weight="0.1" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.1" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.8"
+            android:background="@drawable/shape_1"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/register_phone1"
+                style="@style/register_style1"
+                android:text="@string/phone" />
+
+            <EditText
+                android:id="@+id/register_phone2"
+                style="@style/register_style2"
+                android:background="@drawable/shape_1"
+                android:hint="@string/input_phone"
+                tools:ignore="Autofill,TextFields" />
+        </LinearLayout>
+
+        <TextView
+            style="@style/register_style3"
+            android:layout_weight="0.1" />
+    </LinearLayout>
+
+    <RadioGroup
+        android:id="@+id/sex"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/male"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="@string/male" />
+
+        <RadioButton
+            android:id="@+id/female"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:text="@string/female" />
+    </RadioGroup>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.1" />
+
+        <Button
+            android:id="@+id/register_and_login"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.8"
+            android:background="@drawable/shape_2"
+            android:text="@string/register_and_login"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.1" />
+    </LinearLayout>
+</LinearLayout>

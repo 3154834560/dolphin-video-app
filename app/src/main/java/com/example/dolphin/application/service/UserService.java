@@ -17,6 +17,7 @@ import com.example.dolphin.infrastructure.structs.LoginInfo;
 import com.example.dolphin.infrastructure.structs.LoginInfoJson;
 import com.example.dolphin.infrastructure.tool.ApiTool;
 import com.example.dolphin.infrastructure.tool.BaseTool;
+import com.example.dolphin.infrastructure.tool.FileTool;
 import com.example.dolphin.infrastructure.util.RetrofitUtils;
 
 import java.io.BufferedWriter;
@@ -38,10 +39,10 @@ import retrofit2.Call;
  */
 public class UserService {
 
-    public static final UserApi USER_API = RetrofitUtils.getInstance().getRetrofit().create(UserApi.class);
+    private final UserApi USER_API = RetrofitUtils.getInstance().getRetrofit().create(UserApi.class);
 
     @SuppressLint("NewApi")
-    public static List<User> getAll(Context context) {
+    public List<User> getAll(Context context) {
         List<User> users = new ArrayList<>();
         try {
             Call<Result<List<UserInput>>> call = USER_API.getAll();
@@ -53,7 +54,7 @@ public class UserService {
         return users;
     }
 
-    public static User create(Context context, UserOutput userOutput) {
+    public User create(Context context, UserOutput userOutput) {
         User user = null;
         try {
             Call<Result<UserInput>> call = USER_API.create(userOutput);
@@ -65,19 +66,33 @@ public class UserService {
         return user;
     }
 
-    public static User getBy(Context context, String userName) {
+    public void update(Context context,UserOutput output) {
+        try {
+            Call<Result<UserInput>> call = USER_API.update(output);
+            Result<UserInput> result = ApiTool.sendRequest(call);
+            StringPool.CURRENT_USER = result.getData().copy();
+            writeLoginInfo(context, StringPool.CURRENT_USER);
+        } catch (Exception e) {
+            BaseTool.shortToast(context, StringPool.UPDATE_FAIL);
+            return;
+        }
+        BaseTool.shortToast(context, StringPool.UPDATE_SUCCESS);
+    }
+
+    public User getBy(Context context, String userName) {
         User user = null;
         try {
             Call<Result<UserInput>> call = USER_API.getBy(userName);
             Result<UserInput> result = ApiTool.sendRequest(call);
             user = result.getData().copy();
+            writeLoginInfo(context, user);
         } catch (Exception e) {
             BaseTool.shortToast(context, StringPool.NOT_NETWORK);
         }
         return user;
     }
 
-    public static Integer verify(Context context, String userName, String password) {
+    public Integer verify(Context context, String userName, String password) {
         Integer verifyResult = 0;
         try {
             Call<Result<Integer>> call = USER_API.verify(userName, password);
@@ -89,7 +104,7 @@ public class UserService {
         return verifyResult;
     }
 
-    public static LoginInfoJson getLoginUserInfo(Context context) {
+    public LoginInfoJson getLoginUserInfo(Context context) {
         File file = new File(StringPool.LOGIN_INFO_FILE_PATH);
         LoginInfoJson loginInfo = new LoginInfoJson();
         try {
@@ -100,7 +115,7 @@ public class UserService {
         return loginInfo == null ? new LoginInfoJson() : loginInfo;
     }
 
-    public static void writeLoginInfo(Context context, User user) {
+    public void writeLoginInfo(Context context, User user) {
         LoginInfo currentUser = new LoginInfo(user, System.currentTimeMillis(), StringPool.INDEX);
         LoginInfoJson loginUserInfo = getLoginUserInfo(context);
         if (user != null) {
@@ -112,21 +127,21 @@ public class UserService {
         writeLoginInfo(context, loginUserInfo);
     }
 
-    public static void deleteHistoryLoginInfo(Context context, User user) {
+    public void deleteHistoryLoginInfo(Context context, User user) {
         LoginInfo currentUser = new LoginInfo(user, System.currentTimeMillis(), 0);
         LoginInfoJson loginUserInfo = getLoginUserInfo(context);
         loginUserInfo.deleteHistoryUser(currentUser);
         writeLoginInfo(context, loginUserInfo);
     }
 
-    public static void quitLogin(Context context) {
+    public void quitLogin(Context context) {
         LoginInfoJson loginUserInfo = getLoginUserInfo(context);
         loginUserInfo.setCurrentUser(null);
         StringPool.CURRENT_USER = null;
         writeLoginInfo(context, loginUserInfo);
     }
 
-    public static void writeLoginInfo(Context context, LoginInfoJson loginUserInfo) {
+    public void writeLoginInfo(Context context, LoginInfoJson loginUserInfo) {
         File file = new File(StringPool.LOGIN_INFO_FILE_PATH);
         try {
             JSON.writeJSONString(new FileOutputStream(file), loginUserInfo);

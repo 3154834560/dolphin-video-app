@@ -27,6 +27,9 @@
         <activity android:name=".activity.LoginPageActivity" />
         <activity android:name=".activity.RegisterPageActivity" />
         <activity android:name=".activity.UploadPageActivity" />
+        <activity android:name=".activity.MePageActivity" />
+        <activity android:name=".activity.PersonIntroPage" />
+        <activity android:name=".activity.MorePageActivity" />
     </application>
 
     <!--    &lt;!&ndash;    添加网络访问权限&ndash;&gt;-->

@@ -14,9 +14,9 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         // 按照so库，没有这个库，视频就不能在指定的手机（'armeabi', 'armeabi-v7a', 'arm64-v8a'）上播放
-        ndk {
+  /*      ndk {
             abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a'
-        }
+        }*/
     }
 
     buildTypes {
@@ -40,14 +40,12 @@ android {
 
 dependencies {
 
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.15'
+
     implementation 'com.alibaba:fastjson:1.2.76'
 
     implementation 'org.projectlombok:lombok:1.18.8'
     annotationProcessor 'org.projectlombok:lombok:1.18.8'
-
-    // ButterKnife ，使用@BindView代替findviewbyid方法
-//    implementation 'com.jakewharton:butterknife:10.2.1'
-//    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.1'
 
     // Glide图片加载框架
     implementation 'com.github.bumptech.glide:glide:4.11.0'
@@ -57,10 +55,20 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:3.0.1'
 
     // 视频播放器相关依赖库
-    implementation 'com.shuyu:gsyVideoPlayer-java:8.0.0'
-    implementation 'com.shuyu:gsyVideoPlayer-armv5:8.0.0'
-    implementation 'com.shuyu:gsyVideoPlayer-armv7a:8.0.0'
-    implementation 'com.shuyu:gsyVideoPlayer-arm64:8.0.0'
+//-----------------------------------------------------------------------------------------
+    implementation 'com.github.CarGuo.GSYVideoPlayer:gsyVideoPlayer-java:v8.3.4-release-jitpack'
+
+    //是否需要ExoPlayer模式
+    implementation 'com.github.CarGuo.GSYVideoPlayer:GSYVideoPlayer-exo2:v8.3.4-release-jitpack'
+
+    //是否需要AliPlayer模式
+    implementation 'com.github.CarGuo.GSYVideoPlayer:GSYVideoPlayer-aliplay:8.3.4-release-jitpack'
+
+    //更多ijk的编码支持
+    implementation 'com.github.CarGuo.GSYVideoPlayer:gsyVideoPlayer-ex_so:v8.3.4-release-jitpack'
+
+//-----------------------------------------------------------------------------------------
+
 
     // retrofit(http请求)依赖包
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'

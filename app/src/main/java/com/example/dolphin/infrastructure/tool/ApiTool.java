@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 
 import com.example.dolphin.infrastructure.rest.Result;
 
+import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
 

@@ -1,5 +1,6 @@
 package com.example.dolphin.infrastructure.holder;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.View;
 import android.widget.ImageView;
@@ -9,13 +10,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.dolphin.R;
+import com.example.dolphin.application.service.UserService;
+import com.example.dolphin.domain.entity.User;
 import com.example.dolphin.domain.entity.Video;
+import com.example.dolphin.infrastructure.consts.StringPool;
+import com.example.dolphin.infrastructure.listeners.ConcernIconListener;
+import com.example.dolphin.infrastructure.tool.BaseTool;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
 import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder;
 import com.shuyu.gsyvideoplayer.listener.GSYSampleCallBack;
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 
+import java.util.Arrays;
 import java.util.Map;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * @author 王景阳
@@ -29,35 +38,26 @@ public class RecyclerItemHolder extends RecyclerView.ViewHolder {
 
     private final StandardGSYVideoPlayer gsyVideoPlayer;
 
-    private final TextView author;
-
-    private final TextView introduction;
-
     private final ImageView imageView;
+
+    private final View v;
 
     private final GSYVideoOptionBuilder gsyVideoOptionBuilder;
 
     public RecyclerItemHolder(Context context, View v) {
         super(v);
         this.context = context;
+        this.v = v;
         this.gsyVideoPlayer = v.findViewById(R.id.video_item_player);
-        this.author = v.findViewById(R.id.video_author);
-        this.introduction = v.findViewById(R.id.video_introduction);
         this.imageView = new ImageView(context);
         this.gsyVideoOptionBuilder = new GSYVideoOptionBuilder();
     }
 
     public void onBind(int position, Video video) {
 
-        String videoUrl = video.getUrl();
-        String videoIntroduction = video.getIntroduction();
+        initData(video);
 
-        Glide.with(context).load(video.getCoverUrl()).into(imageView);
-
-        author.setText(video.getAuthor());
-        introduction.setText(videoIntroduction);
-
-        preventDislocation(videoUrl, videoIntroduction, null, position);
+        preventDislocation(video.getUrl(), video.getIntroduction(), null, position);
 
         //增加title
         gsyVideoPlayer.getTitleTextView().setVisibility(View.GONE);
@@ -69,10 +69,37 @@ public class RecyclerItemHolder extends RecyclerView.ViewHolder {
         gsyVideoPlayer.getFullscreenButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                 //全屏幕按键处理
+                //全屏幕按键处理
                 gsyVideoPlayer.startWindowFullscreen(context, true, true);
             }
         });
+    }
+
+
+    private void initData(Video video) {
+        TextView author = v.findViewById(R.id.video_author);
+        TextView introduction = v.findViewById(R.id.video_introduction);
+        CircleImageView headPortrait = v.findViewById(R.id.video_author_head_portrait);
+        UserService userService = new UserService();
+        User user = userService.getBy(context, video.getAuthor());
+        BaseTool.setTextTypeFace(Arrays.asList(author, introduction), context.getAssets());
+        author.setText(video.getAuthor());
+        introduction.setText(video.getIntroduction());
+        Glide.with(context).load(video.getCoverUrl()).into(imageView);
+        Glide.with(context).load(user.getHeadPortraitUrl()).into(headPortrait);
+
+        initConcern(video);
+    }
+
+    @SuppressLint("UseCompatLoadingForDrawables")
+    public void initConcern(Video video) {
+        ImageView concernIcon = v.findViewById(R.id.concern_image);
+        if (StringPool.CURRENT_USER == null || StringPool.CONCERN == null || StringPool.CONCERN.size() == 0) {
+            concernIcon.setBackground(context.getDrawable(R.drawable.icon_add));
+        } else {
+            concernIcon.setBackground(context.getDrawable(R.drawable.icon_concerned));
+        }
+        concernIcon.setOnClickListener(new ConcernIconListener(v.getContext(), video.getAuthor(), concernIcon));
     }
 
     /**
@@ -82,6 +109,7 @@ public class RecyclerItemHolder extends RecyclerView.ViewHolder {
         gsyVideoOptionBuilder
                 .setIsTouchWiget(false)
                 .setThumbImageView(imageView)
+                .setThumbPlay(true)
                 .setUrl(videoUrl)
                 .setVideoTitle(textContent)
                 .setCacheWithPlay(true)

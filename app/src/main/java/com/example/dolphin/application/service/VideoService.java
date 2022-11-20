@@ -3,11 +3,9 @@ package com.example.dolphin.application.service;
 import android.annotation.SuppressLint;
 import android.content.Context;
 
-import com.example.dolphin.activity.HomePageActivity;
 import com.example.dolphin.activity.fragment.FindFragment;
 import com.example.dolphin.api.VideoApi;
 import com.example.dolphin.domain.entity.Video;
-import com.example.dolphin.infrastructure.adapter.ViewPagerAdapter;
 import com.example.dolphin.infrastructure.consts.StringPool;
 import com.example.dolphin.infrastructure.rest.Result;
 import com.example.dolphin.infrastructure.tool.ApiTool;
@@ -18,7 +16,6 @@ import com.example.dolphin.infrastructure.util.RetrofitUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.MultipartBody;
 import retrofit2.Call;
 
 /**
@@ -27,9 +24,11 @@ import retrofit2.Call;
  */
 public class VideoService {
 
-    private static final VideoApi VIDEO_API = RetrofitUtils.getInstance().getRetrofit().create(VideoApi.class);
+    private final UserService userService = new UserService();
 
-    public static Boolean uploadVideo(Context context, String introduction) {
+    private final VideoApi VIDEO_API = RetrofitUtils.getInstance().getRetrofit().create(VideoApi.class);
+
+    public Boolean uploadVideo(Context context, String introduction) {
         if (StringPool.VIDEO == null) {
             return false;
         }
@@ -46,7 +45,7 @@ public class VideoService {
         return isSuccess;
     }
 
-    public static List<Video> randomGet(Context context, int n) {
+    public List<Video> randomGet(Context context, int n) {
         List<Video> videos = new ArrayList<>();
         if (n == StringPool.THREE) {
             BaseTool.shortToast(context, StringPool.NOT_VIDEOS);
@@ -62,7 +61,7 @@ public class VideoService {
             }
             videos.addAll(data);
             StringPool.INDEX++;
-            UserService.writeLoginInfo(context, StringPool.CURRENT_USER);
+            userService.writeLoginInfo(context, StringPool.CURRENT_USER);
         } catch (Exception e) {
             BaseTool.shortToast(context, StringPool.NOT_NETWORK);
         }
@@ -70,7 +69,7 @@ public class VideoService {
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    public static void addVideo(Context context) {
+    public void addVideo(Context context) {
         List<Video> videos = randomGet(context, 0);
         if (videos.size() > 0) {
             StringPool.videos.addAll(videos);
@@ -83,7 +82,7 @@ public class VideoService {
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    public static void updateVideo(Context context) {
+    public void updateVideo(Context context) {
         int upVideosNum = StringPool.videos.size();
         StringPool.videos.clear();
         List<Video> videos = randomGet(context, 0);

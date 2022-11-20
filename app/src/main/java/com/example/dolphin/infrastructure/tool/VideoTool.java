@@ -6,11 +6,13 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Build;
 import android.widget.ImageView;
+import android.widget.VideoView;
 
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.dolphin.R;
 import com.example.dolphin.infrastructure.consts.StringPool;
 import com.example.dolphin.infrastructure.holder.RecyclerItemHolder;
 import com.example.dolphin.infrastructure.util.RealPathFromUriUtil;
@@ -21,6 +23,7 @@ import java.nio.file.Files;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
+import okhttp3.MultipartReader;
 import okhttp3.RequestBody;
 
 /**
@@ -64,7 +67,8 @@ public class VideoTool {
         }
     }
 
-    public static void getVideo(Context context, ImageView video, Uri uri) {
+    @SuppressLint("UseCompatLoadingForDrawables")
+    public static void getVideo(Context context, VideoView video, Uri uri) {
         String filePath = RealPathFromUriUtil.getFilePathByUri(context, uri);
         if (filePath == null) {
             return;
@@ -79,7 +83,9 @@ public class VideoTool {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        video.setImageBitmap(FileTool.getBitmapFromUri(context, uri));
+        video.setVideoURI(uri);
+        video.start();
+        video.setBackground(context.getDrawable(R.drawable.empty));
         RequestBody requestFile = RequestBody.create(file, MediaType.parse("multipart/form-data"));
         StringPool.VIDEO = MultipartBody.Part.createFormData("video", file.getName(), requestFile);
     }

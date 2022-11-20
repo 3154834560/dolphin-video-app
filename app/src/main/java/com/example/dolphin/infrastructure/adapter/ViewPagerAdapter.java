@@ -1,5 +1,6 @@
 package com.example.dolphin.infrastructure.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,7 +23,11 @@ public class ViewPagerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     private final static String TAG = "ViewPagerAdapter";
 
+    @SuppressLint("StaticFieldLeak")
+    private  RecyclerItemHolder recyclerItemHolder;
+
     private List<Video> videos = null;
+
     private Context context = null;
 
     public ViewPagerAdapter(Context context, List<Video> videos) {
@@ -32,10 +37,10 @@ public class ViewPagerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
-                                                      int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(context).inflate(R.layout.layout_viewpager2_item, parent, false);
-        return new RecyclerItemHolder(context, v);
+        recyclerItemHolder = new RecyclerItemHolder(context, v);
+        return recyclerItemHolder;
 
     }
 
@@ -43,6 +48,12 @@ public class ViewPagerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         RecyclerItemHolder recyclerItemHolder = (RecyclerItemHolder) holder;
         recyclerItemHolder.onBind(position, videos.get(position));
+    }
+
+    public void initConcernIcon(int position){
+        if(recyclerItemHolder!=null){
+            recyclerItemHolder.initConcern(videos.get(position));
+        }
     }
 
     @Override

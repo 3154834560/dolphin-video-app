@@ -1,22 +1,21 @@
 package com.example.dolphin.activity;
 
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.annotation.SuppressLint;
-import android.os.Build;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.dolphin.R;
-import com.example.dolphin.api.UserApi;
+import com.example.dolphin.application.service.ConcernService;
 import com.example.dolphin.application.service.UserService;
 import com.example.dolphin.application.service.VideoService;
 import com.example.dolphin.domain.entity.User;
@@ -27,30 +26,22 @@ import com.example.dolphin.activity.fragment.FindFragment;
 import com.example.dolphin.infrastructure.consts.StringPool;
 import com.example.dolphin.infrastructure.listeners.HintLoginTextListener;
 import com.example.dolphin.infrastructure.listeners.HomePageTextListener;
-import com.example.dolphin.infrastructure.listeners.MeTextListener;
-import com.example.dolphin.infrastructure.listeners.UploadIconListener;
+import com.example.dolphin.infrastructure.listeners.JumpIconListener;
 import com.example.dolphin.infrastructure.structs.LoginInfoJson;
 import com.example.dolphin.infrastructure.tool.BaseTool;
 import com.example.dolphin.infrastructure.adapter.FragmentPagerAdapter;
-import com.example.dolphin.infrastructure.adapter.ViewPagerAdapter;
-import com.example.dolphin.infrastructure.holder.RecyclerItemHolder;
 import com.example.dolphin.infrastructure.listeners.ConcernTextListener;
 import com.example.dolphin.infrastructure.listeners.FindTextListener;
-import com.example.dolphin.infrastructure.listeners.HomeViewPageListener;
+import com.example.dolphin.infrastructure.listeners.HomePageViewListener;
 import com.example.dolphin.infrastructure.listeners.RewardTextListener;
-import com.example.dolphin.infrastructure.rest.Result;
 import com.example.dolphin.infrastructure.tool.FileTool;
 import com.example.dolphin.infrastructure.tool.VideoTool;
-import com.example.dolphin.infrastructure.util.RetrofitUtils;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Response;
 
 /**
  * @author 王景阳
@@ -61,6 +52,10 @@ public class HomePageActivity extends AppCompatActivity {
 
     @SuppressLint("StaticFieldLeak")
     private TextView hintLogin;
+
+    private final VideoService videoService = new VideoService();
+
+    private final UserService userService = new UserService();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,19 +74,22 @@ public class HomePageActivity extends AppCompatActivity {
 
     private void initGlobalVariable() {
         StringPool.WORKING_PATH = getFilesDir().getAbsolutePath() + File.separator;
+        StringPool.RESOURCE_PATH = "android.resource://" + getPackageName() + "/";
         StringPool.ALBUM_PATH = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator;
         StringPool.LOGIN_INFO_FILE_PATH = StringPool.WORKING_PATH + StringPool.LOGIN_INFO_FILE_NAME;
         File loginFile = new File(StringPool.LOGIN_INFO_FILE_PATH);
         if (loginFile.exists()) {
-            LoginInfoJson loginUserInfo = UserService.getLoginUserInfo(this);
+            LoginInfoJson loginUserInfo = userService.getLoginUserInfo(this);
             if (loginUserInfo.getCurrentUser() != null) {
-                User user = UserService.getBy(this, loginUserInfo.getCurrentUser().getLoggedUser().getUserName());
+                User user = userService.getBy(this, loginUserInfo.getCurrentUser().getLoggedUser().getUserName());
                 StringPool.INDEX = loginUserInfo.getCurrentUser().getIndex();
-                UserService.writeLoginInfo(this, user);
+                userService.writeLoginInfo(this, user);
                 if (user == null) {
                     StringPool.INDEX = 0;
                 }
                 StringPool.CURRENT_USER = user;
+                ConcernService concernService = new ConcernService();
+                concernService.getAllConcern(this);
             }
         } else {
             FileTool.createFile(StringPool.LOGIN_INFO_FILE_NAME);
@@ -100,7 +98,7 @@ public class HomePageActivity extends AppCompatActivity {
     }
 
     private void initVideoList() {
-        List<Video> videos = VideoService.randomGet(this, 0);
+        List<Video> videos = videoService.randomGet(this, 0);
         if (videos.size() > 0) {
             StringPool.videos.addAll(videos);
         }
@@ -108,6 +106,7 @@ public class HomePageActivity extends AppCompatActivity {
     }
 
     private void initTopData() {
+        ImageView more = findViewById(R.id.more);
         ViewPager2 viewPager2 = findViewById(R.id.home_view_page2);
         hintLogin = findViewById(R.id.hint_login);
         hintLogin.setVisibility(StringPool.CURRENT_USER == null ? View.VISIBLE : View.INVISIBLE);
@@ -119,6 +118,7 @@ public class HomePageActivity extends AppCompatActivity {
                 , new HintLoginTextListener(this, LoginPageActivity.class));
 
         BaseTool.addOnClickListener(topTexts, topListeners);
+        more.setOnClickListener(v -> startActivity(new Intent(HomePageActivity.this, MorePageActivity.class)));
         BaseTool.setTextTypeFace(topTexts, getAssets());
     }
 
@@ -128,10 +128,9 @@ public class HomePageActivity extends AppCompatActivity {
         TextView meText = findViewById(R.id.me);
         BaseTool.setTextTypeFace(homePageText, getAssets());
         BaseTool.setTextTypeFace(meText, getAssets());
-        homePageText.setOnClickListener(new HomePageTextListener(getResources(), homePageText, meText));
-        meText.setOnClickListener(new MeTextListener(getResources(), homePageText, meText));
-
-        uploadImage.setOnClickListener(new UploadIconListener(this, LoginPageActivity.class, UploadPageActivity.class));
+        homePageText.setOnClickListener(new HomePageTextListener(this, HomePageActivity.class, HomePageActivity.class, findViewById(R.id.home_view_page2)));
+        meText.setOnClickListener(new JumpIconListener(this, LoginPageActivity.class, MePageActivity.class));
+        uploadImage.setOnClickListener(new JumpIconListener(this, LoginPageActivity.class, UploadPageActivity.class));
     }
 
     private void initViewPager2() {
@@ -142,7 +141,7 @@ public class HomePageActivity extends AppCompatActivity {
         FragmentPagerAdapter pagerAdapter = new FragmentPagerAdapter(this, fragments);
         viewPager2.setAdapter(pagerAdapter);
         viewPager2.setCurrentItem(topTexts.size() - 1, false);
-        viewPager2.registerOnPageChangeCallback(new HomeViewPageListener(getResources(), topTexts));
+        viewPager2.registerOnPageChangeCallback(new HomePageViewListener(getResources(), topTexts));
     }
 
     @Override
@@ -155,6 +154,31 @@ public class HomePageActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         hintLogin.setVisibility(StringPool.CURRENT_USER == null ? View.VISIBLE : View.INVISIBLE);
+        if (FindFragment.getViewPager2() != null && FindFragment.getPagerAdapter() != null) {
+            FindFragment.getPagerAdapter().initConcernIcon(FindFragment.getViewPager2().getCurrentItem());
+        }
+    }
+
+    private int count = 0;
+
+    private long upDownTime = 0;
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        count++;
+        if (count == 1) {
+            BaseTool.shortToast(this, "再按一次返回键退出 ");
+            upDownTime = System.currentTimeMillis();
+        } else {
+            count = 0;
+            if (System.currentTimeMillis() - upDownTime <= 500) {
+                return super.onKeyDown(keyCode, event);
+            } else {
+                BaseTool.shortToast(this, "再按一次返回键退出 ");
+                upDownTime = System.currentTimeMillis();
+            }
+        }
+        return false;
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -162,69 +186,12 @@ public class HomePageActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
 //        GSYVideoManager.instance().clearAllDefaultCache( this);
+        StringPool.IS_END = false;
         VideoTool.destroyPlay(FindFragment.getViewPager2());
         GSYVideoManager.releaseAllVideos();
         FindFragment.getPagerAdapter().notifyDataSetChanged();
         BaseTool.clearCache(this);
-        UserService.writeLoginInfo(this, StringPool.CURRENT_USER);
-    }
-
-    private void initButton() {
-/*        Button button = findViewById(R.id.add);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ViewPager2 viewPager2 = findViewById(R.id.view_pager2);
-                infoList.clear();
-                initInfoList(infoList);
-                RecyclerView.Adapter adapter = viewPager2.getAdapter();
-                adapter.notifyDataSetChanged();
-                viewPager2.setCurrentItem(0);
-                viewPager2.post(() -> playPosition(viewPager2, 0));
-            }
-        });*/
-
-    }
-
-/*    private void initViewPager() {
-        ViewPager2 viewPager2 = findViewById(R.id.view_pager2);
-        initInfoList(infoList);
-        ViewPagerAdapter pagerAdapter = new ViewPagerAdapter(this, infoList);
-        addPagerAdapter(viewPager2, pagerAdapter);
-    }*/
-
-    private void addPagerAdapter(ViewPager2 viewPager2, ViewPagerAdapter pagerAdapter) {
-        viewPager2.setOrientation(ViewPager2.ORIENTATION_VERTICAL);
-        viewPager2.setAdapter(pagerAdapter);
-        viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-            @Override
-            public void onPageSelected(int position) {
-                super.onPageSelected(position);
-                // 大于0说明有播放
-                int playPosition = GSYVideoManager.instance().getPlayPosition();
-                if (playPosition >= 0) {
-                    // 对应的播放列表TAG
-                    if (GSYVideoManager.instance().getPlayTag().equals(RecyclerItemHolder.TAG)
-                            && (position != playPosition)) {
-                        playPosition(viewPager2, position);
-                    }
-                }
-            }
-        });
-        //进入首页时自动播放第一个视频
-        viewPager2.post(() -> playPosition(viewPager2, 0));
-    }
-
-    /**
-     * 播放视频
-     */
-    private void playPosition(ViewPager2 viewPager2, int position) {
-        int childCount = viewPager2.getChildCount();
-        RecyclerView.ViewHolder viewHolder = ((RecyclerView) viewPager2.getChildAt(0)).findViewHolderForAdapterPosition(position);
-        if (viewHolder != null) {
-            RecyclerItemHolder recyclerItemNormalHolder = (RecyclerItemHolder) viewHolder;
-            recyclerItemNormalHolder.getPlayer().startPlayLogic();
-        }
+        userService.writeLoginInfo(this, StringPool.CURRENT_USER);
     }
 
     /**
@@ -267,53 +234,5 @@ public class HomePageActivity extends AppCompatActivity {
         data5.setUrl("https://vt1.doubanio.com/202102051113/07846ae6e7dd67089ff46a4d070b5f5d/view/movie/M/402690752.mp4");
         videos.add(data5);
 
-    }
-
-
-    private void testHttp() {
-        UserApi service = RetrofitUtils.getInstance().getRetrofit().create(UserApi.class);
-        Call<Result<Object>> call = service.test("aa");
-        //  同步调用
-        // 不能在主线程上发送http请求
-        try {
-            Thread s = new Thread(() -> {
-                try {
-                    Response<Result<Object>> response = call.execute();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            });
-            s.start();
-            s.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    private void testSave() {
-        try {
-            File dir = getFilesDir();
-            File data = getDataDir();
-            File cache = getCacheDir();
-            System.out.println("dir: ");
-            output(dir);
-            System.out.println("data: ");
-            output(data);
-            System.out.println("cache: ");
-            output(cache);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void output(File file) {
-        System.out.println(file.getAbsolutePath() + "------>" + Arrays.toString(file.list()));
-        File[] files = file.listFiles();
-        if (files != null) {
-            for (File f : files) {
-                output(f);
-            }
-        }
     }
 }

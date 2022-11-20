@@ -30,6 +30,8 @@ import com.shuyu.gsyvideoplayer.GSYVideoManager;
 
 public class FindFragment extends Fragment {
 
+    private final VideoService videoService = new VideoService();
+
     @SuppressLint("StaticFieldLeak")
     private static ViewPagerAdapter pagerAdapter;
 
@@ -53,7 +55,6 @@ public class FindFragment extends Fragment {
     }
 
     private void initViewPager2(Context context, ViewPager2 viewPager2) {
-
         pagerAdapter = new ViewPagerAdapter(context, StringPool.videos);
         addPagerAdapter(viewPager2, pagerAdapter);
     }
@@ -72,7 +73,7 @@ public class FindFragment extends Fragment {
                 super.onPageScrolled(position, positionOffset, positionOffsetPixels);
                 if (!first && position + positionOffset + positionOffsetPixels == 0 && upIsZero) {
                     VideoTool.stopPlay(FindFragment.getViewPager2());
-                    VideoService.updateVideo(getContext());
+                    videoService.updateVideo(getContext());
                 }
                 if (first) {
                     first = false;
@@ -87,7 +88,7 @@ public class FindFragment extends Fragment {
                 // 大于0说明有播放
                 int playPosition = GSYVideoManager.instance().getPlayPosition();
                 if (Math.abs(StringPool.videos.size() - playPosition + 1) <= StringPool.VIDEO_UPDATE_DOT) {
-                    VideoService.addVideo(getContext());
+                    videoService.addVideo(getContext());
                 } else if (playPosition >= 0) {
                     // 对应的播放列表TAG
                     if (GSYVideoManager.instance().getPlayTag().equals(RecyclerItemHolder.TAG)
@@ -97,14 +98,13 @@ public class FindFragment extends Fragment {
                 }
             }
         });
-        //进入首页时自动播放第一个视频
-      //  viewPager2.post(() -> VideoTool.startPlay(viewPager2, 0));
     }
 
     @Override
     public void onResume() {
         super.onResume();
         viewPager2.post(() -> VideoTool.startPlay(viewPager2));
+        pagerAdapter.initConcernIcon(viewPager2.getCurrentItem());
     }
 
     @Override

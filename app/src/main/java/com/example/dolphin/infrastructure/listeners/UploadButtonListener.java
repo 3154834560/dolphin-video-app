@@ -15,19 +15,26 @@ import lombok.AllArgsConstructor;
  * @date 2022/11/15 22:24
  */
 @AllArgsConstructor
-public class UploadButtonListener implements View.OnClickListener{
+public class UploadButtonListener implements View.OnClickListener {
 
     private Activity activity;
 
-    private EditText videoIntro;
+    private EditText uploadIntro;
+
+    private final VideoService videoService = new VideoService();
 
     @Override
     public void onClick(View v) {
-        if(StringPool.VIDEO==null){
-            BaseTool.shortToast(activity,"请添加视频！");
+        if (StringPool.VIDEO == null) {
+            BaseTool.shortToast(activity, "请添加视频！");
             return;
         }
-        VideoService.uploadVideo(activity,videoIntro.getText().toString());
-        activity.finish();
+        if (videoService.uploadVideo(activity, uploadIntro.getText().toString())) {
+            BaseTool.shortToast(activity, "上传成功！");
+            activity.finish();
+        } else {
+            BaseTool.shortToast(activity, "上传失败！");
+        }
     }
+
 }

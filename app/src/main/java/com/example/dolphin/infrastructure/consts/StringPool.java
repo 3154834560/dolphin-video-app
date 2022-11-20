@@ -1,6 +1,7 @@
 package com.example.dolphin.infrastructure.consts;
 
 
+import com.example.dolphin.domain.entity.Concern;
 import com.example.dolphin.domain.entity.User;
 import com.example.dolphin.domain.entity.Video;
 
@@ -26,15 +27,41 @@ public class StringPool {
 
     public static User CURRENT_USER = null;
 
+    public static List<Concern> CONCERN = null;
+
+    public static String RESOURCE_PATH = "";
+
+    public static final String UPLOAD_SUCCESS = "上传成功！";
+
+    public static final String UPDATE_SUCCESS = "更新成功！";
+
+    public static final String UPLOAD_FAIL = "上传失败！";
+
+    public static final String UPDATE_FAIL = "更新失败！";
+
+    public static final String UPDATE = "更新";
+
+    public static final String NOT_LOGIN = "未登录";
+
+    public static final String CURRENT_NOT_LOGIN = "当前未登录！";
+
     public static String ALBUM_PATH = "";
+
+    public static final String UPLOAD_VIDEO_BROADCAST_NAME = "com.example.dolphin.upload.video";
 
     public static final String VIDEO_TYPE = "video/*";
 
     public static final String IMAGE_TYPE = "image/*";
 
+    public static final String TYPE = "type";
+
     public static final String PHOTO_TYPE = ".jpg";
 
     public static String WORKING_PATH = "";
+
+    public static boolean IS_UPLOAD = false;
+
+    public static boolean IS_END = true;
 
     public static String MALE = "男";
 
@@ -46,7 +73,7 @@ public class StringPool {
 
     public static final Integer[] LOCKS = new Integer[]{1};
 
-    public static final String FONT_TYPE_FACE = "STXINGKA.TTF";
+    public static final String FONT_TYPE_FACE = "SIMLI.TTF";
 
     public static final String NOT_NETWORK = "网络异常！";
 
@@ -66,13 +93,17 @@ public class StringPool {
 
     public static final int CAMERA_CODE = -1;
 
-    public static Integer ZERO = 0;
+    public static final Integer ZERO = 0;
+
+    public static final Integer EIGHT = 8;
 
     public static Integer ONE = 1;
 
-    public static Integer TWO = 2;
+    public static final Integer TWO = 2;
 
-    public static Integer THREE = 2;
+    public static final Integer HOME_PAGE_SITE = 2;
+
+    public static Integer THREE = 3;
 
     public static List<Video> videos = new ArrayList<>();
 
@@ -81,6 +112,8 @@ public class StringPool {
     public final static String PROTOCOL = "已阅读并同意<font color=blue>海豚视频服务协议</font>";
 
     public final static String NOT_USER_NAME = "该用户名不存在！";
+
+    public final static String DOT = ".";
 
     public final static String PASSWORD_ERROR = "密码错误！";
 

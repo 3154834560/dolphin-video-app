@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import com.example.dolphin.application.service.ConcernService;
 import com.example.dolphin.application.service.UserService;
 import com.example.dolphin.infrastructure.consts.StringPool;
 import com.example.dolphin.infrastructure.tool.BaseTool;
@@ -22,6 +23,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class LoginButtonListener implements View.OnClickListener {
 
+    private final UserService userService = new UserService();
+
     private Activity activity;
 
     private TextView userName;
@@ -37,11 +40,13 @@ public class LoginButtonListener implements View.OnClickListener {
             BaseTool.shortToast(activity, StringPool.SELECT_PROTOCOL);
             return;
         }
-        Integer verifyResult = UserService.verify(activity, userName.getText().toString(), password.getText().toString());
+        Integer verifyResult = userService.verify(activity, userName.getText().toString(), password.getText().toString());
         if (verifyResult.equals(StringPool.TWO)) {
-            StringPool.CURRENT_USER = UserService.getBy(activity, userName.getText().toString());
+            StringPool.CURRENT_USER = userService.getBy(activity, userName.getText().toString());
+            ConcernService concernService=new ConcernService();
+            concernService.getAllConcern(activity);
             StringPool.INDEX = 0;
-            UserService.writeLoginInfo(activity, StringPool.CURRENT_USER);
+            userService.writeLoginInfo(activity, StringPool.CURRENT_USER);
             activity.finish();
             return;
         }

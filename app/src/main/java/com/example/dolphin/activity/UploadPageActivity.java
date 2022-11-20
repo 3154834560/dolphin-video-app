@@ -1,13 +1,16 @@
 package com.example.dolphin.activity;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.VideoView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,12 +24,14 @@ import com.example.dolphin.infrastructure.tool.VideoTool;
 
 
 import lombok.SneakyThrows;
+import pl.droidsonroids.gif.GifImageView;
 
 /**
  * @author 王景阳
  * @date 2022/11/15 16:50
  */
 public class UploadPageActivity extends AppCompatActivity {
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +40,7 @@ public class UploadPageActivity extends AppCompatActivity {
     }
 
     private void initData() {
-        EditText uploadVideoIntro = findViewById(R.id.upload_video_introduction);
+        EditText  uploadVideoIntro = findViewById(R.id.upload_video_introduction);
         Button publish = findViewById(R.id.publish);
         ImageView returns = findViewById(R.id.returns);
         returns.setOnClickListener(v -> {
@@ -45,11 +50,11 @@ public class UploadPageActivity extends AppCompatActivity {
         });
         BaseTool.setEditTextTypeFace(uploadVideoIntro, getAssets());
         BaseTool.setButtonTypeFace(publish, getAssets());
-        ImageView uploadVideo = findViewById(R.id.upload_video);
+        VideoView uploadVideo = findViewById(R.id.upload_video);
         ImageView uploadCover = findViewById(R.id.upload_cover);
         uploadVideo.setOnClickListener(new VideoAndImageListener(this, StringPool.VIDEO_CODE, StringPool.VIDEO_TYPE));
         uploadCover.setOnClickListener(new VideoAndImageListener(this, StringPool.IMAGE_CODE, StringPool.IMAGE_TYPE));
-        publish.setOnClickListener(new UploadButtonListener(this, uploadVideoIntro));
+        publish.setOnClickListener(new UploadButtonListener(this,uploadVideoIntro));
     }
 
 
@@ -91,5 +96,12 @@ public class UploadPageActivity extends AppCompatActivity {
         super.onDestroy();
         StringPool.VIDEO = null;
         StringPool.IMAGE = null;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        VideoView uploadVideo = findViewById(R.id.upload_video);
+        uploadVideo.start();
     }
 }

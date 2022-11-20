@@ -28,7 +28,6 @@ public class ConcernFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View inflate = inflater.inflate(R.layout.concern_page, container, false);
-        mVideoView = new VideoView(inflate.getContext());
         mVideoView = (VideoView) inflate.findViewById(R.id.videos);
         mMediaController = new MediaController(inflate.getContext());
         playBtn = (Button)inflate. findViewById(R.id.playbutton);
@@ -37,10 +36,11 @@ public class ConcernFragment extends Fragment {
         stopBtn.setOnClickListener(new mClick());
         return   inflate;
     }
+
     class mClick implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            String uri = "http://43.139.159.32:8090/dolphin/video/1668398271353.mp4";
+            String uri = "http://43.139.159.32:8090/dolphin/video/1668601616162.mp4";
             mVideoView.setVideoURI(Uri.parse(uri));
             mMediaController.setMediaPlayer(mVideoView);
             mVideoView.setMediaController(mMediaController);

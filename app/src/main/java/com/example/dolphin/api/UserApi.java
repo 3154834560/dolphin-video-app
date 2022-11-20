@@ -12,6 +12,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -28,6 +29,8 @@ public interface UserApi {
     @POST("/dolphin/user")
     Call<Result<UserInput>> create(@Body UserOutput userOutput);
 
+    @PUT("/dolphin/user")
+    Call<Result<UserInput>> update(@Body UserOutput userOutput);
 
     @GET("/dolphin/user")
     Call<Result<UserInput>> getBy(@Query("userName") String userName);

@@ -174,7 +174,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="10dp"
-        android:layout_weight="0.04"
+        android:layout_weight="0.05"
         android:background="@drawable/underline2"
         android:orientation="horizontal">
 
@@ -183,7 +183,6 @@
             android:layout_width="0dp"
             android:layout_height="30dp"
             android:layout_weight="0.3"
-            android:background="@drawable/underline3"
             android:gravity="center"
             android:text="@string/works"
             android:textColor="@color/black"

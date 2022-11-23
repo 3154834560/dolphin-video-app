@@ -20,9 +20,12 @@ public class HomePageViewListener extends ViewPager2.OnPageChangeCallback {
 
     private final List<TextView> topTexts;
 
-    public HomePageViewListener(Resources resources, List<TextView> topTexts) {
+    private final int underline;
+
+    public HomePageViewListener(Resources resources, List<TextView> topTexts,int underline) {
         this.topTexts = topTexts;
         this.resources = resources;
+        this.underline=underline;
     }
 
     @Override
@@ -30,7 +33,7 @@ public class HomePageViewListener extends ViewPager2.OnPageChangeCallback {
         super.onPageScrolled(position, positionOffset, positionOffsetPixels);
         for (int i = 0; i < topTexts.size(); i++) {
             if (i == position) {
-                topTexts.get(i).setBackground(ResourcesCompat.getDrawable(resources, R.drawable.underline1, null));
+                topTexts.get(i).setBackground(ResourcesCompat.getDrawable(resources, underline, null));
             } else {
                 topTexts.get(i).setBackground(ResourcesCompat.getDrawable(resources, R.drawable.empty, null));
             }

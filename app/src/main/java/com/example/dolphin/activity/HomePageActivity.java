@@ -21,7 +21,7 @@ import com.example.dolphin.application.service.VideoService;
 import com.example.dolphin.domain.entity.User;
 import com.example.dolphin.domain.entity.Video;
 import com.example.dolphin.activity.fragment.RewardFragment;
-import com.example.dolphin.activity.fragment.ConcernFragment;
+import com.example.dolphin.activity.fragment.VideoListViewFragment;
 import com.example.dolphin.activity.fragment.FindFragment;
 import com.example.dolphin.infrastructure.consts.StringPool;
 import com.example.dolphin.infrastructure.listeners.HintLoginTextListener;
@@ -30,7 +30,7 @@ import com.example.dolphin.infrastructure.listeners.JumpIconListener;
 import com.example.dolphin.infrastructure.structs.LoginInfoJson;
 import com.example.dolphin.infrastructure.tool.BaseTool;
 import com.example.dolphin.infrastructure.adapter.FragmentPagerAdapter;
-import com.example.dolphin.infrastructure.listeners.ConcernTextListener;
+import com.example.dolphin.infrastructure.listeners.SlideTextListener;
 import com.example.dolphin.infrastructure.listeners.FindTextListener;
 import com.example.dolphin.infrastructure.listeners.HomePageViewListener;
 import com.example.dolphin.infrastructure.listeners.RewardTextListener;
@@ -113,7 +113,7 @@ public class HomePageActivity extends AppCompatActivity {
         List<TextView> topTexts = Arrays.asList(findViewById(R.id.reward), findViewById(R.id.concern)
                 , findViewById(R.id.find), hintLogin);
         List<View.OnClickListener> topListeners = Arrays.asList(new RewardTextListener(viewPager2, 0)
-                , new ConcernTextListener(viewPager2, 1)
+                , new SlideTextListener(viewPager2, 1)
                 , new FindTextListener(viewPager2, 2)
                 , new HintLoginTextListener(this, LoginPageActivity.class));
 
@@ -135,13 +135,13 @@ public class HomePageActivity extends AppCompatActivity {
 
     private void initViewPager2() {
         List<TextView> topTexts = Arrays.asList(findViewById(R.id.reward), findViewById(R.id.concern), findViewById(R.id.find));
-        List<Fragment> fragments = Arrays.asList(new RewardFragment(), new ConcernFragment(), new FindFragment());
+        List<Fragment> fragments = Arrays.asList(new RewardFragment(), new VideoListViewFragment(50, StringPool.CONCERN, R.color.black), new FindFragment());
         ViewPager2 viewPager2 = findViewById(R.id.home_view_page2);
 
         FragmentPagerAdapter pagerAdapter = new FragmentPagerAdapter(this, fragments);
         viewPager2.setAdapter(pagerAdapter);
         viewPager2.setCurrentItem(topTexts.size() - 1, false);
-        viewPager2.registerOnPageChangeCallback(new HomePageViewListener(getResources(), topTexts));
+        viewPager2.registerOnPageChangeCallback(new HomePageViewListener(getResources(), topTexts, R.drawable.underline1));
     }
 
     @Override
@@ -155,7 +155,7 @@ public class HomePageActivity extends AppCompatActivity {
         super.onResume();
         hintLogin.setVisibility(StringPool.CURRENT_USER == null ? View.VISIBLE : View.INVISIBLE);
         if (FindFragment.getViewPager2() != null && FindFragment.getPagerAdapter() != null) {
-            FindFragment.getPagerAdapter().initConcernIcon(FindFragment.getViewPager2().getCurrentItem());
+            FindFragment.getPagerAdapter().initIcon(FindFragment.getViewPager2().getCurrentItem());
         }
     }
 

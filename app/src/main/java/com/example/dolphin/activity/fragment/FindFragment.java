@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,7 +14,6 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.dolphin.R;
-import com.example.dolphin.activity.HomePageActivity;
 import com.example.dolphin.application.service.VideoService;
 import com.example.dolphin.infrastructure.adapter.ViewPagerAdapter;
 import com.example.dolphin.infrastructure.consts.StringPool;
@@ -104,7 +102,7 @@ public class FindFragment extends Fragment {
     public void onResume() {
         super.onResume();
         viewPager2.post(() -> VideoTool.startPlay(viewPager2));
-        pagerAdapter.initConcernIcon(viewPager2.getCurrentItem());
+        pagerAdapter.initIcon(viewPager2.getCurrentItem());
     }
 
     @Override

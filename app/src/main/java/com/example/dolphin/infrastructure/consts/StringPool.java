@@ -27,7 +27,7 @@ public class StringPool {
 
     public static User CURRENT_USER = null;
 
-    public static List<Concern> CONCERN = null;
+    public static List<Concern> CONCERN_LIST = null;
 
     public static String RESOURCE_PATH = "";
 
@@ -91,13 +91,19 @@ public class StringPool {
 
     public static final int ALBUM_CODE = 1;
 
+    public static final int CONCERN = 1;
+
+    public static final int WORKS = 2;
+
     public static final int CAMERA_CODE = -1;
+
+    public static final Integer NEGATIVE_ONE = -1;
 
     public static final Integer ZERO = 0;
 
     public static final Integer EIGHT = 8;
 
-    public static Integer ONE = 1;
+    public static final Integer ONE = 1;
 
     public static final Integer TWO = 2;
 

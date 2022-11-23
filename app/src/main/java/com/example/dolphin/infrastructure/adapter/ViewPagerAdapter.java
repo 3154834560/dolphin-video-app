@@ -50,9 +50,10 @@ public class ViewPagerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         recyclerItemHolder.onBind(position, videos.get(position));
     }
 
-    public void initConcernIcon(int position){
+    public void initIcon(int position){
         if(recyclerItemHolder!=null){
             recyclerItemHolder.initConcern(videos.get(position));
+            recyclerItemHolder.initSupport(videos.get(position));
         }
     }
 

@@ -4,21 +4,29 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.bumptech.glide.Glide;
 import com.example.dolphin.R;
+import com.example.dolphin.activity.fragment.CollectionFragment;
+import com.example.dolphin.activity.fragment.VideoListViewFragment;
 import com.example.dolphin.application.service.ImageService;
 import com.example.dolphin.application.service.UserService;
 import com.example.dolphin.domain.entity.User;
+import com.example.dolphin.infrastructure.adapter.FragmentPagerAdapter;
 import com.example.dolphin.infrastructure.consts.StringPool;
 import com.example.dolphin.infrastructure.listeners.HomePageTextListener;
+import com.example.dolphin.infrastructure.listeners.HomePageViewListener;
 import com.example.dolphin.infrastructure.listeners.JumpIconListener;
+import com.example.dolphin.infrastructure.listeners.SlideTextListener;
 import com.example.dolphin.infrastructure.listeners.VideoAndImageListener;
 import com.example.dolphin.infrastructure.tool.BaseTool;
 import com.example.dolphin.infrastructure.util.RealPathFromUriUtil;
@@ -27,6 +35,7 @@ import java.io.File;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import lombok.SneakyThrows;
@@ -89,12 +98,24 @@ public class MePageActivity extends AppCompatActivity {
     private void initData() {
         initTopData();
         initBottomData();
+        initViewPager2();
     }
 
     private void addListener() {
         findViewById(R.id.user_head_portrait).setOnClickListener(new VideoAndImageListener(this, StringPool.IMAGE_CODE, StringPool.IMAGE_TYPE));
         findViewById(R.id.me_page_introduction).setOnClickListener(v -> startActivity(new Intent(MePageActivity.this, PersonIntroPage.class)));
         findViewById(R.id.modify_info).setOnClickListener(v -> startActivity(new Intent(MePageActivity.this, RegisterPageActivity.class).putExtra(StringPool.TYPE, StringPool.UPDATE)));
+    }
+
+    private void initViewPager2() {
+        ViewPager2 viewPager2 = findViewById(R.id.me_view_pager2);
+        List<TextView> texts = Arrays.asList(findViewById(R.id.works), findViewById(R.id.follow), findViewById(R.id.collection));
+        List<View.OnClickListener> listeners = Arrays.asList(new SlideTextListener(viewPager2, 0), new SlideTextListener(viewPager2, 1), new SlideTextListener(viewPager2, 2));
+        List<Fragment> fragments = Arrays.asList(new VideoListViewFragment(0, StringPool.WORKS, R.color.grey), new VideoListViewFragment(0, StringPool.CONCERN, R.color.grey), new CollectionFragment());
+        BaseTool.addOnClickListener(texts, listeners);
+        FragmentPagerAdapter pagerAdapter = new FragmentPagerAdapter(this, fragments);
+        viewPager2.setAdapter(pagerAdapter);
+        viewPager2.registerOnPageChangeCallback(new HomePageViewListener(getResources(), texts, R.drawable.underline3));
     }
 
     @SuppressLint("NewApi")
@@ -109,7 +130,7 @@ public class MePageActivity extends AppCompatActivity {
         BaseTool.setTextTypeFace(Arrays.asList(nick, userName, sex, birthday, introduction,
                 findViewById(R.id.me_page_nick1), findViewById(R.id.me_page_sex1),
                 findViewById(R.id.me_page_user_name1), findViewById(R.id.me_page_birthday1),
-                findViewById(R.id.works),findViewById(R.id.follow),findViewById(R.id.collection)), getAssets());
+                findViewById(R.id.works), findViewById(R.id.follow), findViewById(R.id.collection)), getAssets());
         BaseTool.setButtonTypeFace((Button) findViewById(R.id.modify_info), getAssets());
         Glide.with(this).load(user.getHeadPortraitUrl()).into(headPortrait);
         nick.setText(user.getNick());
@@ -130,7 +151,7 @@ public class MePageActivity extends AppCompatActivity {
         BaseTool.setTextTypeFace(homePageText, getAssets());
         BaseTool.setTextTypeFace(meText, getAssets());
         homePageText.setOnClickListener(new HomePageTextListener(this, MePageActivity.class, HomePageActivity.class, null));
-        meText.setOnClickListener(new JumpIconListener(this, LoginPageActivity.class, MePageActivity.class));
+        meText.setOnClickListener(new JumpIconListener(this, MePageActivity.class, MePageActivity.class));
         uploadImage.setOnClickListener(new JumpIconListener(this, LoginPageActivity.class, UploadPageActivity.class));
     }
 

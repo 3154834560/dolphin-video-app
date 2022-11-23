@@ -24,6 +24,15 @@ public interface VideoApi {
     @GET("/dolphin/video/random/{index}")
     Call<Result<List<Video>>> randomGet(@Path("index") Integer index);
 
+    @GET("/dolphin/video/all")
+    Call<Result<List<Video>>> getAll(@Query("userName") String userName);
+
+    @POST("/dolphin/support")
+    Call<Result<Boolean>> supportVideo(@Query("userName") String userName, @Query("videoId") String videoId, @Query("n") Integer n);
+
+    @GET("/dolphin/support")
+    Call<Result<Boolean>> isSupport(@Query("userName") String userName, @Query("videoId") String videoId);
+
     @Multipart
     @POST("/dolphin/video")
     Call<Result<Boolean>> uploadVideo(@Query("userName") String userName, @Query("introduction") String introduction

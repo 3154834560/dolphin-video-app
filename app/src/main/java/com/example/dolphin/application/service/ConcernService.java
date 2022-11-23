@@ -12,7 +12,6 @@ import com.example.dolphin.infrastructure.util.RetrofitUtils;
 
 import java.util.List;
 
-import okhttp3.MultipartBody;
 import retrofit2.Call;
 
 /**
@@ -27,18 +26,18 @@ public class ConcernService {
         try {
             Call<Result<List<Concern>>> call = CONCERN_API.getAllConcern(StringPool.CURRENT_USER.getUserName());
             Result<List<Concern>> result = ApiTool.sendRequest(call);
-            StringPool.CONCERN = result.getData();
+            StringPool.CONCERN_LIST = result.getData();
         } catch (Exception e) {
             BaseTool.shortToast(context, StringPool.NOT_NETWORK);
         }
-        return StringPool.CONCERN;
+        return StringPool.CONCERN_LIST;
     }
 
     public boolean isConcern(String userName) {
-        if (StringPool.CONCERN == null || StringPool.CONCERN.size() == 0) {
+        if (StringPool.CONCERN_LIST == null || StringPool.CONCERN_LIST.size() == 0) {
             return false;
         }
-        for (Concern concern : StringPool.CONCERN) {
+        for (Concern concern : StringPool.CONCERN_LIST) {
             if (concern.getUserName().equals(userName)) {
                 return true;
             }

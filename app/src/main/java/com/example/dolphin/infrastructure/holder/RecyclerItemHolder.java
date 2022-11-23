@@ -11,10 +11,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.dolphin.R;
 import com.example.dolphin.application.service.UserService;
+import com.example.dolphin.application.service.VideoService;
 import com.example.dolphin.domain.entity.User;
 import com.example.dolphin.domain.entity.Video;
 import com.example.dolphin.infrastructure.consts.StringPool;
 import com.example.dolphin.infrastructure.listeners.ConcernIconListener;
+import com.example.dolphin.infrastructure.listeners.SupportListener;
 import com.example.dolphin.infrastructure.tool.BaseTool;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
 import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder;
@@ -89,17 +91,34 @@ public class RecyclerItemHolder extends RecyclerView.ViewHolder {
         Glide.with(context).load(user.getHeadPortraitUrl()).into(headPortrait);
 
         initConcern(video);
+        initSupport(video);
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
     public void initConcern(Video video) {
         ImageView concernIcon = v.findViewById(R.id.concern_image);
-        if (StringPool.CURRENT_USER == null || StringPool.CONCERN == null || StringPool.CONCERN.size() == 0) {
+        if (StringPool.CURRENT_USER == null || StringPool.CONCERN_LIST == null || StringPool.CONCERN_LIST.size() == 0) {
             concernIcon.setBackground(context.getDrawable(R.drawable.icon_add));
         } else {
             concernIcon.setBackground(context.getDrawable(R.drawable.icon_concerned));
         }
         concernIcon.setOnClickListener(new ConcernIconListener(v.getContext(), video.getAuthor(), concernIcon));
+    }
+
+    @SuppressLint("UseCompatLoadingForDrawables")
+    public void initSupport(Video video) {
+        ImageView supportIcon = v.findViewById(R.id.support_image);
+        TextView supportNumber = v.findViewById(R.id.support_number);
+        VideoService videoService = new VideoService();
+        Boolean isSupport = videoService.isSupport(context, video.getId());
+        if (isSupport) {
+            supportIcon.setBackground(context.getDrawable(R.drawable.icon_support));
+        } else {
+            supportIcon.setBackground(context.getDrawable(R.drawable.icon_un_support1));
+        }
+        @SuppressLint("DefaultLocale") String number = String.format("%.2f万", video.getNumbers() / 10000.0);
+        supportNumber.setText(video.getNumbers() >= 10000 ? number : video.getNumbers() + "");
+        supportIcon.setOnClickListener(new SupportListener(v.getContext(), video, supportIcon, supportNumber));
     }
 
     /**

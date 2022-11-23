@@ -1,5 +1,6 @@
 package com.example.dolphin.infrastructure.listeners;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
@@ -15,7 +16,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class JumpIconListener implements View.OnClickListener {
 
-    private Context context;
+    private Activity activity;
 
     private Class<?> class1;
 
@@ -23,7 +24,10 @@ public class JumpIconListener implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        Intent intent = new Intent(context, StringPool.CURRENT_USER == null ? class1 : class2);
-        context.startActivity(intent);
+        Intent intent = new Intent(activity, StringPool.CURRENT_USER == null ? class1 : class2);
+        activity.startActivity(intent);
+        if(class1==class2){
+            activity.finish();
+        }
     }
 }

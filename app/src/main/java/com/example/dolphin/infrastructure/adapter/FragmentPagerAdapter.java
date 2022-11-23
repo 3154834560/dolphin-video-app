@@ -1,7 +1,5 @@
 package com.example.dolphin.infrastructure.adapter;
 
-import android.graphics.Paint;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;

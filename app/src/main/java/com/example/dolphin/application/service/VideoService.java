@@ -3,6 +3,8 @@ package com.example.dolphin.application.service;
 import android.annotation.SuppressLint;
 import android.content.Context;
 
+import androidx.viewpager.widget.PagerAdapter;
+
 import com.example.dolphin.activity.fragment.FindFragment;
 import com.example.dolphin.api.VideoApi;
 import com.example.dolphin.domain.entity.Video;
@@ -27,6 +29,62 @@ public class VideoService {
     private final UserService userService = new UserService();
 
     private final VideoApi VIDEO_API = RetrofitUtils.getInstance().getRetrofit().create(VideoApi.class);
+
+
+    public List<Video> getAll(Context context, String userName) {
+        List<Video> videos = new ArrayList<>();
+        try {
+            Call<Result<List<Video>>> call = VIDEO_API.getAll(userName);
+            Result<List<Video>> result = ApiTool.sendRequest(call);
+            List<Video> data = result.getData();
+            videos.addAll(data);
+        } catch (Exception e) {
+            BaseTool.shortToast(context, StringPool.NOT_NETWORK);
+        }
+        return videos;
+    }
+
+    public Boolean supportVideo(Context context, Video video) {
+        boolean isSuccess = false;
+        try {
+            Call<Result<Boolean>> call = VIDEO_API.supportVideo(StringPool.CURRENT_USER.getUserName(), video.getId(), StringPool.ONE);
+            Result<Boolean> result = ApiTool.sendRequest(call);
+            isSuccess = result.getData();
+            if (isSuccess) {
+                video.setNumbers(video.getNumbers() + 1);
+            }
+        } catch (Exception e) {
+            BaseTool.shortToast(context, StringPool.NOT_NETWORK);
+        }
+        return isSuccess;
+    }
+
+    public Boolean unSupportVideo(Context context, Video video) {
+        boolean isSuccess = false;
+        try {
+            Call<Result<Boolean>> call = VIDEO_API.supportVideo(StringPool.CURRENT_USER.getUserName(), video.getId(), StringPool.NEGATIVE_ONE);
+            Result<Boolean> result = ApiTool.sendRequest(call);
+            isSuccess = result.getData();
+            if (isSuccess) {
+                video.setNumbers(video.getNumbers() - 1);
+            }
+        } catch (Exception e) {
+            BaseTool.shortToast(context, StringPool.NOT_NETWORK);
+        }
+        return isSuccess;
+    }
+
+    public Boolean isSupport(Context context, String videoId) {
+        boolean isSuccess = false;
+        try {
+            Call<Result<Boolean>> call = VIDEO_API.isSupport(StringPool.CURRENT_USER.getUserName(), videoId);
+            Result<Boolean> result = ApiTool.sendRequest(call);
+            isSuccess = result.getData();
+        } catch (Exception e) {
+            BaseTool.shortToast(context, StringPool.NOT_NETWORK);
+        }
+        return isSuccess;
+    }
 
     public Boolean uploadVideo(Context context, String introduction) {
         if (StringPool.VIDEO == null) {

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:ignore="DisableBaselineAlignment">
+    <FrameLayout
+        android:id="@+id/concern_video_1"
+        android:layout_width="0dp"
+        android:layout_height="200dp"
+        android:layout_weight="0.33">
+        <ImageView
+            android:id="@+id/concern_video_image_1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:ignore="ContentDescription" />
+        <ImageView
+            android:id="@+id/concern_support_image_1"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@drawable/icon_un_support2"
+            android:layout_marginTop="170dp"
+            android:layout_marginStart="15dp"
+            tools:ignore="ContentDescription" />
+        <TextView
+            android:id="@+id/concern_support_number_1"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="170dp"
+            android:layout_marginStart="38dp"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:text="@string/zero"/>
+    </FrameLayout>
+    <FrameLayout
+        android:id="@+id/concern_video_2"
+        android:layout_width="0dp"
+        android:layout_height="200dp"
+        android:layout_weight="0.33">
+        <ImageView
+            android:id="@+id/concern_video_image_2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:ignore="ContentDescription" />
+        <ImageView
+            android:id="@+id/concern_support_image_2"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@drawable/icon_un_support2"
+            android:layout_marginTop="170dp"
+            android:layout_marginStart="15dp"
+            tools:ignore="ContentDescription" />
+        <TextView
+            android:id="@+id/concern_support_number_2"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="170dp"
+            android:layout_marginStart="38dp"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:text="@string/zero"/>
+    </FrameLayout>
+    <FrameLayout
+        android:id="@+id/concern_video_3"
+        android:layout_width="0dp"
+        android:layout_height="200dp"
+        android:layout_weight="0.33">
+        <ImageView
+            android:id="@+id/concern_video_image_3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:ignore="ContentDescription" />
+        <ImageView
+            android:id="@+id/concern_support_image_3"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@drawable/icon_un_support2"
+            android:layout_marginTop="170dp"
+            android:layout_marginStart="15dp"
+            tools:ignore="ContentDescription" />
+        <TextView
+            android:id="@+id/concern_support_number_3"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="170dp"
+            android:layout_marginStart="38dp"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:text="@string/zero"/>
+    </FrameLayout>
+</LinearLayout>

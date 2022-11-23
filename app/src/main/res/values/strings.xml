@@ -27,6 +27,10 @@
     <string name="register">注 册</string>
     <string name="works">作品</string>
     <string name="follow">关注</string>
+    <string name="zero">0</string>
+    <string name="currently_not_logged">当前未登录</string>
+    <string name="not_implemented">该功能未实现</string>
+    <string name="support">支持</string>
     <string name="collection">收藏</string>
     <string name="register_and_login">注册并登录</string>
     <string name="set_user_information">设置用户信息</string>

@@ -2,9 +2,7 @@ package com.example.dolphin.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -54,7 +52,7 @@ public class MorePageActivity extends AppCompatActivity {
                 UserService userService = new UserService();
                 userService.writeLoginInfo(MorePageActivity.this, StringPool.CURRENT_USER);
                 StringPool.CURRENT_USER = null;
-                StringPool.CONCERN = null;
+                StringPool.CONCERN_LIST = null;
                 finish();
             });
         } else {

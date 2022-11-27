@@ -92,7 +92,7 @@ public class MePageActivity extends AppCompatActivity {
         String msg = imageService.uploadImage(this, image);
         BaseTool.shortToast(this, msg);
         StringPool.CURRENT_USER = userService.getBy(this, StringPool.CURRENT_USER.getUserName());
-        userService.writeLoginInfo(this,StringPool.CURRENT_USER);
+        userService.writeLoginInfo(this, StringPool.CURRENT_USER);
     }
 
     private void initData() {
@@ -102,7 +102,7 @@ public class MePageActivity extends AppCompatActivity {
     }
 
     private void addListener() {
-        findViewById(R.id.user_head_portrait).setOnClickListener(new VideoAndImageListener(this, StringPool.IMAGE_CODE, StringPool.IMAGE_TYPE));
+        findViewById(R.id.user_head_portrait).setOnClickListener(new VideoAndImageListener(this, StringPool.IMAGE_CODE, StringPool.IMAGE_TYPE, R.layout.dialog_album2));
         findViewById(R.id.me_page_introduction).setOnClickListener(v -> startActivity(new Intent(MePageActivity.this, PersonIntroPage.class)));
         findViewById(R.id.modify_info).setOnClickListener(v -> startActivity(new Intent(MePageActivity.this, RegisterPageActivity.class).putExtra(StringPool.TYPE, StringPool.UPDATE)));
     }

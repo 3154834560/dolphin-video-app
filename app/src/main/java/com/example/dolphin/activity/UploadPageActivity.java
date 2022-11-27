@@ -39,7 +39,7 @@ public class UploadPageActivity extends AppCompatActivity {
     }
 
     private void initData() {
-        EditText  uploadVideoIntro = findViewById(R.id.upload_video_introduction);
+        EditText uploadVideoIntro = findViewById(R.id.upload_video_introduction);
         Button publish = findViewById(R.id.publish);
         ImageView returns = findViewById(R.id.returns);
         returns.setOnClickListener(v -> {
@@ -51,9 +51,9 @@ public class UploadPageActivity extends AppCompatActivity {
         BaseTool.setButtonTypeFace(publish, getAssets());
         VideoView uploadVideo = findViewById(R.id.upload_video);
         ImageView uploadCover = findViewById(R.id.upload_cover);
-        uploadVideo.setOnClickListener(new VideoAndImageListener(this, StringPool.VIDEO_CODE, StringPool.VIDEO_TYPE));
-        uploadCover.setOnClickListener(new VideoAndImageListener(this, StringPool.IMAGE_CODE, StringPool.IMAGE_TYPE));
-        publish.setOnClickListener(new UploadButtonListener(this,uploadVideoIntro));
+        uploadVideo.setOnClickListener(new VideoAndImageListener(this, StringPool.VIDEO_CODE, StringPool.VIDEO_TYPE, R.layout.dialog_album1));
+        uploadCover.setOnClickListener(new VideoAndImageListener(this, StringPool.IMAGE_CODE, StringPool.IMAGE_TYPE, R.layout.dialog_album1));
+        publish.setOnClickListener(new UploadButtonListener(this, uploadVideoIntro));
     }
 
 

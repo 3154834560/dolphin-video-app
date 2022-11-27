@@ -61,7 +61,7 @@ public class DownloadService {
                     BaseTool.shortToast(activity, t.getMessage());
                     BaseTool.shortToast(activity, StringPool.DOWN_FAIL);
                 });
-                //DOWN_STATUS = false;
+                DOWN_STATUS.setStatus(false);
             }
         });
     }

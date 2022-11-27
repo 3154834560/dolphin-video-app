@@ -3,6 +3,7 @@ package com.example.dolphin.infrastructure.holder;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.dolphin.R;
+import com.example.dolphin.activity.LoginPageActivity;
 import com.example.dolphin.application.service.CollectionService;
 import com.example.dolphin.application.service.ConcernService;
 import com.example.dolphin.application.service.DownloadService;
@@ -149,6 +151,10 @@ public class RecyclerItemHolder extends RecyclerView.ViewHolder {
         downIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (StringPool.CURRENT_USER == null) {
+                    context.startActivity(new Intent(context, LoginPageActivity.class));
+                    return;
+                }
                 if (DownloadService.DOWN_STATUS.isStatus()) {
                     BaseTool.shortToast(v.getContext(), "已有视频在下载！");
                     return;

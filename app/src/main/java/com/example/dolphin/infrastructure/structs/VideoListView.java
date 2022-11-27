@@ -21,6 +21,8 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class VideoListView {
 
+    private String videoId;
+
     private String coverUrl;
 
     private int supportResource;
@@ -32,6 +34,7 @@ public class VideoListView {
     public static VideoListView copy(Context context, Video video, VideoService videoService) {
         Boolean support = videoService.isSupport(context, video.getId());
         return new VideoListView()
+                .setVideoId(video.getId())
                 .setCoverUrl(video.getCoverUrl())
                 .setSupportResource(support ? R.drawable.icon_support : R.drawable.icon_un_support2)
                 .setNumbers(video.getNumbers()+"");

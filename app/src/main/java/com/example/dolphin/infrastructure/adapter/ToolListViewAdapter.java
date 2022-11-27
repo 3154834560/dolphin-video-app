@@ -2,6 +2,7 @@ package com.example.dolphin.infrastructure.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +11,9 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.dolphin.infrastructure.structs.ToolListView;
 import com.example.dolphin.infrastructure.structs.VideoListView;
+import com.example.dolphin.infrastructure.tool.BaseTool;
 
 import java.util.List;
 import java.util.Map;
@@ -19,11 +22,11 @@ import java.util.Map;
  * @author 王景阳
  * @date 2022/11/23 19:32
  */
-public class ListViewAdapter extends SimpleAdapter {
+public class ToolListViewAdapter extends SimpleAdapter {
 
     private final LayoutInflater mInflater;
 
-    private final List<Map<String, VideoListView>> mData;
+    private final List<Map<String, ToolListView>> mData;
 
     private final int mResource;
 
@@ -31,7 +34,7 @@ public class ListViewAdapter extends SimpleAdapter {
 
     private final int[] mTo;
 
-    public ListViewAdapter(Context context, List<Map<String, VideoListView>> data, int resource, String[] from, int[] to) {
+    public ToolListViewAdapter(Context context, List<Map<String, ToolListView>> data, int resource, String[] from, int[] to) {
         super(context, data, resource, from, to);
         this.mData = data;
         this.mResource = resource;
@@ -61,27 +64,26 @@ public class ListViewAdapter extends SimpleAdapter {
 
     @SuppressLint("UseCompatLoadingForDrawables")
     private void bindView(int position, View view) {
-        Map<String, VideoListView> dataSet = mData.get(position);
+        Map<String, ToolListView> dataSet = mData.get(position);
         if (dataSet == null) {
             return;
         }
         int count = mTo.length;
         for (int i = 0; i < count; i++) {
             View v = view.findViewById(mTo[i]);
-            VideoListView videoListView = dataSet.get(mFrom[i]);
-            List<Integer> childLayoutIds = videoListView.getChildLayoutIds();
-            ImageView cover = v.findViewById(childLayoutIds.get(0));
-            ImageView support = v.findViewById(childLayoutIds.get(1));
-            TextView number = v.findViewById(childLayoutIds.get(2));
-            if (videoListView.getCoverUrl() == null) {
-                cover.setVisibility(View.INVISIBLE);
-                support.setVisibility(View.INVISIBLE);
-                number.setVisibility(View.INVISIBLE);
-                return;
+            ToolListView toolListView = dataSet.get(mFrom[i]);
+            List<Integer> childLayoutIds = toolListView.getChildLayoutIds();
+            ImageView imageView = v.findViewById(childLayoutIds.get(0));
+            TextView textView = v.findViewById(childLayoutIds.get(1));
+            if (toolListView.getNextClass() == null) {
+                imageView.setVisibility(View.INVISIBLE);
+                textView.setVisibility(View.INVISIBLE);
+                continue;
             }
-            Glide.with(view.getContext()).load(videoListView.getCoverUrl()).into(cover);
-            support.setBackground(view.getContext().getDrawable(videoListView.getSupportResource()));
-            number.setText(videoListView.getNumbers());
+            imageView.setBackground(view.getContext().getDrawable(toolListView.getImageId()));
+            textView.setText(toolListView.getToolName());
+            BaseTool.setTextTypeFace(textView, view.getContext().getAssets());
+            v.setOnClickListener(vv -> v.getContext().startActivity(new Intent(v.getContext(), toolListView.getNextClass())));
         }
     }
 }

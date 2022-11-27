@@ -6,6 +6,7 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 
 import com.example.dolphin.application.dto.output.UserOutput;
+import com.example.dolphin.application.service.CollectionService;
 import com.example.dolphin.application.service.ConcernService;
 import com.example.dolphin.application.service.UserService;
 import com.example.dolphin.domain.entity.User;
@@ -63,6 +64,8 @@ public class RegisterButtonListener implements View.OnClickListener {
                 StringPool.CURRENT_USER = userService.create(activity, userOutput);
                 ConcernService concernService=new ConcernService();
                 concernService.getAllConcern(activity);
+                CollectionService collectionService=new CollectionService();
+                collectionService.getAllCollection(activity);
                 StringPool.INDEX = 0;
                 userService.writeLoginInfo(activity, StringPool.CURRENT_USER);
                 activity.finish();

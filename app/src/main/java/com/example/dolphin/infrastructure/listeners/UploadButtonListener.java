@@ -29,12 +29,8 @@ public class UploadButtonListener implements View.OnClickListener {
             BaseTool.shortToast(activity, "请添加视频！");
             return;
         }
-        if (videoService.uploadVideo(activity, uploadIntro.getText().toString())) {
-            BaseTool.shortToast(activity, "上传成功！");
-            activity.finish();
-        } else {
-            BaseTool.shortToast(activity, "上传失败！");
-        }
+        videoService.uploadVideo(activity, uploadIntro.getText().toString());
+        activity.finish();
     }
 
 }

@@ -1,6 +1,7 @@
 package com.example.dolphin.infrastructure.holder;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 import android.widget.ImageView;
@@ -10,11 +11,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.dolphin.R;
+import com.example.dolphin.application.service.CollectionService;
+import com.example.dolphin.application.service.ConcernService;
+import com.example.dolphin.application.service.DownloadService;
 import com.example.dolphin.application.service.UserService;
 import com.example.dolphin.application.service.VideoService;
 import com.example.dolphin.domain.entity.User;
 import com.example.dolphin.domain.entity.Video;
 import com.example.dolphin.infrastructure.consts.StringPool;
+import com.example.dolphin.infrastructure.listeners.CollectionListener;
 import com.example.dolphin.infrastructure.listeners.ConcernIconListener;
 import com.example.dolphin.infrastructure.listeners.SupportListener;
 import com.example.dolphin.infrastructure.tool.BaseTool;
@@ -92,12 +97,16 @@ public class RecyclerItemHolder extends RecyclerView.ViewHolder {
 
         initConcern(video);
         initSupport(video);
+        initCollection(video);
+        initDown(video);
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
     public void initConcern(Video video) {
         ImageView concernIcon = v.findViewById(R.id.concern_image);
-        if (StringPool.CURRENT_USER == null || StringPool.CONCERN_LIST == null || StringPool.CONCERN_LIST.size() == 0) {
+        ConcernService concernService = new ConcernService();
+        boolean isConcern = concernService.isConcern(video.getAuthor());
+        if (!isConcern) {
             concernIcon.setBackground(context.getDrawable(R.drawable.icon_add));
         } else {
             concernIcon.setBackground(context.getDrawable(R.drawable.icon_concerned));
@@ -119,6 +128,35 @@ public class RecyclerItemHolder extends RecyclerView.ViewHolder {
         @SuppressLint("DefaultLocale") String number = String.format("%.2f万", video.getNumbers() / 10000.0);
         supportNumber.setText(video.getNumbers() >= 10000 ? number : video.getNumbers() + "");
         supportIcon.setOnClickListener(new SupportListener(v.getContext(), video, supportIcon, supportNumber));
+    }
+
+    @SuppressLint("UseCompatLoadingForDrawables")
+    public void initCollection(Video video) {
+        ImageView collectionIcon = v.findViewById(R.id.collection_icon);
+        CollectionService collectionService = new CollectionService();
+        Boolean isCollection = collectionService.isCollection(video.getId());
+        if (isCollection) {
+            collectionIcon.setBackground(context.getDrawable(R.drawable.collection_icon));
+        } else {
+            collectionIcon.setBackground(context.getDrawable(R.drawable.un_collection_icon));
+        }
+        collectionIcon.setOnClickListener(new CollectionListener(v.getContext(), video.getId(), collectionIcon));
+    }
+
+    public void initDown(Video video) {
+        ImageView downIcon = v.findViewById(R.id.down_icon);
+        String name = video.getUrl().substring(video.getUrl().lastIndexOf(StringPool.SLASH) + 1);
+        downIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (DownloadService.DOWN_STATUS) {
+                    BaseTool.shortToast(v.getContext(), "已有视频在下载！");
+                    return;
+                }
+                DownloadService downloadService = new DownloadService();
+                downloadService.downloadFile((Activity) context, StringPool.VIDEOS, name);
+            }
+        });
     }
 
     /**

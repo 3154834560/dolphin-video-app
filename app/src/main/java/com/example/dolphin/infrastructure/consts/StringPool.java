@@ -6,7 +6,6 @@ import com.example.dolphin.domain.entity.User;
 import com.example.dolphin.domain.entity.Video;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,13 +28,19 @@ public class StringPool {
 
     public static List<Concern> CONCERN_LIST = null;
 
+    public static List<Video> COLLECTION_LIST = null;
+
     public static String RESOURCE_PATH = "";
 
     public static final String UPLOAD_SUCCESS = "上传成功！";
 
+    public static final String DOWN_SUCCESS = "下载成功！";
+
     public static final String UPDATE_SUCCESS = "更新成功！";
 
     public static final String UPLOAD_FAIL = "上传失败！";
+
+    public static final String DOWN_FAIL = "下载失败！";
 
     public static final String UPDATE_FAIL = "更新失败！";
 
@@ -45,13 +50,27 @@ public class StringPool {
 
     public static final String CURRENT_NOT_LOGIN = "当前未登录！";
 
-    public static String ALBUM_PATH = "";
+    public static String COM_EXAMPLE_DOLPHIN_PATH = "";
+
+    public static final String MSG_STR = "msg";
+
+    public static final String TRUE_STR = "true";
+
+    public static final String FALSE_STR = "false";
 
     public static final String UPLOAD_VIDEO_BROADCAST_NAME = "com.example.dolphin.upload.video";
 
+    public static final String VIDEO_ID = "videoId";
+
     public static final String VIDEO_TYPE = "video/*";
 
+    public static final String VIDEOS = "videos";
+
     public static final String IMAGE_TYPE = "image/*";
+
+    public static final String IMAGES = "images";
+
+    public static final String SLASH = "/";
 
     public static final String TYPE = "type";
 
@@ -95,6 +114,8 @@ public class StringPool {
 
     public static final int WORKS = 2;
 
+    public static final int COLLECTION = 3;
+
     public static final int CAMERA_CODE = -1;
 
     public static final Integer NEGATIVE_ONE = -1;
@@ -126,9 +147,49 @@ public class StringPool {
     public final static String SELECT_PROTOCOL = "请勾选协议！";
 
     public static final Map<Integer, String> MSG = new HashMap<Integer, String>() {{
+        put(-1, NOT_NETWORK);
         put(0, NOT_USER_NAME);
         put(1, PASSWORD_ERROR);
     }};
 
+    public final static String EQUATION = "=";
+
+    public final static String C = "C";
+
+    public final static String CE = "CE";
+
+    public final static String EMPTY = "";
+
+    public final static String DOT_STR = ".";
+
+    public final static char DOT_CHAR = '.';
+
+    public final static String MULTIPLICATION_SIGN = "x";
+
+    public final static String MINUS_SIGN_STR = "-";
+
+    public final static String PLUS_SIGN_STR = "+";
+
+    public final static String DIVISION_SIGN_STR = "÷";
+
+    public final static String PERCENT_SIGN_STR = "%";
+
+    public final static String EQUAL_SIGN_STR = "=";
+
+    public final static char MULTIPLICATION = 'x';
+
+    public final static char MINUS_SIGN = '-';
+
+    public final static char PLUS_SIGN = '+';
+
+    public final static char DIVISION_SIGN = '÷';
+
+    public final static char PERCENT_SIGN = '%';
+
+    public final static String EXPRESSION_ERROR = "表达式错误";
+
+    public final static String CALCULATION_SYMBOL = MULTIPLICATION_SIGN + MINUS_SIGN_STR + PLUS_SIGN_STR + DIVISION_SIGN_STR;
+
+    public final static String PLEASE_ENTER__SEARCH_CONTENT = "请输入搜索内容";
 
 }

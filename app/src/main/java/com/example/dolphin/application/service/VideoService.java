@@ -1,6 +1,7 @@
 package com.example.dolphin.application.service;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 
 import androidx.viewpager.widget.PagerAdapter;
@@ -9,6 +10,7 @@ import com.example.dolphin.activity.fragment.FindFragment;
 import com.example.dolphin.api.VideoApi;
 import com.example.dolphin.domain.entity.Video;
 import com.example.dolphin.infrastructure.consts.StringPool;
+import com.example.dolphin.infrastructure.listeners.UploadVideoListener;
 import com.example.dolphin.infrastructure.rest.Result;
 import com.example.dolphin.infrastructure.tool.ApiTool;
 import com.example.dolphin.infrastructure.tool.BaseTool;
@@ -19,6 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * @author 王景阳
@@ -42,6 +46,18 @@ public class VideoService {
             BaseTool.shortToast(context, StringPool.NOT_NETWORK);
         }
         return videos;
+    }
+
+    public Video getBy(Context context, String videoId) {
+        Video video = null;
+        try {
+            Call<Result<Video>> call = VIDEO_API.getBy(videoId);
+            Result<Video> result = ApiTool.sendRequest(call);
+            video = result.getData();
+        } catch (Exception e) {
+            BaseTool.shortToast(context, StringPool.NOT_NETWORK);
+        }
+        return video;
     }
 
     public Boolean supportVideo(Context context, Video video) {
@@ -75,6 +91,9 @@ public class VideoService {
     }
 
     public Boolean isSupport(Context context, String videoId) {
+        if (StringPool.CURRENT_USER == null) {
+            return false;
+        }
         boolean isSuccess = false;
         try {
             Call<Result<Boolean>> call = VIDEO_API.isSupport(StringPool.CURRENT_USER.getUserName(), videoId);
@@ -86,21 +105,30 @@ public class VideoService {
         return isSuccess;
     }
 
-    public Boolean uploadVideo(Context context, String introduction) {
+    public void uploadVideo(Context context, String introduction) {
         if (StringPool.VIDEO == null) {
-            return false;
+            return;
         }
-        boolean isSuccess = false;
         try {
             Call<Result<Boolean>> call = VIDEO_API.uploadVideo(StringPool.CURRENT_USER.getUserName(), introduction, StringPool.VIDEO, StringPool.IMAGE);
-            Result<Boolean> result = ApiTool.sendRequest(call);
-            isSuccess = result.getCode().equals(StringPool.SUCCESS);
+            UploadVideoListener.uploadStatus = false;
+            call.enqueue(new Callback<Result<Boolean>>() {
+                @Override
+                public void onResponse(Call<Result<Boolean>> call, Response<Result<Boolean>> response) {
+                    UploadVideoListener.uploadStatus = true;
+                    BaseTool.shortToast(context, "上传成功！");
+                }
+
+                @Override
+                public void onFailure(Call<Result<Boolean>> call, Throwable t) {
+                    BaseTool.shortToast(context, "上传失败！");
+                }
+            });
         } catch (Exception e) {
             BaseTool.shortToast(context, StringPool.NOT_NETWORK);
         }
         StringPool.VIDEO = null;
         StringPool.IMAGE = null;
-        return isSuccess;
     }
 
     public List<Video> randomGet(Context context, int n) {

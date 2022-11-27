@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:text="BMI计算器"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="50dp"
+        android:textColor="@color/blue"
+        android:gravity="center"
+        />
+    <EditText android:id="@+id/m"
+        android:hint="请输入身高（米）"
+        />
+    <EditText android:id="@+id/kg"
+        android:hint="请输入体重（千克）"
+        />
+    <TableRow>
+        <RadioGroup
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:orientation="horizontal">
+            <RadioButton android:id="@+id/who"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="WHO标准"/>
+            <RadioButton android:id="@+id/china"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="中国标准"/>
+        </RadioGroup>
+    </TableRow>
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="left">
+
+        <Button
+            android:id="@+id/cacu"
+            style="@style/btn"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_margin="8dp"
+            android:background="@drawable/shape"
+            android:text="计算"
+            android:onClick="onClick"
+            />
+    </TableRow>
+    <TextView android:id="@+id/conclution"
+        android:textColor="@color/blue"
+        android:textSize="30dp"
+        android:gravity="center"
+        android:text="结论"
+        />
+</TableLayout>

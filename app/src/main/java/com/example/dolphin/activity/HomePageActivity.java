@@ -1,6 +1,7 @@
 package com.example.dolphin.activity;
 
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
@@ -15,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.dolphin.R;
+import com.example.dolphin.application.service.CollectionService;
 import com.example.dolphin.application.service.ConcernService;
 import com.example.dolphin.application.service.UserService;
 import com.example.dolphin.application.service.VideoService;
@@ -27,6 +29,7 @@ import com.example.dolphin.infrastructure.consts.StringPool;
 import com.example.dolphin.infrastructure.listeners.HintLoginTextListener;
 import com.example.dolphin.infrastructure.listeners.HomePageTextListener;
 import com.example.dolphin.infrastructure.listeners.JumpIconListener;
+import com.example.dolphin.infrastructure.listeners.UploadVideoListener;
 import com.example.dolphin.infrastructure.structs.LoginInfoJson;
 import com.example.dolphin.infrastructure.tool.BaseTool;
 import com.example.dolphin.infrastructure.adapter.FragmentPagerAdapter;
@@ -35,10 +38,12 @@ import com.example.dolphin.infrastructure.listeners.FindTextListener;
 import com.example.dolphin.infrastructure.listeners.HomePageViewListener;
 import com.example.dolphin.infrastructure.listeners.RewardTextListener;
 import com.example.dolphin.infrastructure.tool.FileTool;
+import com.example.dolphin.infrastructure.tool.PermissionTool;
 import com.example.dolphin.infrastructure.tool.VideoTool;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -59,14 +64,31 @@ public class HomePageActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        PermissionTool.checkPermission(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_page);
         initGlobalVariable();
         initVideoList();
-        initCurrentData();
+        initData();
     }
 
-    private void initCurrentData() {
+    /**
+     * 响应授权
+     * 这里不管用户是否拒绝，都进入首页，不再重复申请权限
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case PermissionTool.PERMISSION_REQUEST:
+                break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+                break;
+        }
+    }
+
+
+    private void initData() {
         initTopData();
         initBottomData();
         initViewPager2();
@@ -75,7 +97,11 @@ public class HomePageActivity extends AppCompatActivity {
     private void initGlobalVariable() {
         StringPool.WORKING_PATH = getFilesDir().getAbsolutePath() + File.separator;
         StringPool.RESOURCE_PATH = "android.resource://" + getPackageName() + "/";
-        StringPool.ALBUM_PATH = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator;
+        StringPool.COM_EXAMPLE_DOLPHIN_PATH = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "com.example.dolphin";
+        File file = new File(StringPool.COM_EXAMPLE_DOLPHIN_PATH);
+        if (!file.exists()) {
+            file.mkdirs();
+        }
         StringPool.LOGIN_INFO_FILE_PATH = StringPool.WORKING_PATH + StringPool.LOGIN_INFO_FILE_NAME;
         File loginFile = new File(StringPool.LOGIN_INFO_FILE_PATH);
         if (loginFile.exists()) {
@@ -90,6 +116,8 @@ public class HomePageActivity extends AppCompatActivity {
                 StringPool.CURRENT_USER = user;
                 ConcernService concernService = new ConcernService();
                 concernService.getAllConcern(this);
+                CollectionService collectionService = new CollectionService();
+                collectionService.getAllCollection(this);
             }
         } else {
             FileTool.createFile(StringPool.LOGIN_INFO_FILE_NAME);
@@ -130,12 +158,12 @@ public class HomePageActivity extends AppCompatActivity {
         BaseTool.setTextTypeFace(meText, getAssets());
         homePageText.setOnClickListener(new HomePageTextListener(this, HomePageActivity.class, HomePageActivity.class, findViewById(R.id.home_view_page2)));
         meText.setOnClickListener(new JumpIconListener(this, LoginPageActivity.class, MePageActivity.class));
-        uploadImage.setOnClickListener(new JumpIconListener(this, LoginPageActivity.class, UploadPageActivity.class));
+        uploadImage.setOnClickListener(new UploadVideoListener(this, LoginPageActivity.class, UploadPageActivity.class));
     }
 
     private void initViewPager2() {
         List<TextView> topTexts = Arrays.asList(findViewById(R.id.reward), findViewById(R.id.concern), findViewById(R.id.find));
-        List<Fragment> fragments = Arrays.asList(new RewardFragment(), new VideoListViewFragment(50, StringPool.CONCERN, R.color.black), new FindFragment());
+        List<Fragment> fragments = Arrays.asList(new RewardFragment(), new VideoListViewFragment(0, StringPool.CONCERN, R.color.black), new FindFragment());
         ViewPager2 viewPager2 = findViewById(R.id.home_view_page2);
 
         FragmentPagerAdapter pagerAdapter = new FragmentPagerAdapter(this, fragments);
@@ -174,6 +202,7 @@ public class HomePageActivity extends AppCompatActivity {
             if (System.currentTimeMillis() - upDownTime <= 500) {
                 return super.onKeyDown(keyCode, event);
             } else {
+                count = 1;
                 BaseTool.shortToast(this, "再按一次返回键退出 ");
                 upDownTime = System.currentTimeMillis();
             }

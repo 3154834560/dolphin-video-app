@@ -3,6 +3,8 @@ package com.example.dolphin.infrastructure.tool;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.Build;
 import android.widget.ImageView;
@@ -20,6 +22,7 @@ import com.example.dolphin.infrastructure.util.RealPathFromUriUtil;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.HashMap;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;

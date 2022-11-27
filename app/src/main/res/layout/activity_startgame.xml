@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:padding="@dimen/dimen_10dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/microsoft_card"
+        android:padding="@dimen/dimen_20dp"
+        android:text="@string/start_text"
+        android:textSize="@dimen/dimen_20dp" />
+
+    <!-- SUBMIT -->
+    <LinearLayout
+        android:layout_marginTop="@dimen/dimen_15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/microsoft_card"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:textAlignment="center"
+            android:id="@+id/start_txt_condition"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dimen_30dp"
+            android:text="@string/defaultText"
+            android:textSize="@dimen/title_small" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/microsoft_btn"
+            android:paddingLeft="@dimen/dimen_5dp">
+
+            <EditText
+                android:id="@+id/start_ed_input"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3" />
+
+            <Button
+                android:id="@+id/start_btn_submit"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/microsoft_btn"
+                android:text="@string/submit"
+                android:textColor="@color/colorGray"
+                android:textSize="@dimen/dimen_20dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- RESTART -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_15dp"
+        android:background="@drawable/microsoft_card"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dimen_20dp"
+            android:text="@string/restart_text"
+            android:textSize="@dimen/title_exsmall" />
+
+        <Button
+            android:id="@+id/start_btn_restart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/microsoft_btn"
+            android:text="@string/restart"
+            android:textColor="@color/colorGray"
+            android:textSize="@dimen/dimen_20dp" />
+    </LinearLayout>
+
+</LinearLayout>

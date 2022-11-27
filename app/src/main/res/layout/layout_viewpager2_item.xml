@@ -6,14 +6,14 @@
     android:layout_height="match_parent"
     android:background="@android:color/black">
 
-<!--    <com.shuyu.gsyvideoplayer.video.NormalGSYVideoPlayer
-        android:id="@+id/video_item_player"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />-->
-<!--    <com.example.dolphin.infrastructure.video.SampleCoverVideo
-        android:id="@+id/video_item_player"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />-->
+    <!--    <com.shuyu.gsyvideoplayer.video.NormalGSYVideoPlayer
+            android:id="@+id/video_item_player"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />-->
+    <!--    <com.example.dolphin.infrastructure.video.SampleCoverVideo
+            android:id="@+id/video_item_player"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />-->
     <com.example.dolphin.infrastructure.video.MyGsyVideoPlayer
         android:id="@+id/video_item_player"
         android:layout_width="match_parent"
@@ -44,8 +44,8 @@
                 android:id="@+id/concern_image"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:layout_centerHorizontal="true"
                 android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
                 android:background="@drawable/icon_add"
                 android:contentDescription="@string/follow" />
 
@@ -81,8 +81,8 @@
             android:layout_width="40dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:gravity="center"
             android:layout_marginTop="15dp"
+            android:gravity="center"
             android:orientation="vertical">
 
             <ImageView
@@ -105,26 +105,33 @@
             android:layout_width="40dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:gravity="center"
             android:layout_marginTop="15dp"
+            android:gravity="center"
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:src="@drawable/icon_forward" />
-
-            <TextView
+                android:id="@+id/collection_icon"
                 android:layout_width="40dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:gravity="center"
-                android:text="99.9w+"
-                android:textColor="@color/white"
-                android:textSize="12sp" />
+                android:layout_height="40dp"
+                android:background="@drawable/un_collection_icon" />
 
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/down_icon"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/down_icon" />
+
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout

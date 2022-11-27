@@ -1,7 +1,6 @@
 package com.example.dolphin.activity.fragment;
 
 import android.annotation.SuppressLint;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,11 +13,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.dolphin.R;
+import com.example.dolphin.application.service.CollectionService;
 import com.example.dolphin.application.service.ConcernService;
 import com.example.dolphin.application.service.VideoService;
 import com.example.dolphin.domain.entity.Concern;
 import com.example.dolphin.domain.entity.Video;
-import com.example.dolphin.infrastructure.adapter.ListViewAdapter;
+import com.example.dolphin.infrastructure.adapter.VideoListViewAdapter;
 import com.example.dolphin.infrastructure.consts.StringPool;
 import com.example.dolphin.infrastructure.structs.VideoListView;
 import com.example.dolphin.infrastructure.tool.BaseTool;
@@ -90,7 +90,7 @@ public class VideoListViewFragment extends Fragment {
             listItem.put(itemNames[2], i + 2 >= dataList.size() ? new VideoListView().setChildLayoutIds(childLayoutIds.get(2)) : dataList.get(i + 2).setChildLayoutIds(childLayoutIds.get(2)));
             listItems.add(listItem);
         }
-        ListViewAdapter listViewAdapter = new ListViewAdapter(inflate.getContext(), listItems, R.layout.concern_list_view_page, itemNames, layoutIds);
+        VideoListViewAdapter listViewAdapter = new VideoListViewAdapter(inflate.getContext(), listItems, R.layout.video_list_view_page, itemNames, layoutIds);
         listView.setAdapter(listViewAdapter);
     }
 
@@ -99,6 +99,7 @@ public class VideoListViewFragment extends Fragment {
         List<VideoListView> dataList = new ArrayList<>();
         VideoService videoService = new VideoService();
         ConcernService concernService = new ConcernService();
+        CollectionService collectionService = new CollectionService();
         if (type == StringPool.CONCERN) {
             List<Concern> concernList = concernService.getAllConcern(inflate.getContext());
             for (Concern concern : concernList) {
@@ -107,6 +108,9 @@ public class VideoListViewFragment extends Fragment {
             }
         } else if (type == StringPool.WORKS) {
             List<Video> videos = videoService.getAll(inflate.getContext(), StringPool.CURRENT_USER.getUserName());
+            videos.forEach(video -> dataList.add(VideoListView.copy(inflate.getContext(), video, videoService)));
+        } else if (type == StringPool.COLLECTION) {
+            List<Video> videos = collectionService.getAllCollection(inflate.getContext());
             videos.forEach(video -> dataList.add(VideoListView.copy(inflate.getContext(), video, videoService)));
         }
         return dataList;

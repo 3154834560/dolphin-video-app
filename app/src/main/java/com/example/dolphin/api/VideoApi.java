@@ -27,6 +27,9 @@ public interface VideoApi {
     @GET("/dolphin/video/all")
     Call<Result<List<Video>>> getAll(@Query("userName") String userName);
 
+    @GET("/dolphin/video")
+    Call<Result<Video>> getBy(@Query("id") String id);
+
     @POST("/dolphin/support")
     Call<Result<Boolean>> supportVideo(@Query("userName") String userName, @Query("videoId") String videoId, @Query("n") Integer n);
 

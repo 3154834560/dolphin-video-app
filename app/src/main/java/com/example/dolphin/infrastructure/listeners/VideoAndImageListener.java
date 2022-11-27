@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.dolphin.R;
+import com.example.dolphin.application.service.DownloadService;
 import com.example.dolphin.infrastructure.consts.StringPool;
 import com.example.dolphin.infrastructure.tool.BaseTool;
 
@@ -34,7 +35,7 @@ public class VideoAndImageListener implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        showPictureDialog(activity, R.layout.dialog_album, requestCode, fileType);
+        showPictureDialog(activity, R.layout.dialog_album2, requestCode, fileType);
     }
 
     public void showPictureDialog(Activity activity, int layoutId, int requestCode, String fileType) {
@@ -42,9 +43,21 @@ public class VideoAndImageListener implements View.OnClickListener {
         Dialog dialog = new Dialog(activity, R.style.JumpDialog);
         //根据layout文件绘制出加载动画的视图
         LinearLayout linear = (LinearLayout) LayoutInflater.from(activity).inflate(layoutId, null);
+        TextView downPhotos = (TextView) linear.findViewById(R.id.down_photos);
         TextView photograph = (TextView) linear.findViewById(R.id.photograph);
         TextView album = (TextView) linear.findViewById(R.id.album);
         TextView cancel = (TextView) linear.findViewById(R.id.cancel);
+
+        downPhotos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DownloadService downloadService = new DownloadService();
+                String headPortraitUrl = StringPool.CURRENT_USER.getHeadPortraitUrl();
+                String imageName = headPortraitUrl.substring(headPortraitUrl.lastIndexOf(StringPool.SLASH) + 1);
+                downloadService.downloadFile(activity, StringPool.IMAGES, imageName);
+            }
+        });
+
         //点击拍照
         photograph.setOnClickListener(view -> {
             deleteDialog(dialog);

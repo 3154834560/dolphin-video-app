@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+
+    <TableLayout
+        android:id="@+id/tableLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:background="@color/white"
+        android:gravity="center">
+
+        <TableRow
+            android:id="@+id/t1_row1"
+            style="@style/t1_TableRowStyle1">
+
+            <TextView
+                android:id="@+id/t1_r1_textView1"
+                style="@style/t1_TextViewStyle1"
+                android:layout_span="4"
+                android:text="" />
+
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/t1_row2"
+            style="@style/t1_TableRowStyle1">
+
+            <TextView
+                android:id="@+id/t1_r2_textView1"
+                style="@style/t1_TextViewStyle1"
+                android:layout_span="4"
+                android:text=""
+                android:textColor="@color/dark_grey"
+                android:textSize="25sp" />
+
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/t1_row3"
+            style="@style/TableRowStyle2">
+
+            <Button
+                android:id="@+id/t1_r3_button1"
+                style="@style/t1_ButtonStyle1"
+                android:text="@string/C" />
+
+            <Button
+                android:id="@+id/t1_r3_button2"
+                style="@style/t1_ButtonStyle1"
+                android:text="@string/percent_sign" />
+
+            <Button
+                android:id="@+id/t1_r3_button3"
+                style="@style/t1_ButtonStyle1"
+                android:text="@string/CE" />
+
+            <Button
+                android:id="@+id/t1_r3_button4"
+                style="@style/t1_ButtonStyle1"
+                android:text="@string/division_sign" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/t1_row4"
+            style="@style/TableRowStyle2">
+
+            <Button
+                android:id="@+id/t1_r4_button1"
+                style="@style/t1_ButtonStyle2"
+                android:text="@string/seven" />
+
+            <Button
+                android:id="@+id/t1_r4_button2"
+                style="@style/t1_ButtonStyle2"
+                android:text="@string/eight" />
+
+            <Button
+                android:id="@+id/t1_r4_button3"
+                style="@style/t1_ButtonStyle2"
+                android:text="@string/nine" />
+
+            <Button
+                android:id="@+id/t1_r4_button4"
+                style="@style/t1_ButtonStyle1"
+                android:text="@string/multiplication_sign" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/t1_row5"
+            style="@style/TableRowStyle2">
+
+            <Button
+                android:id="@+id/t1_r5_button1"
+                style="@style/t1_ButtonStyle2"
+                android:text="@string/four" />
+
+            <Button
+                android:id="@+id/t1_r5_button2"
+                style="@style/t1_ButtonStyle2"
+                android:text="@string/five" />
+
+            <Button
+                android:id="@+id/t1_r5_button3"
+                style="@style/t1_ButtonStyle2"
+                android:text="@string/six" />
+
+            <Button
+                android:id="@+id/t1_r5_button4"
+                style="@style/t1_ButtonStyle1"
+                android:text="@string/minus_sign" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/t1_row6"
+            style="@style/TableRowStyle2">
+
+            <Button
+                android:id="@+id/t1_r6_button1"
+                style="@style/t1_ButtonStyle2"
+                android:text="@string/one" />
+
+            <Button
+                android:id="@+id/t1_r6_button2"
+                style="@style/t1_ButtonStyle2"
+                android:text="@string/two" />
+
+            <Button
+                android:id="@+id/t1_r6_button3"
+                style="@style/t1_ButtonStyle2"
+                android:text="@string/three" />
+
+            <Button
+                android:id="@+id/t1_r6_button4"
+                style="@style/t1_ButtonStyle1"
+                android:text="@string/plus_sign" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/t1_row7"
+            style="@style/TableRowStyle2">
+
+            <Button
+                android:id="@+id/t1_r7_button1"
+                style="@style/t1_ButtonStyle2"
+                android:text="@string/zero_zero" />
+
+            <Button
+                android:id="@+id/t1_r7_button2"
+                style="@style/t1_ButtonStyle2"
+                android:text="@string/zero" />
+
+            <Button
+                android:id="@+id/t1_r7_button3"
+                style="@style/t1_ButtonStyle2"
+                android:text="@string/point_sign" />
+
+            <Button
+                android:id="@+id/t1_r7_button4"
+                style="@style/t1_ButtonStyle1"
+                android:text="@string/equal_sign" />
+        </TableRow>
+    </TableLayout>
+
+
+    <TextView
+        style="@style/textViewStyle1"
+        android:text="@string/calculator"
+        tools:ignore="MissingConstraints" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

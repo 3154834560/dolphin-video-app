@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import com.example.dolphin.application.service.CollectionService;
 import com.example.dolphin.application.service.ConcernService;
 import com.example.dolphin.application.service.UserService;
 import com.example.dolphin.infrastructure.consts.StringPool;
@@ -45,6 +46,8 @@ public class LoginButtonListener implements View.OnClickListener {
             StringPool.CURRENT_USER = userService.getBy(activity, userName.getText().toString());
             ConcernService concernService=new ConcernService();
             concernService.getAllConcern(activity);
+            CollectionService collectionService=new CollectionService();
+            collectionService.getAllCollection(activity);
             StringPool.INDEX = 0;
             userService.writeLoginInfo(activity, StringPool.CURRENT_USER);
             activity.finish();

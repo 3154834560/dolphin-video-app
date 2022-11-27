@@ -28,6 +28,7 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -85,7 +86,6 @@ public class UserService {
             Call<Result<UserInput>> call = USER_API.getBy(userName);
             Result<UserInput> result = ApiTool.sendRequest(call);
             user = result.getData().copy();
-            writeLoginInfo(context, user);
         } catch (Exception e) {
             BaseTool.shortToast(context, StringPool.NOT_NETWORK);
         }
@@ -93,7 +93,7 @@ public class UserService {
     }
 
     public Integer verify(Context context, String userName, String password) {
-        Integer verifyResult = 0;
+        Integer verifyResult = -1;
         try {
             Call<Result<Integer>> call = USER_API.verify(userName, password);
             Result<Integer> result = ApiTool.sendRequest(call);
@@ -136,6 +136,9 @@ public class UserService {
 
     public void quitLogin(Context context) {
         LoginInfoJson loginUserInfo = getLoginUserInfo(context);
+        LoginInfo currentUser = loginUserInfo.getCurrentUser();
+        currentUser.setIndex(StringPool.INDEX);
+        loginUserInfo.getHistoryUser().put(StringPool.CURRENT_USER.getUserName(),currentUser.updateLoginTime());
         loginUserInfo.setCurrentUser(null);
         StringPool.CURRENT_USER = null;
         writeLoginInfo(context, loginUserInfo);

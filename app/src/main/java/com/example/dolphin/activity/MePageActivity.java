@@ -16,7 +16,6 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.bumptech.glide.Glide;
 import com.example.dolphin.R;
-import com.example.dolphin.activity.fragment.CollectionFragment;
 import com.example.dolphin.activity.fragment.VideoListViewFragment;
 import com.example.dolphin.application.service.ImageService;
 import com.example.dolphin.application.service.UserService;
@@ -93,6 +92,7 @@ public class MePageActivity extends AppCompatActivity {
         String msg = imageService.uploadImage(this, image);
         BaseTool.shortToast(this, msg);
         StringPool.CURRENT_USER = userService.getBy(this, StringPool.CURRENT_USER.getUserName());
+        userService.writeLoginInfo(this,StringPool.CURRENT_USER);
     }
 
     private void initData() {
@@ -111,7 +111,7 @@ public class MePageActivity extends AppCompatActivity {
         ViewPager2 viewPager2 = findViewById(R.id.me_view_pager2);
         List<TextView> texts = Arrays.asList(findViewById(R.id.works), findViewById(R.id.follow), findViewById(R.id.collection));
         List<View.OnClickListener> listeners = Arrays.asList(new SlideTextListener(viewPager2, 0), new SlideTextListener(viewPager2, 1), new SlideTextListener(viewPager2, 2));
-        List<Fragment> fragments = Arrays.asList(new VideoListViewFragment(0, StringPool.WORKS, R.color.grey), new VideoListViewFragment(0, StringPool.CONCERN, R.color.grey), new CollectionFragment());
+        List<Fragment> fragments = Arrays.asList(new VideoListViewFragment(0, StringPool.WORKS, R.color.grey), new VideoListViewFragment(0, StringPool.CONCERN, R.color.grey), new VideoListViewFragment(0, StringPool.COLLECTION, R.color.grey));
         BaseTool.addOnClickListener(texts, listeners);
         FragmentPagerAdapter pagerAdapter = new FragmentPagerAdapter(this, fragments);
         viewPager2.setAdapter(pagerAdapter);

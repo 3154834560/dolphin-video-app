@@ -30,6 +30,19 @@
         <activity android:name=".activity.MePageActivity" />
         <activity android:name=".activity.PersonIntroPage" />
         <activity android:name=".activity.MorePageActivity" />
+        <activity android:name=".activity.SingleVideoActivity" />
+        <activity android:name=".activity.tools.calculate.CalculateActivity" />
+        <activity android:name=".activity.tools.translate.TranslateActivity" />
+        <activity android:name=".activity.tools.notepad.Add" />
+        <activity android:name=".activity.tools.notepad.NotePadActivity" />
+        <activity android:name=".activity.tools.hamster.HamsterActivity" />
+        <activity android:name=".activity.tools.bmi.BMIActivity" />
+        <activity android:name=".activity.tools.minesweeper.MinesweeperActivity" />
+        <activity android:name=".activity.tools.minesweeper.LevelActivity" />
+        <activity android:name=".activity.tools.minesweeper.ManuActivity" />
+        <activity android:name=".activity.tools.guessNumber.BaseActivity" />
+        <activity android:name=".activity.tools.guessNumber.GussNumberGame" />
+        <activity android:name=".activity.tools.guessNumber.StartGame" />
     </application>
 
     <!--    &lt;!&ndash;    添加网络访问权限&ndash;&gt;-->

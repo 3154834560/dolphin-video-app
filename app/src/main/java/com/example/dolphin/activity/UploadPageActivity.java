@@ -24,7 +24,6 @@ import com.example.dolphin.infrastructure.tool.VideoTool;
 
 
 import lombok.SneakyThrows;
-import pl.droidsonroids.gif.GifImageView;
 
 /**
  * @author 王景阳

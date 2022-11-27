@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import com.example.dolphin.api.DownloadApi;
 import com.example.dolphin.infrastructure.consts.HttpPool;
 import com.example.dolphin.infrastructure.consts.StringPool;
+import com.example.dolphin.infrastructure.structs.Status;
 import com.example.dolphin.infrastructure.threads.DownThread;
 import com.example.dolphin.infrastructure.threads.LoadAnimationThread;
 import com.example.dolphin.infrastructure.tool.BaseTool;
@@ -29,7 +30,7 @@ import retrofit2.Response;
  */
 public class DownloadService {
 
-    public static boolean DOWN_STATUS = false;
+    public final static Status DOWN_STATUS = new Status(false);
 
     private final DownloadApi DOWN_API = RetrofitUtils.getInstance().getRetrofit().create(DownloadApi.class);
 
@@ -38,9 +39,10 @@ public class DownloadService {
      */
     @SuppressLint("NewApi")
     public void downloadFile(Activity activity, String type, String name) {
-        DOWN_STATUS = true;
-        LoadAnimationService loadAnimationThread = new LoadAnimationService(activity);
-        CompletableFuture.runAsync(new LoadAnimationThread(loadAnimationThread.getDialog(), loadAnimationThread.getImageView()));
+        DOWN_STATUS.setStatus(true);
+        LoadAnimationService loadAnimationService = new LoadAnimationService(activity);
+        LoadAnimationThread animationThread = LoadAnimationThread.getInstance(loadAnimationService.getDialog(), loadAnimationService.getImageView(), DownloadService.DOWN_STATUS);
+        CompletableFuture.runAsync(animationThread);
         Call<ResponseBody> call = DOWN_API.download(HttpPool.URI + "/dolphin/down?type=" + type + "&name=" + name);
         call.enqueue(new Callback<ResponseBody>() {
             @SuppressLint("NewApi")

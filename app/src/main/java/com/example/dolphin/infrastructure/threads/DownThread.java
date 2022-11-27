@@ -53,12 +53,12 @@ public class DownThread implements Runnable {
             //添加到相册
             MediaScannerConnection.scanFile(activity, new String[]{file.toString()}, null, null);
         } catch (Exception e) {
-            DownloadService.DOWN_STATUS = false;
+            DownloadService.DOWN_STATUS.setStatus(false);
             activity.runOnUiThread(() -> BaseTool.shortToast(activity, StringPool.DOWN_FAIL));
             return;
         }
         activity.runOnUiThread(() -> BaseTool.shortToast(activity, StringPool.DOWN_SUCCESS));
-        DownloadService.DOWN_STATUS = false;
+        DownloadService.DOWN_STATUS.setStatus(false);
     }
 
 }

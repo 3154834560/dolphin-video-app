@@ -149,7 +149,7 @@ public class RecyclerItemHolder extends RecyclerView.ViewHolder {
         downIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (DownloadService.DOWN_STATUS) {
+                if (DownloadService.DOWN_STATUS.isStatus()) {
                     BaseTool.shortToast(v.getContext(), "已有视频在下载！");
                     return;
                 }

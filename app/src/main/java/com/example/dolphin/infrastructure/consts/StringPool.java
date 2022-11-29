@@ -86,8 +86,6 @@ public class StringPool {
 
     public static boolean IS_UPLOAD = false;
 
-    public static boolean IS_END = true;
-
     public static String MALE = "男";
 
     public static String FEMALE = "女";

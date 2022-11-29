@@ -1,6 +1,5 @@
 package com.example.dolphin.application.service;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;

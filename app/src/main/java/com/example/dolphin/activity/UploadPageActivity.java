@@ -1,14 +1,11 @@
 package com.example.dolphin.activity;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
+
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.VideoView;
 
@@ -21,7 +18,6 @@ import com.example.dolphin.infrastructure.listeners.UploadButtonListener;
 import com.example.dolphin.infrastructure.listeners.VideoAndImageListener;
 import com.example.dolphin.infrastructure.tool.BaseTool;
 import com.example.dolphin.infrastructure.tool.VideoTool;
-
 
 import lombok.SneakyThrows;
 

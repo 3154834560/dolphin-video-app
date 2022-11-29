@@ -1,11 +1,6 @@
 package com.example.dolphin.activity;
 
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.viewpager2.widget.ViewPager2;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,35 +10,39 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager2.widget.ViewPager2;
+
 import com.example.dolphin.R;
+import com.example.dolphin.activity.fragment.FindFragment;
+import com.example.dolphin.activity.fragment.RewardFragment;
+import com.example.dolphin.activity.fragment.VideoListViewFragment;
 import com.example.dolphin.application.service.CollectionService;
 import com.example.dolphin.application.service.ConcernService;
 import com.example.dolphin.application.service.UserService;
 import com.example.dolphin.application.service.VideoService;
 import com.example.dolphin.domain.entity.User;
 import com.example.dolphin.domain.entity.Video;
-import com.example.dolphin.activity.fragment.RewardFragment;
-import com.example.dolphin.activity.fragment.VideoListViewFragment;
-import com.example.dolphin.activity.fragment.FindFragment;
+import com.example.dolphin.infrastructure.adapter.FragmentPagerAdapter;
 import com.example.dolphin.infrastructure.consts.StringPool;
+import com.example.dolphin.infrastructure.listeners.FindTextListener;
 import com.example.dolphin.infrastructure.listeners.HintLoginTextListener;
 import com.example.dolphin.infrastructure.listeners.HomePageTextListener;
+import com.example.dolphin.infrastructure.listeners.HomePageViewListener;
 import com.example.dolphin.infrastructure.listeners.JumpIconListener;
+import com.example.dolphin.infrastructure.listeners.RewardTextListener;
+import com.example.dolphin.infrastructure.listeners.SlideTextListener;
 import com.example.dolphin.infrastructure.listeners.UploadVideoListener;
 import com.example.dolphin.infrastructure.structs.LoginInfoJson;
 import com.example.dolphin.infrastructure.tool.BaseTool;
-import com.example.dolphin.infrastructure.adapter.FragmentPagerAdapter;
-import com.example.dolphin.infrastructure.listeners.SlideTextListener;
-import com.example.dolphin.infrastructure.listeners.FindTextListener;
-import com.example.dolphin.infrastructure.listeners.HomePageViewListener;
-import com.example.dolphin.infrastructure.listeners.RewardTextListener;
 import com.example.dolphin.infrastructure.tool.FileTool;
 import com.example.dolphin.infrastructure.tool.PermissionTool;
 import com.example.dolphin.infrastructure.tool.VideoTool;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -214,12 +213,11 @@ public class HomePageActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-//        GSYVideoManager.instance().clearAllDefaultCache( this);
-        StringPool.IS_END = false;
-        VideoTool.destroyPlay(FindFragment.getViewPager2());
         GSYVideoManager.releaseAllVideos();
+        GSYVideoManager.instance().clearAllDefaultCache(this);
+/*        VideoTool.destroyPlay(FindFragment.getViewPager2());
         FindFragment.getPagerAdapter().notifyDataSetChanged();
-        BaseTool.clearCache(this);
+        BaseTool.clearCache(this);*/
         userService.writeLoginInfo(this, StringPool.CURRENT_USER);
     }
 

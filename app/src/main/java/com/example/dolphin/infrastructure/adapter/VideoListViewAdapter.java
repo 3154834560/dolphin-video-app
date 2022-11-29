@@ -1,7 +1,6 @@
 package com.example.dolphin.infrastructure.adapter;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -16,7 +15,6 @@ import com.example.dolphin.activity.SingleVideoActivity;
 import com.example.dolphin.infrastructure.consts.StringPool;
 import com.example.dolphin.infrastructure.structs.VideoListView;
 import com.example.dolphin.infrastructure.tool.BaseTool;
-import com.example.dolphin.infrastructure.tool.VideoTool;
 
 import java.util.List;
 import java.util.Map;
@@ -81,9 +79,6 @@ public class VideoListViewAdapter extends SimpleAdapter {
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (needFinish) {
-                        ((Activity) v.getContext()).finish();
-                    }
                     Intent intent = new Intent(view.getContext(), SingleVideoActivity.class);
                     intent.putExtra(StringPool.VIDEO_ID, videoListView.getVideoId());
                     view.getContext().startActivity(intent);

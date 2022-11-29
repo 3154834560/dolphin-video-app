@@ -14,7 +14,6 @@ import com.bumptech.glide.Glide;
 import com.example.dolphin.R;
 import com.example.dolphin.activity.AuthorInfoActivity;
 import com.example.dolphin.activity.LoginPageActivity;
-import com.example.dolphin.activity.SingleVideoActivity;
 import com.example.dolphin.application.service.CollectionService;
 import com.example.dolphin.application.service.ConcernService;
 import com.example.dolphin.application.service.DownloadService;

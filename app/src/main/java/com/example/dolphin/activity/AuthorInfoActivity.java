@@ -1,6 +1,7 @@
 package com.example.dolphin.activity;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
@@ -40,14 +41,29 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 public class AuthorInfoActivity extends AppCompatActivity {
 
+    @SuppressLint("StaticFieldLeak")
+    public static Activity upActivity = null;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.author_info_page);
+        if (upActivity != null) {
+            upActivity.finish();
+        }
+        upActivity = this;
         Intent intent = getIntent();
         String author = intent.getStringExtra(StringPool.AUTHOR_ID);
         initData(author);
         addListener();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (upActivity == this) {
+            upActivity = null;
+        }
     }
 
     private void addListener() {

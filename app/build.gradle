@@ -46,7 +46,7 @@ dependencies {
     //卡片视图
     implementation 'androidx.cardview:cardview:1.0.0'
 
-    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.15'
+//    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.15'
 
     implementation 'com.alibaba:fastjson:1.2.76'
 

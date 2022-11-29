@@ -5,11 +5,8 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.SeekBar;
 
-import com.shuyu.gsyvideoplayer.utils.CommonUtil;
 import com.shuyu.gsyvideoplayer.utils.Debuger;
 import com.shuyu.gsyvideoplayer.video.NormalGSYVideoPlayer;
 

@@ -12,7 +12,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.dolphin.R;
+import com.example.dolphin.activity.AuthorInfoActivity;
 import com.example.dolphin.activity.LoginPageActivity;
+import com.example.dolphin.activity.SingleVideoActivity;
 import com.example.dolphin.application.service.CollectionService;
 import com.example.dolphin.application.service.ConcernService;
 import com.example.dolphin.application.service.DownloadService;
@@ -96,7 +98,11 @@ public class RecyclerItemHolder extends RecyclerView.ViewHolder {
         introduction.setText(video.getIntroduction());
         Glide.with(context).load(video.getCoverUrl()).into(imageView);
         Glide.with(context).load(user.getHeadPortraitUrl()).into(headPortrait);
-
+        headPortrait.setOnClickListener(v -> {
+            Intent intent = new Intent(v.getContext(), AuthorInfoActivity.class);
+            intent.putExtra(StringPool.AUTHOR_ID, user.getUserName());
+            v.getContext().startActivity(intent);
+        });
         initConcern(video);
         initSupport(video);
         initCollection(video);

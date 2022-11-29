@@ -44,7 +44,10 @@ public class VideoListViewFragment extends Fragment {
 
     private final int backgroundColor;
 
-    public VideoListViewFragment(int marginTop, int type, int backgroundColor) {
+    private final TextView textView;
+
+    public VideoListViewFragment(TextView textView, int marginTop, int type, int backgroundColor) {
+        this.textView = textView;
         this.marginTop = marginTop;
         this.type = type;
         this.backgroundColor = backgroundColor;
@@ -90,11 +93,11 @@ public class VideoListViewFragment extends Fragment {
             listItem.put(itemNames[2], i + 2 >= dataList.size() ? new VideoListView().setChildLayoutIds(childLayoutIds.get(2)) : dataList.get(i + 2).setChildLayoutIds(childLayoutIds.get(2)));
             listItems.add(listItem);
         }
-        VideoListViewAdapter listViewAdapter = new VideoListViewAdapter(inflate.getContext(), listItems, R.layout.video_list_view_page, itemNames, layoutIds);
+        VideoListViewAdapter listViewAdapter = new VideoListViewAdapter(inflate.getContext(), listItems, R.layout.video_list_view_page, itemNames, layoutIds, false);
         listView.setAdapter(listViewAdapter);
     }
 
-    @SuppressLint("NewApi")
+    @SuppressLint({"NewApi", "SetTextI18n"})
     private List<VideoListView> getData() {
         List<VideoListView> dataList = new ArrayList<>();
         VideoService videoService = new VideoService();
@@ -112,6 +115,13 @@ public class VideoListViewFragment extends Fragment {
         } else if (type == StringPool.COLLECTION) {
             List<Video> videos = collectionService.getAllCollection(inflate.getContext());
             videos.forEach(video -> dataList.add(VideoListView.copy(inflate.getContext(), video, videoService)));
+        }
+        if (textView != null) {
+            String str = textView.getText().toString();
+            if (str.contains(StringPool.SPACE)) {
+                str = str.substring(0, str.lastIndexOf(StringPool.SPACE));
+            }
+            textView.setText(str + StringPool.SPACE + dataList.size());
         }
         return dataList;
     }

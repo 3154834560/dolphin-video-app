@@ -163,7 +163,7 @@ public class HomePageActivity extends AppCompatActivity {
 
     private void initViewPager2() {
         List<TextView> topTexts = Arrays.asList(findViewById(R.id.reward), findViewById(R.id.concern), findViewById(R.id.find));
-        List<Fragment> fragments = Arrays.asList(new RewardFragment(), new VideoListViewFragment(0, StringPool.CONCERN, R.color.black), new FindFragment());
+        List<Fragment> fragments = Arrays.asList(new RewardFragment(), new VideoListViewFragment(null, 0, StringPool.CONCERN, R.color.black), new FindFragment());
         ViewPager2 viewPager2 = findViewById(R.id.home_view_page2);
 
         FragmentPagerAdapter pagerAdapter = new FragmentPagerAdapter(this, fragments);

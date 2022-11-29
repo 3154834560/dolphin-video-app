@@ -23,9 +23,6 @@ import retrofit2.http.Query;
 
 public interface UserApi {
 
-    @GET("/dolphin/video/info/{userId}")
-    Call<Result<Object>> test(@Path("userId") String userId);
-
     @POST("/dolphin/user")
     Call<Result<UserInput>> create(@Body UserOutput userOutput);
 

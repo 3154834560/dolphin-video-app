@@ -30,6 +30,7 @@
         <activity android:name=".activity.MePageActivity" />
         <activity android:name=".activity.PersonIntroPage" />
         <activity android:name=".activity.MorePageActivity" />
+        <activity android:name=".activity.AuthorInfoActivity" />
         <activity android:name=".activity.SingleVideoActivity" />
         <activity android:name=".activity.tools.calculate.CalculateActivity" />
         <activity android:name=".activity.tools.translate.TranslateActivity" />

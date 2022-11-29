@@ -200,6 +200,7 @@
                 style="@style/register_style2"
                 android:background="@drawable/shape_1"
                 android:hint="@string/input_phone"
+                android:inputType="number"
                 tools:ignore="Autofill,TextFields" />
         </LinearLayout>
 

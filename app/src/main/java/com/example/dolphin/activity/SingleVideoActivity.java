@@ -145,6 +145,12 @@ public class SingleVideoActivity extends AppCompatActivity {
     private void initHeadPortrait(Video video, User user) {
         ConcernService concernService = new ConcernService();
         CircleImageView headPortrait = findViewById(R.id.video_author_head_portrait);
+        headPortrait.setOnClickListener(v -> {
+            finish();
+            Intent intent = new Intent(SingleVideoActivity.this, AuthorInfoActivity.class);
+            intent.putExtra(StringPool.AUTHOR_ID, user.getUserName());
+            startActivity(intent);
+        });
         Glide.with(this).load(user.getHeadPortraitUrl()).into(headPortrait);
         ImageView concernIcon = findViewById(R.id.concern_image);
         if (concernService.isConcern(video.getAuthor())) {

@@ -50,6 +50,10 @@ public class StringPool {
 
     public static final String CURRENT_NOT_LOGIN = "当前未登录！";
 
+    public static final String Followed = "已关注";
+
+    public static final String Follow = "关注";
+
     public static String COM_EXAMPLE_DOLPHIN_PATH = "";
 
     public static final String MSG_STR = "msg";
@@ -69,6 +73,8 @@ public class StringPool {
     public static final String IMAGE_TYPE = "image/*";
 
     public static final String IMAGES = "images";
+
+    public static final String AUTHOR_ID = "authorId";
 
     public static final String SLASH = "/";
 
@@ -159,6 +165,8 @@ public class StringPool {
     public final static String CE = "CE";
 
     public final static String EMPTY = "";
+
+    public final static String SPACE = " ";
 
     public final static String DOT_STR = ".";
 

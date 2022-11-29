@@ -1,6 +1,7 @@
 package com.example.dolphin.infrastructure.adapter;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -36,13 +37,16 @@ public class VideoListViewAdapter extends SimpleAdapter {
 
     private final int[] mTo;
 
-    public VideoListViewAdapter(Context context, List<Map<String, VideoListView>> data, int resource, String[] from, int[] to) {
+    private final boolean needFinish;
+
+    public VideoListViewAdapter(Context context, List<Map<String, VideoListView>> data, int resource, String[] from, int[] to, boolean needFinish) {
         super(context, data, resource, from, to);
         this.mData = data;
         this.mResource = resource;
         this.mFrom = from;
         this.mTo = to;
-        mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.needFinish = needFinish;
+        this.mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
@@ -77,6 +81,9 @@ public class VideoListViewAdapter extends SimpleAdapter {
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if (needFinish) {
+                        ((Activity) v.getContext()).finish();
+                    }
                     Intent intent = new Intent(view.getContext(), SingleVideoActivity.class);
                     intent.putExtra(StringPool.VIDEO_ID, videoListView.getVideoId());
                     view.getContext().startActivity(intent);

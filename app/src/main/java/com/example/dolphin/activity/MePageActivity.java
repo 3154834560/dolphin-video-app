@@ -125,7 +125,7 @@ public class MePageActivity extends AppCompatActivity {
         ViewPager2 viewPager2 = findViewById(R.id.me_view_pager2);
         List<TextView> texts = Arrays.asList(findViewById(R.id.works), findViewById(R.id.follow), findViewById(R.id.collection));
         List<View.OnClickListener> listeners = Arrays.asList(new SlideTextListener(viewPager2, 0), new SlideTextListener(viewPager2, 1), new SlideTextListener(viewPager2, 2));
-        List<Fragment> fragments = Arrays.asList(new VideoListViewFragment(0, StringPool.WORKS, R.color.grey), new VideoListViewFragment(0, StringPool.CONCERN, R.color.grey), new VideoListViewFragment(0, StringPool.COLLECTION, R.color.grey));
+        List<Fragment> fragments = Arrays.asList(new VideoListViewFragment(texts.get(0), 0, StringPool.WORKS, R.color.grey), new VideoListViewFragment(texts.get(1), 0, StringPool.CONCERN, R.color.grey), new VideoListViewFragment(texts.get(2), 0, StringPool.COLLECTION, R.color.grey));
         BaseTool.addOnClickListener(texts, listeners);
         FragmentPagerAdapter pagerAdapter = new FragmentPagerAdapter(this, fragments);
         viewPager2.setAdapter(pagerAdapter);
@@ -140,11 +140,13 @@ public class MePageActivity extends AppCompatActivity {
         TextView userName = findViewById(R.id.me_page_user_name2);
         TextView sex = findViewById(R.id.me_page_sex2);
         TextView birthday = findViewById(R.id.me_page_birthday2);
+        TextView phone = findViewById(R.id.me_page_phone2);
         TextView introduction = findViewById(R.id.me_page_introduction);
-        BaseTool.setTextTypeFace(Arrays.asList(nick, userName, sex, birthday, introduction,
+        BaseTool.setTextTypeFace(Arrays.asList(nick, userName, sex, birthday, introduction, phone,
                 findViewById(R.id.me_page_nick1), findViewById(R.id.me_page_sex1),
                 findViewById(R.id.me_page_user_name1), findViewById(R.id.me_page_birthday1),
-                findViewById(R.id.works), findViewById(R.id.follow), findViewById(R.id.collection)), getAssets());
+                findViewById(R.id.works), findViewById(R.id.follow), findViewById(R.id.collection),
+                findViewById(R.id.me_page_phone1)), getAssets());
         BaseTool.setButtonTypeFace((Button) findViewById(R.id.modify_info), getAssets());
         Glide.with(this).load(user.getHeadPortraitUrl()).into(headPortrait);
         nick.setText(user.getNick());
@@ -156,6 +158,7 @@ public class MePageActivity extends AppCompatActivity {
         if (user.getIntroduction() != null && !user.getIntroduction().trim().isEmpty()) {
             introduction.setText(user.getIntroduction());
         }
+        phone.setText(user.getPhone());
     }
 
     private void initBottomData() {

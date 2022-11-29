@@ -13,7 +13,7 @@
         android:orientation="horizontal">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/user_head_portrait"
+            android:id="@id/user_head_portrait"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginStart="10dp"
@@ -30,11 +30,11 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="0.2"
+                android:layout_weight="0.25"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/me_page_user_name1"
+                    android:id="@id/me_page_user_name1"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.3"
@@ -45,7 +45,7 @@
                     tools:ignore="NestedWeights,RtlHardcoded" />
 
                 <TextView
-                    android:id="@+id/me_page_user_name2"
+                    android:id="@id/me_page_user_name2"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.8"
@@ -59,11 +59,11 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="0.2"
+                android:layout_weight="0.25"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/me_page_nick1"
+                    android:id="@id/me_page_nick1"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.3"
@@ -75,7 +75,7 @@
 
 
                 <TextView
-                    android:id="@+id/me_page_nick2"
+                    android:id="@id/me_page_nick2"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.8"
@@ -86,14 +86,15 @@
                     android:textSize="15sp"
                     android:textStyle="bold" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="0.2"
+                android:layout_weight="0.25"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/me_page_sex1"
+                    android:id="@id/me_page_sex1"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.3"
@@ -105,7 +106,7 @@
 
 
                 <TextView
-                    android:id="@+id/me_page_sex2"
+                    android:id="@id/me_page_sex2"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.8"
@@ -120,11 +121,11 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="0.2"
+                android:layout_weight="0.25"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/me_page_birthday1"
+                    android:id="@id/me_page_birthday1"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.3"
@@ -145,141 +146,53 @@
                     android:textColor="@color/black"
                     android:textSize="15sp" />
             </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.2"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/me_page_phone1"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.3"
-                    android:gravity="center_vertical|right"
-                    android:text="@string/phone"
-                    android:textColor="@color/black"
-                    android:textSize="15sp"
-                    tools:ignore="NestedWeights,RtlHardcoded" />
-
-                <TextView
-                    android:id="@+id/me_page_phone2"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.8"
-                    android:ellipsize="end"
-                    android:gravity="center_vertical"
-                    android:singleLine="true"
-                    android:textColor="@color/black"
-                    android:textSize="15sp" />
-            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 
     <TextView
-        android:id="@+id/me_page_introduction"
+        android:id="@+id/author_introduction"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="5dp"
-        android:text="@string/introduction"
         android:textColor="@color/dark_grey"
         android:textSize="15sp" />
+
     <Button
-        android:id="@+id/modify_info"
+        android:id="@+id/concern_button"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_marginTop="10dp"
         android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
+        android:background="@drawable/shape_2"
+        android:text="@string/concern"
         android:textColor="@color/black"
-        android:textStyle="bold"
-        android:text="@string/modify_personal_information"
-        android:background="@drawable/shape_2"/>
-    <LinearLayout
+        android:textStyle="bold" />
+
+
+    <TextView
+        android:id="@id/works"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="15dp"
         android:layout_marginTop="10dp"
         android:layout_weight="0.05"
         android:background="@drawable/underline2"
-        android:orientation="horizontal">
+        android:gravity="center"
+        android:text="@string/works"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        tools:ignore="NestedWeights" />
 
-        <TextView
-            android:id="@+id/works"
-            android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:layout_weight="0.3"
-            android:gravity="center"
-            android:text="@string/works"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            tools:ignore="NestedWeights" />
 
-        <TextView
-            android:id="@+id/follow"
-            android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:layout_weight="0.3"
-            android:gravity="center"
-            android:text="@string/follow"
-            android:textColor="@color/black"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/collection"
-            android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:layout_weight="0.3"
-            android:gravity="center"
-            android:text="@string/collection"
-            android:textColor="@color/black"
-            android:textStyle="bold" />
-    </LinearLayout>
-
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/me_view_pager2"
+    <ListView
+        android:id="@+id/author_works"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.6"
         tools:ignore="MissingConstraints" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:layout_marginBottom="5dp"
-        android:orientation="horizontal"
-        android:translationZ="1dp">
-
-        <TextView
-            android:id="@id/home_page"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.3"
-            android:gravity="center"
-            android:text="@string/home_page"
-            android:textColor="@color/dark_grey"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-        <ImageView
-            android:id="@id/upload_video_icon"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.3"
-            android:contentDescription="@string/upload_video"
-            android:src="@drawable/add" />
-
-        <TextView
-            android:id="@id/me"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.3"
-            android:gravity="center"
-            android:text="@string/me"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-    </LinearLayout>
 </LinearLayout>

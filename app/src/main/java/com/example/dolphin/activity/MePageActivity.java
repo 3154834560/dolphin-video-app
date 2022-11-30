@@ -94,7 +94,7 @@ public class MePageActivity extends AppCompatActivity {
         StringPool.CURRENT_USER = userService.getBy(this, StringPool.CURRENT_USER.getUserName());
         userService.writeLoginInfo(this, StringPool.CURRENT_USER);
         CircleImageView headPortrait = findViewById(R.id.user_head_portrait);
-        Glide.with(this).load(StringPool.CURRENT_USER.getHeadPortraitUrl()).into(headPortrait);
+        Glide.with(this).load(file).into(headPortrait);
         BaseTool.shortToast(this, msg);
     }
 

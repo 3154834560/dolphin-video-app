@@ -16,7 +16,7 @@ public class RetrofitUtils {
     private RetrofitUtils() {
     }
 
-    public static RetrofitUtils getInstance() {
+    private static RetrofitUtils getInstance() {
         if (retrofitUtils == null) {
             synchronized (StringPool.LOCKS[0]) {
                 if (retrofitUtils == null) {
@@ -32,5 +32,9 @@ public class RetrofitUtils {
                 .baseUrl(HttpPool.URI)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
+    }
+
+    public static <T> T create(Class<T> service) {
+        return getInstance().getRetrofit().create(service);
     }
 }

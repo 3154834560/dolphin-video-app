@@ -40,7 +40,7 @@ public class UploadPageActivity extends AppCompatActivity {
         ImageView returns = findViewById(R.id.returns);
         returns.setOnClickListener(v -> {
             StringPool.VIDEO = null;
-            StringPool.IMAGE = null;
+            StringPool.COVER = null;
             this.finish();
         });
         BaseTool.setEditTextTypeFace(uploadVideoIntro, getAssets());
@@ -83,14 +83,14 @@ public class UploadPageActivity extends AppCompatActivity {
     }
 
     private void getCover(Uri uri) {
-        VideoTool.getImage(this, findViewById(R.id.upload_cover), uri, "cover");
+        VideoTool.getImage(this, findViewById(R.id.upload_cover), uri);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         StringPool.VIDEO = null;
-        StringPool.IMAGE = null;
+        StringPool.COVER = null;
     }
 
     @Override

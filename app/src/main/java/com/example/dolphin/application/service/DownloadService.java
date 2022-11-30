@@ -2,7 +2,6 @@ package com.example.dolphin.application.service;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.Dialog;
 
 import androidx.annotation.NonNull;
 
@@ -32,7 +31,7 @@ public class DownloadService {
 
     public final static Status DOWN_STATUS = new Status(false);
 
-    private final DownloadApi DOWN_API = RetrofitUtils.getInstance().getRetrofit().create(DownloadApi.class);
+    private final DownloadApi DOWN_API = RetrofitUtils.create(DownloadApi.class);
 
     /**
      * 文件下载接口

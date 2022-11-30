@@ -5,12 +5,11 @@ import com.example.dolphin.domain.entity.Concern;
 import com.example.dolphin.domain.entity.User;
 import com.example.dolphin.domain.entity.Video;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import okhttp3.MultipartBody;
 
 /**
  * @author 王景阳
@@ -20,9 +19,9 @@ public class StringPool {
 
     public static boolean LOGIN = false;
 
-    public static MultipartBody.Part VIDEO = null;
+    public static File VIDEO = null;
 
-    public static MultipartBody.Part IMAGE = null;
+    public static File COVER = null;
 
     public static User CURRENT_USER = null;
 
@@ -81,6 +80,10 @@ public class StringPool {
     public static final String TYPE = "type";
 
     public static final String PHOTO_TYPE = ".jpg";
+
+    public static final long MAX_VIDEO_SIZE = 1024 * 1024 * 70;
+
+    public static final String VIDEO_TOO_LARGE = "视频过大！最大为70MB";
 
     public static String WORKING_PATH = "";
 

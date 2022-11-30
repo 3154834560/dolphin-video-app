@@ -6,7 +6,7 @@ package com.example.dolphin.infrastructure.consts;
  */
 public class HttpPool {
 
-//    public final static String URI="http://10.21.109.28:8090";
+//    public final static String URI="http://10.21.54.95:8090";
 
     public final static String URI="http://43.139.159.32:8090";
 }

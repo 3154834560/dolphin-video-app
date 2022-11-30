@@ -18,7 +18,7 @@ import retrofit2.Call;
  */
 public class ImageService {
 
-    private final ImageApi IMAGE_API = RetrofitUtils.getInstance().getRetrofit().create(ImageApi.class);
+    private final ImageApi IMAGE_API = RetrofitUtils.create(ImageApi.class);
 
     public String uploadImage(Context context, MultipartBody.Part image) {
         String msg = StringPool.UPLOAD_FAIL;

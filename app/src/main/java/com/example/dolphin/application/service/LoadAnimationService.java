@@ -44,7 +44,6 @@ public class LoadAnimationService {
     }
 
     public void createLoadAnimation() {
-        System.out.println("-----------------------------");
         //指明Dialog容器弹出的动画风格
         dialog = new Dialog(activity, R.style.JumpDialog);
         //根据layout文件绘制出加载动画的视图

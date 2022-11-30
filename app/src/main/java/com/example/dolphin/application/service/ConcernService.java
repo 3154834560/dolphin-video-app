@@ -20,7 +20,7 @@ import retrofit2.Call;
  */
 public class ConcernService {
 
-    private final ConcernApi CONCERN_API = RetrofitUtils.getInstance().getRetrofit().create(ConcernApi.class);
+    private final ConcernApi CONCERN_API = RetrofitUtils.create(ConcernApi.class);
 
     public List<Concern> getAllConcern(Context context) {
         try {

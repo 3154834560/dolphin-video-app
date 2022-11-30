@@ -10,8 +10,6 @@ import com.example.dolphin.infrastructure.tool.ApiTool;
 import com.example.dolphin.infrastructure.tool.BaseTool;
 import com.example.dolphin.infrastructure.util.RetrofitUtils;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import retrofit2.Call;
@@ -22,7 +20,7 @@ import retrofit2.Call;
  */
 public class CollectionService {
 
-    private final CollectionApi COLLECTION_API = RetrofitUtils.getInstance().getRetrofit().create(CollectionApi.class);
+    private final CollectionApi COLLECTION_API = RetrofitUtils.create(CollectionApi.class);
 
     public List<Video> getAllCollection(Context context) {
         try {

@@ -9,7 +9,6 @@ import android.net.Uri;
 import com.example.dolphin.infrastructure.consts.StringPool;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.Objects;
 
 import lombok.SneakyThrows;

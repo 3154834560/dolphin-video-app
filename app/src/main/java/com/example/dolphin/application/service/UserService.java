@@ -4,9 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONReader;
-import com.alibaba.fastjson.JSONWriter;
-import com.alibaba.fastjson.asm.FieldWriter;
 import com.example.dolphin.api.UserApi;
 import com.example.dolphin.application.dto.input.UserInput;
 import com.example.dolphin.application.dto.output.UserOutput;
@@ -17,18 +14,12 @@ import com.example.dolphin.infrastructure.structs.LoginInfo;
 import com.example.dolphin.infrastructure.structs.LoginInfoJson;
 import com.example.dolphin.infrastructure.tool.ApiTool;
 import com.example.dolphin.infrastructure.tool.BaseTool;
-import com.example.dolphin.infrastructure.tool.FileTool;
 import com.example.dolphin.infrastructure.util.RetrofitUtils;
 
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,7 +31,7 @@ import retrofit2.Call;
  */
 public class UserService {
 
-    private final UserApi USER_API = RetrofitUtils.getInstance().getRetrofit().create(UserApi.class);
+    private final UserApi USER_API = RetrofitUtils.create(UserApi.class);
 
     @SuppressLint("NewApi")
     public List<User> getAll(Context context) {

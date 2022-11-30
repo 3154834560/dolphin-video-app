@@ -1,13 +1,12 @@
 package com.example.dolphin.application.service;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 
-import androidx.viewpager.widget.PagerAdapter;
-
+import com.alibaba.fastjson.JSON;
 import com.example.dolphin.activity.fragment.FindFragment;
 import com.example.dolphin.api.VideoApi;
+import com.example.dolphin.application.dto.output.VideoOutput;
 import com.example.dolphin.domain.entity.Video;
 import com.example.dolphin.infrastructure.consts.StringPool;
 import com.example.dolphin.infrastructure.listeners.UploadVideoListener;
@@ -17,12 +16,16 @@ import com.example.dolphin.infrastructure.tool.BaseTool;
 import com.example.dolphin.infrastructure.tool.VideoTool;
 import com.example.dolphin.infrastructure.util.RetrofitUtils;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * @author 王景阳
@@ -32,7 +35,7 @@ public class VideoService {
 
     private final UserService userService = new UserService();
 
-    private final VideoApi VIDEO_API = RetrofitUtils.getInstance().getRetrofit().create(VideoApi.class);
+    private final VideoApi VIDEO_API = RetrofitUtils.create(VideoApi.class);
 
 
     public List<Video> getAll(Context context, String userName) {
@@ -106,29 +109,40 @@ public class VideoService {
     }
 
     public void uploadVideo(Context context, String introduction) {
-        if (StringPool.VIDEO == null) {
-            return;
-        }
+        File video = StringPool.VIDEO;
+        File cover = StringPool.COVER;
+        String videoName = System.currentTimeMillis() + getSuffix(video);
+        String coverName = cover == null ? null : System.currentTimeMillis() + getSuffix(video);
+        VideoOutput videoOutput = new VideoOutput(StringPool.CURRENT_USER.getUserName(), introduction, videoName, coverName, cover != null);
+        int length = 3 * 1024 * 1024;
+        byte[] bytes = new byte[length];
+        int len = 0;
+        boolean first = true;
         try {
-            Call<Result<Boolean>> call = VIDEO_API.uploadVideo(StringPool.CURRENT_USER.getUserName(), introduction, StringPool.VIDEO, StringPool.IMAGE);
-            UploadVideoListener.uploadStatus = false;
-            call.enqueue(new Callback<Result<Boolean>>() {
-                @Override
-                public void onResponse(Call<Result<Boolean>> call, Response<Result<Boolean>> response) {
-                    UploadVideoListener.uploadStatus = true;
-                    BaseTool.shortToast(context, "上传成功！");
+            MultipartBody.Part coverPart = null;
+            if (cover != null) {
+                RequestBody coverBody = RequestBody.create(cover, MediaType.parse("multipart/form-data"));
+                coverPart = MultipartBody.Part.createFormData("cover", cover.getName(), coverBody);
+            }
+            FileInputStream videoInputStream = new FileInputStream(video);
+            while ((len = videoInputStream.read(bytes)) > 0) {
+                RequestBody videoBody = RequestBody.create(Arrays.copyOfRange(bytes, 0, len), MediaType.parse("multipart/form-data"));
+                MultipartBody.Part videoPart = MultipartBody.Part.createFormData("video", video.getName(), videoBody);
+                videoOutput.setEnd(len != length);
+                Call<Result<Boolean>> resultCall = VIDEO_API.uploadVideo(JSON.toJSONString(videoOutput), videoPart, first ? coverPart : null);
+                first = false;
+                Result<Boolean> result = ApiTool.sendRequest(resultCall);
+                if (!result.getData()) {
+                    throw new Exception(StringPool.UPLOAD_FAIL);
                 }
-
-                @Override
-                public void onFailure(Call<Result<Boolean>> call, Throwable t) {
-                    BaseTool.shortToast(context, "上传失败！");
-                }
-            });
+            }
+            BaseTool.shortToast(context, StringPool.UPLOAD_SUCCESS);
         } catch (Exception e) {
-            BaseTool.shortToast(context, StringPool.NOT_NETWORK);
+            BaseTool.shortToast(context, StringPool.UPLOAD_FAIL);
         }
         StringPool.VIDEO = null;
-        StringPool.IMAGE = null;
+        StringPool.COVER = null;
+        UploadVideoListener.UPLOAD_STATUS.setStatus(false);
     }
 
     public List<Video> randomGet(Context context, int n) {
@@ -181,6 +195,12 @@ public class VideoService {
             FindFragment.getViewPager2().setCurrentItem(0, false);
             FindFragment.getViewPager2().post(() -> VideoTool.startPlay(FindFragment.getViewPager2()));
         }
+    }
+
+
+    private String getSuffix(File file) {
+        String name = file.getName();
+        return name.substring(name.lastIndexOf(StringPool.DOT));
     }
 
 }

@@ -37,7 +37,7 @@ public interface VideoApi {
     Call<Result<Boolean>> isSupport(@Query("userName") String userName, @Query("videoId") String videoId);
 
     @Multipart
-    @POST("/dolphin/video")
-    Call<Result<Boolean>> uploadVideo(@Query("userName") String userName, @Query("introduction") String introduction
+    @POST("/dolphin/video/shard")
+    Call<Result<Boolean>> uploadVideo(@Query("videoInput") String videoInputStr
             , @Part MultipartBody.Part video, @Part MultipartBody.Part cover);
 }

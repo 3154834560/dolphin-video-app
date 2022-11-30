@@ -1,6 +1,7 @@
 package com.example.dolphin.infrastructure.tool;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Typeface;
@@ -23,7 +24,8 @@ import java.util.List;
 public class BaseTool {
 
     public static void shortToast(Context context, String msg) {
-        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
+        Activity activity = (Activity) context;
+        activity.runOnUiThread(() -> Toast.makeText(context, msg, Toast.LENGTH_SHORT).show());
     }
 
     public static void longToast(Context context, String msg) {

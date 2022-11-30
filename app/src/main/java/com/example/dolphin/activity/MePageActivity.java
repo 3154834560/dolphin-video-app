@@ -17,9 +17,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.bumptech.glide.Glide;
 import com.example.dolphin.R;
 import com.example.dolphin.activity.fragment.VideoListViewFragment;
-import com.example.dolphin.application.service.DownloadService;
 import com.example.dolphin.application.service.ImageService;
-import com.example.dolphin.application.service.LoadAnimationService;
 import com.example.dolphin.application.service.UserService;
 import com.example.dolphin.domain.entity.User;
 import com.example.dolphin.infrastructure.adapter.FragmentPagerAdapter;
@@ -28,10 +26,7 @@ import com.example.dolphin.infrastructure.listeners.HomePageTextListener;
 import com.example.dolphin.infrastructure.listeners.HomePageViewListener;
 import com.example.dolphin.infrastructure.listeners.JumpIconListener;
 import com.example.dolphin.infrastructure.listeners.SlideTextListener;
-import com.example.dolphin.infrastructure.listeners.UploadVideoListener;
 import com.example.dolphin.infrastructure.listeners.VideoAndImageListener;
-import com.example.dolphin.infrastructure.structs.Status;
-import com.example.dolphin.infrastructure.threads.LoadAnimationThread;
 import com.example.dolphin.infrastructure.tool.BaseTool;
 import com.example.dolphin.infrastructure.util.RealPathFromUriUtil;
 
@@ -40,7 +35,6 @@ import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import lombok.SneakyThrows;
@@ -86,8 +80,6 @@ public class MePageActivity extends AppCompatActivity {
         }
     }
 
-    private static final Status UPLOAD_IMAGE_STATUS = new Status(false);
-
     @SuppressLint("NewApi")
     private void updateHeadPortraitUrl(Uri uri) {
         String filePath = RealPathFromUriUtil.getFilePathByUri(this, uri);
@@ -95,18 +87,15 @@ public class MePageActivity extends AppCompatActivity {
             BaseTool.shortToast(this, StringPool.UPLOAD_FAIL);
             return;
         }
-        UPLOAD_IMAGE_STATUS.setStatus(true);
-        LoadAnimationService loadAnimationService = new LoadAnimationService(this);
-        LoadAnimationThread animationThread = LoadAnimationThread.getInstance(loadAnimationService.getDialog(), loadAnimationService.getImageView(), UPLOAD_IMAGE_STATUS);
-        CompletableFuture.runAsync(animationThread);
         File file = new File(filePath);
         RequestBody requestFile = RequestBody.create(file, MediaType.parse("multipart/form-data"));
         MultipartBody.Part image = MultipartBody.Part.createFormData("image", file.getName(), requestFile);
         String msg = imageService.uploadImage(this, image);
-        BaseTool.shortToast(this, msg);
         StringPool.CURRENT_USER = userService.getBy(this, StringPool.CURRENT_USER.getUserName());
         userService.writeLoginInfo(this, StringPool.CURRENT_USER);
-        UPLOAD_IMAGE_STATUS.setStatus(false);
+        CircleImageView headPortrait = findViewById(R.id.user_head_portrait);
+        Glide.with(this).load(StringPool.CURRENT_USER.getHeadPortraitUrl()).into(headPortrait);
+        BaseTool.shortToast(this, msg);
     }
 
     private void initData() {

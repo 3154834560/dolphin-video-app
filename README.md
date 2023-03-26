@@ -1,5 +1,9 @@
 # 海豚视频android（仿抖音的短视频app）
 
+所用技术：nice-spinner、cardview、fastjson、lombok、glide、circleimageview、gsyVideoPlayer、retrofit
+
+------
+
 android端已实现功能：
 
 1. 收藏视频、取消收藏、查看收藏的视频

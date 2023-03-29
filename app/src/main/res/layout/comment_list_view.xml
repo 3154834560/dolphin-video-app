@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="80dp">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/comment_user_head_portrait"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_weight="0.1" />
+
+    <LinearLayout
+        android:id="@+id/comment_text_area"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:layout_weight="0.9"
+        android:layout_marginEnd="5dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="15dp">
+
+            <TextView
+                android:id="@+id/comment_user_nick"
+                android:layout_width="0dp"
+                android:layout_height="15dp"
+                android:layout_weight="0.5"
+                android:ellipsize="end"
+                android:textColor="#535050"
+                android:textSize="10sp"
+                tools:ignore="SmallSp" />
+
+            <TextView
+                android:id="@+id/comment_date_time"
+                android:layout_width="0dp"
+                android:layout_height="15dp"
+                android:ellipsize="end"
+                android:textColor="#535050"
+                android:textSize="10sp"
+                android:layout_weight="0.5"
+                tools:ignore="SmallSp" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/comment_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:ellipsize="end"
+            android:layout_marginTop="3dp" />
+    </LinearLayout>
+</LinearLayout>

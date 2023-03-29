@@ -17,12 +17,10 @@ public class Block extends AppCompatButton {
 
     public Block(Context context) {
         super(context);
-        // TODO Auto-generated constructor stub
     }
 
     public Block(Context context, AttributeSet attrs) {
         super(context, attrs);
-        // TODO Auto-generated constructor stub
     }
 
     public Block(Context context, AttributeSet attrs, int defStyle) {

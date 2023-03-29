@@ -4,10 +4,12 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -15,6 +17,7 @@ import com.example.dolphin.R;
 import com.example.dolphin.activity.AuthorInfoActivity;
 import com.example.dolphin.activity.LoginPageActivity;
 import com.example.dolphin.application.service.CollectionService;
+import com.example.dolphin.application.service.CommentService;
 import com.example.dolphin.application.service.ConcernService;
 import com.example.dolphin.application.service.DownloadService;
 import com.example.dolphin.application.service.UserService;
@@ -23,9 +26,11 @@ import com.example.dolphin.domain.entity.User;
 import com.example.dolphin.domain.entity.Video;
 import com.example.dolphin.infrastructure.consts.StringPool;
 import com.example.dolphin.infrastructure.listeners.CollectionListener;
+import com.example.dolphin.infrastructure.listeners.CommentListener;
 import com.example.dolphin.infrastructure.listeners.ConcernIconListener;
 import com.example.dolphin.infrastructure.listeners.SupportListener;
 import com.example.dolphin.infrastructure.tool.BaseTool;
+import com.example.dolphin.infrastructure.tool.NumberChangeTool;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
 import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder;
 import com.shuyu.gsyvideoplayer.listener.GSYSampleCallBack;
@@ -63,6 +68,7 @@ public class RecyclerItemHolder extends RecyclerView.ViewHolder {
         this.gsyVideoOptionBuilder = new GSYVideoOptionBuilder();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public void onBind(int position, Video video) {
 
         initData(video);
@@ -86,6 +92,7 @@ public class RecyclerItemHolder extends RecyclerView.ViewHolder {
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void initData(Video video) {
         TextView author = v.findViewById(R.id.video_author);
         TextView introduction = v.findViewById(R.id.video_introduction);
@@ -104,6 +111,7 @@ public class RecyclerItemHolder extends RecyclerView.ViewHolder {
         });
         initConcern(video);
         initSupport(video);
+        initComment(video);
         initCollection(video);
         initDown(video);
     }
@@ -135,6 +143,17 @@ public class RecyclerItemHolder extends RecyclerView.ViewHolder {
         @SuppressLint("DefaultLocale") String number = String.format("%.2f万", video.getNumbers() / 10000.0);
         supportNumber.setText(video.getNumbers() >= 10000 ? number : video.getNumbers() + "");
         supportIcon.setOnClickListener(new SupportListener(v.getContext(), video, supportIcon, supportNumber));
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void initComment(Video video) {
+        ImageView commentIcon = v.findViewById(R.id.comment_icon);
+        TextView commentNumber = v.findViewById(R.id.comment_number);
+        CommentService service = new CommentService();
+        service.getAllComment(context, video.getId());
+        commentIcon.setOnClickListener(new CommentListener(v.getContext(), R.layout.comment_list, video.getId()));
+        Integer commentCount = service.getCommentCount(context, video.getId());
+        commentNumber.setText(NumberChangeTool.numberChange(commentCount));
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")

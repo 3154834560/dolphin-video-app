@@ -1,6 +1,7 @@
 package com.example.dolphin.infrastructure.consts;
 
 
+import com.example.dolphin.domain.entity.Comment;
 import com.example.dolphin.domain.entity.Concern;
 import com.example.dolphin.domain.entity.User;
 import com.example.dolphin.domain.entity.Video;
@@ -27,6 +28,10 @@ public class StringPool {
 
     public static List<Concern> CONCERN_LIST = null;
 
+    public static Map<String, List<Comment>> COMMENT_MAP = new HashMap<>();
+
+    public static Map<String, Integer> COMMENT_COUNT_MAP = new HashMap<>();
+
     public static List<Video> COLLECTION_LIST = null;
 
     public static String RESOURCE_PATH = "";
@@ -40,6 +45,8 @@ public class StringPool {
     public static final String UPLOAD_FAIL = "上传失败！";
 
     public static final String DOWN_FAIL = "下载失败！";
+
+    public static final String CONTENT_CANNOT_BE_EMPTY = "内容不能为空！";
 
     public static final String UPDATE_FAIL = "更新失败！";
 
@@ -102,6 +109,8 @@ public class StringPool {
     public static final String FONT_TYPE_FACE = "SIMLI.TTF";
 
     public static final String NOT_NETWORK = "网络异常！";
+
+    public static final String COMMENT_FAILED = "评论失败！";
 
     public static final String NOT_VIDEOS = "当前数据库没有视频！";
 

@@ -1,14 +1,13 @@
 package com.example.dolphin.application.dto.input;
 
 
-import lombok.*;
+import lombok.Data;
 
 /**
  * @author 王景阳
  * @date 2022/10/29 20:53
  */
 @Data
-@Builder
 public class VideoInput {
 
     private String id;
@@ -47,6 +46,4 @@ public class VideoInput {
      * 视频封面名
      */
     private String coverName;
-
-
 }

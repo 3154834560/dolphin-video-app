@@ -2,11 +2,13 @@ package com.example.dolphin.infrastructure.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.dolphin.R;
@@ -24,7 +26,7 @@ public class ViewPagerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private final static String TAG = "ViewPagerAdapter";
 
     @SuppressLint("StaticFieldLeak")
-    private  RecyclerItemHolder recyclerItemHolder;
+    private RecyclerItemHolder recyclerItemHolder;
 
     private List<Video> videos = null;
 
@@ -44,16 +46,19 @@ public class ViewPagerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         RecyclerItemHolder recyclerItemHolder = (RecyclerItemHolder) holder;
         recyclerItemHolder.onBind(position, videos.get(position));
     }
 
-    public void initIcon(int position){
-        if(recyclerItemHolder!=null){
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void initIcon(int position) {
+        if (recyclerItemHolder != null) {
             recyclerItemHolder.initConcern(videos.get(position));
             recyclerItemHolder.initSupport(videos.get(position));
+            recyclerItemHolder.initComment(videos.get(position));
         }
     }
 

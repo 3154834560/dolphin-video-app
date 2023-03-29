@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="445dp"
+    android:background="#ffffff"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/comment_top"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:layout_marginTop="3dp"
+        tools:ignore="MissingConstraints">
+
+        <TextView
+            android:id="@+id/comment_top_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffffff"
+            android:gravity="center"
+            android:text="@string/comment"
+            android:textColor="@color/black"
+            android:textSize="17sp"
+            tools:ignore="MissingConstraints" />
+
+        <ImageView
+            android:id="@+id/comment_top_cancel"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignEnd="@id/comment_top_text"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/cancel"
+            android:contentDescription="@string/comment_top_cancel" />
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/comment_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="5dp"
+        tools:ignore="MissingConstraints" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginBottom="3dp">
+
+        <EditText
+            android:id="@+id/comment_edit_text"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="0.8"
+            android:autofillHints="评论"
+            android:background="@drawable/shape_9"
+            android:singleLine="true"
+            android:textColor="@color/black"
+            android:textSize="25sp" />
+
+        <Button
+            android:id="@+id/comment_send_out"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_weight="0.2"
+            android:background="@drawable/shape_2"
+            android:text="@string/send_out"
+            android:textColor="@color/black"
+            android:textSize="15sp" />
+    </LinearLayout>
+</LinearLayout>

@@ -1,5 +1,7 @@
 package com.example.dolphin.infrastructure.rest;
 
+import androidx.annotation.NonNull;
+
 import java.io.Serializable;
 
 import lombok.Setter;
@@ -61,6 +63,7 @@ public class Result<T> implements Serializable {
         return data;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "R{" +

@@ -2,17 +2,20 @@ package com.example.dolphin.activity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.example.dolphin.R;
 import com.example.dolphin.application.service.CollectionService;
+import com.example.dolphin.application.service.CommentService;
 import com.example.dolphin.application.service.ConcernService;
 import com.example.dolphin.application.service.DownloadService;
 import com.example.dolphin.application.service.UserService;
@@ -21,16 +24,17 @@ import com.example.dolphin.domain.entity.User;
 import com.example.dolphin.domain.entity.Video;
 import com.example.dolphin.infrastructure.consts.StringPool;
 import com.example.dolphin.infrastructure.listeners.CollectionListener;
+import com.example.dolphin.infrastructure.listeners.CommentListener;
 import com.example.dolphin.infrastructure.listeners.ConcernIconListener;
 import com.example.dolphin.infrastructure.listeners.SupportListener;
 import com.example.dolphin.infrastructure.tool.BaseTool;
+import com.example.dolphin.infrastructure.tool.NumberChangeTool;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
 import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder;
 import com.shuyu.gsyvideoplayer.listener.GSYSampleCallBack;
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 
 import java.util.Arrays;
-import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -46,6 +50,7 @@ public class SingleVideoActivity extends AppCompatActivity {
 
     private StandardGSYVideoPlayer gsyVideoPlayer;
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,10 +62,12 @@ public class SingleVideoActivity extends AppCompatActivity {
         initData(video, user);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void initData(Video video, User user) {
         initVideoPlayer(video);
         initHeadPortrait(video, user);
         initSupport(video);
+        initComment(video);
         initCollection(video);
         initIntroduction(video);
         initDown(video);
@@ -174,6 +181,17 @@ public class SingleVideoActivity extends AppCompatActivity {
         @SuppressLint("DefaultLocale") String number = String.format("%.2f万", video.getNumbers() / 10000.0);
         supportNumber.setText(video.getNumbers() >= 10000 ? number : video.getNumbers() + "");
         supportIcon.setOnClickListener(new SupportListener(this, video, supportIcon, supportNumber));
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void initComment(Video video) {
+        ImageView commentIcon = findViewById(R.id.comment_icon);
+        TextView commentNumber = findViewById(R.id.comment_number);
+        CommentService service = new CommentService();
+        service.getAllComment(this, video.getId());
+        commentIcon.setOnClickListener(new CommentListener(this, R.layout.comment_list, video.getId()));
+        Integer commentCount = service.getCommentCount(this, video.getId());
+        commentNumber.setText(NumberChangeTool.numberChange(commentCount));
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")

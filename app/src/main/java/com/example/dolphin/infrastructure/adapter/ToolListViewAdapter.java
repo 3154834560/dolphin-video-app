@@ -10,9 +10,7 @@ import android.widget.ImageView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.example.dolphin.infrastructure.structs.ToolListView;
-import com.example.dolphin.infrastructure.structs.VideoListView;
 import com.example.dolphin.infrastructure.tool.BaseTool;
 
 import java.util.List;
@@ -56,9 +54,7 @@ public class ToolListViewAdapter extends SimpleAdapter {
         } else {
             v = convertView;
         }
-
         bindView(position, v);
-
         return v;
     }
 

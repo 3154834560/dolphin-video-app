@@ -4,13 +4,11 @@ import android.annotation.SuppressLint;
 
 import com.example.dolphin.infrastructure.rest.Result;
 
-import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
 
 import lombok.SneakyThrows;
 import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
@@ -32,5 +30,4 @@ public class ApiTool {
         });
         return future.get();
     }
-
 }

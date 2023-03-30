@@ -95,7 +95,7 @@ public class CommentListener implements View.OnClickListener {
             commentListView.setCreateAt(m.getCreateAt());
             commentListView.setNick(m.getNick());
             commentListView.setUserName(m.getUserName());
-            commentListView.setHeadPortraitUrl(m.getHeadPortraitUrl());
+            commentListView.setHeadPortraitName(m.getHeadPortraitName());
             commentListView.setContent(m.getContent());
             commentListView.setNextClass(AuthorInfoActivity.class);
             Map<String, CommentListView> listViewMap = new HashMap<>();

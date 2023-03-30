@@ -3,14 +3,12 @@ package com.example.dolphin.application.dto.input;
 import android.annotation.SuppressLint;
 
 import com.example.dolphin.domain.entity.User;
-import com.example.dolphin.domain.entity.Video;
 import com.example.dolphin.domain.enums.SexEnum;
-
-import lombok.*;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.util.List;
+
+import lombok.Data;
 
 /**
  * @author 王景阳
@@ -18,40 +16,50 @@ import java.util.List;
  */
 @Data
 public class UserInput {
-
+    /**
+     * 用户名
+     */
     private String userName;
-
-    private String name;
-
+    /**
+     * 昵称
+     */
     private String nick;
-
+    /**
+     * 密码
+     */
     private String password;
-
-    private String headPortraitUrl;
-
+    /**
+     * 头像名称-带后缀
+     */
+    private String headPortraitName;
+    /**
+     * 性别
+     */
     private SexEnum sex;
-
+    /**
+     * 生日
+     */
     private long birthday;
-
+    /**
+     * 电话
+     */
     private String phone;
-
+    /**
+     * 个人简介
+     */
     private String introduction;
-
-    private boolean isAdmin;
 
     @SuppressLint("NewApi")
     public User copy() {
         User user = new User();
-        user.setUserName(this.userName);
-        user.setName(this.name);
-        user.setNick(this.nick);
-        user.setPassword(this.password);
-        user.setHeadPortraitUrl(this.headPortraitUrl);
-        user.setSex(this.sex);
-        user.setBirthday(LocalDateTime.ofEpochSecond(this.birthday,0, ZoneOffset.ofHours(8)));
-        user.setPhone(this.phone);
-        user.setIntroduction(this.introduction);
-        user.setAdmin(this.isAdmin);
+        user.setUserName(userName);
+        user.setNick(nick);
+        user.setPassword(password);
+        user.setHeadPortraitName(headPortraitName);
+        user.setSex(sex);
+        user.setBirthday(LocalDateTime.ofEpochSecond(birthday, 0, ZoneOffset.ofHours(8)));
+        user.setPhone(phone);
+        user.setIntroduction(introduction);
         return user;
     }
 

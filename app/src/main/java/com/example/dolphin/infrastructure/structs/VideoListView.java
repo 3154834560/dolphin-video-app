@@ -5,6 +5,7 @@ import android.content.Context;
 import com.example.dolphin.R;
 import com.example.dolphin.application.service.VideoService;
 import com.example.dolphin.domain.entity.Video;
+import com.example.dolphin.infrastructure.tool.BaseTool;
 
 import java.util.List;
 
@@ -33,10 +34,11 @@ public class VideoListView {
 
     public static VideoListView copy(Context context, Video video, VideoService videoService) {
         Boolean support = videoService.isSupport(context, video.getId());
-        return new VideoListView()
-                .setVideoId(video.getId())
-                .setCoverUrl(video.getCoverUrl())
-                .setSupportResource(support ? R.drawable.icon_support : R.drawable.icon_un_support2)
-                .setNumbers(video.getNumbers()+"");
+        VideoListView videoListView = new VideoListView();
+        videoListView.setVideoId(video.getId());
+        videoListView.setCoverUrl(BaseTool.toStaticImagesUrl(video.getCoverName()));
+        videoListView.setSupportResource(support ? R.drawable.icon_support : R.drawable.icon_un_support2);
+        videoListView.setNumbers(video.getNumbers() + "");
+        return videoListView;
     }
 }

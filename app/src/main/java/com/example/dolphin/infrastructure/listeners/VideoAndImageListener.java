@@ -55,9 +55,7 @@ public class VideoAndImageListener implements View.OnClickListener {
                 @Override
                 public void onClick(View v) {
                     DownloadService downloadService = new DownloadService();
-                    String headPortraitUrl = StringPool.CURRENT_USER.getHeadPortraitUrl();
-                    String imageName = headPortraitUrl.substring(headPortraitUrl.lastIndexOf(StringPool.SLASH) + 1);
-                    downloadService.downloadFile(activity, StringPool.IMAGES, imageName);
+                    downloadService.downloadFile(activity, StringPool.IMAGES, StringPool.CURRENT_USER.getHeadPortraitName());
                 }
             });
         }

@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
 
-import lombok.Builder;
 import lombok.Data;
 
 /**
@@ -22,24 +21,35 @@ import lombok.Data;
  */
 @Data
 public class UserOutput {
-
+    /**
+     * 用户名
+     */
     private String userName;
-
-    private String name;
-
+    /**
+     * 昵称
+     */
     private String nick;
-
+    /**
+     * 密码
+     */
     private String password;
-
+    /**
+     * 性别
+     */
     private SexEnum sex;
-
-    private boolean isAdmin;
-
+    /**
+     * 生日
+     */
     private long birthday;
-
+    /**
+     * 电话
+     */
     private String phone;
-
+    /**
+     * 个人简介
+     */
     private String introduction;
+
 
     @SuppressLint("NewApi")
     public void copy(List<EditText> editTexts, RadioGroup sexGroup) {

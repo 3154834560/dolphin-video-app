@@ -18,7 +18,7 @@ public class CommentListView {
 
     private String nick;
 
-    private String headPortraitUrl;
+    private String headPortraitName;
 
     private String content;
 

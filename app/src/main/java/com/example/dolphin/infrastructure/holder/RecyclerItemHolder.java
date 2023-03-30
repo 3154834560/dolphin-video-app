@@ -30,7 +30,6 @@ import com.example.dolphin.infrastructure.listeners.CommentListener;
 import com.example.dolphin.infrastructure.listeners.ConcernIconListener;
 import com.example.dolphin.infrastructure.listeners.SupportListener;
 import com.example.dolphin.infrastructure.tool.BaseTool;
-import com.example.dolphin.infrastructure.tool.NumberChangeTool;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
 import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder;
 import com.shuyu.gsyvideoplayer.listener.GSYSampleCallBack;
@@ -73,7 +72,7 @@ public class RecyclerItemHolder extends RecyclerView.ViewHolder {
 
         initData(video);
 
-        preventDislocation(video.getUrl(), video.getIntroduction(), null, position);
+        preventDislocation(BaseTool.toStaticVideosUrl(video.getVideoName()), video.getIntroduction(), null, position);
 
         //增加title
         gsyVideoPlayer.getTitleTextView().setVisibility(View.GONE);
@@ -102,8 +101,8 @@ public class RecyclerItemHolder extends RecyclerView.ViewHolder {
         BaseTool.setTextTypeFace(Arrays.asList(author, introduction), context.getAssets());
         author.setText(video.getAuthor());
         introduction.setText(video.getIntroduction());
-        Glide.with(context).load(video.getCoverUrl()).into(imageView);
-        Glide.with(context).load(user.getHeadPortraitUrl()).into(headPortrait);
+        Glide.with(context).load(BaseTool.toStaticImagesUrl(video.getCoverName())).into(imageView);
+        Glide.with(context).load(BaseTool.toStaticImagesUrl(user.getHeadPortraitName())).into(headPortrait);
         headPortrait.setOnClickListener(v -> {
             Intent intent = new Intent(v.getContext(), AuthorInfoActivity.class);
             intent.putExtra(StringPool.AUTHOR_ID, user.getUserName());
@@ -153,7 +152,7 @@ public class RecyclerItemHolder extends RecyclerView.ViewHolder {
         service.getAllComment(context, video.getId());
         commentIcon.setOnClickListener(new CommentListener(v.getContext(), R.layout.comment_list, video.getId()));
         Integer commentCount = service.getCommentCount(context, video.getId());
-        commentNumber.setText(NumberChangeTool.numberChange(commentCount));
+        commentNumber.setText(BaseTool.numberToString(commentCount));
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
@@ -171,21 +170,17 @@ public class RecyclerItemHolder extends RecyclerView.ViewHolder {
 
     public void initDown(Video video) {
         ImageView downIcon = v.findViewById(R.id.down_icon);
-        String name = video.getUrl().substring(video.getUrl().lastIndexOf(StringPool.SLASH) + 1);
-        downIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (StringPool.CURRENT_USER == null) {
-                    context.startActivity(new Intent(context, LoginPageActivity.class));
-                    return;
-                }
-                if (DownloadService.DOWN_STATUS.isStatus()) {
-                    BaseTool.shortToast(v.getContext(), "已有视频在下载！");
-                    return;
-                }
-                DownloadService downloadService = new DownloadService();
-                downloadService.downloadFile((Activity) context, StringPool.VIDEOS, name);
+        downIcon.setOnClickListener(v -> {
+            if (StringPool.CURRENT_USER == null) {
+                context.startActivity(new Intent(context, LoginPageActivity.class));
+                return;
             }
+            if (DownloadService.DOWN_STATUS.isStatus()) {
+                BaseTool.shortToast(v.getContext(), "已有视频在下载！");
+                return;
+            }
+            DownloadService downloadService = new DownloadService();
+            downloadService.downloadFile((Activity) context, StringPool.VIDEOS, video.getVideoName());
         });
     }
 

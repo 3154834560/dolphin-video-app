@@ -28,7 +28,6 @@ import com.example.dolphin.infrastructure.listeners.CommentListener;
 import com.example.dolphin.infrastructure.listeners.ConcernIconListener;
 import com.example.dolphin.infrastructure.listeners.SupportListener;
 import com.example.dolphin.infrastructure.tool.BaseTool;
-import com.example.dolphin.infrastructure.tool.NumberChangeTool;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
 import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder;
 import com.shuyu.gsyvideoplayer.listener.GSYSampleCallBack;
@@ -111,12 +110,12 @@ public class SingleVideoActivity extends AppCompatActivity {
      */
     private void preventDislocation(Video video, StandardGSYVideoPlayer gsyVideoPlayer) {
         ImageView coverImage = new ImageView(this);
-        Glide.with(this).load(video.getCoverUrl()).into(coverImage);
+        Glide.with(this).load(BaseTool.toStaticImagesUrl(video.getCoverName())).into(coverImage);
         new GSYVideoOptionBuilder()
                 .setIsTouchWiget(false)
                 .setThumbImageView(coverImage)
                 .setThumbPlay(true)
-                .setUrl(video.getUrl())
+                .setUrl(BaseTool.toStaticVideosUrl(video.getVideoName()))
                 .setVideoTitle(video.getIntroduction())
                 .setCacheWithPlay(true)
                 .setRotateViewAuto(true)
@@ -158,7 +157,7 @@ public class SingleVideoActivity extends AppCompatActivity {
             intent.putExtra(StringPool.AUTHOR_ID, user.getUserName());
             startActivity(intent);
         });
-        Glide.with(this).load(user.getHeadPortraitUrl()).into(headPortrait);
+        Glide.with(this).load(BaseTool.toStaticImagesUrl(user.getHeadPortraitName())).into(headPortrait);
         ImageView concernIcon = findViewById(R.id.concern_image);
         if (concernService.isConcern(video.getAuthor())) {
             concernIcon.setBackground(getDrawable(R.drawable.icon_concerned));
@@ -191,7 +190,7 @@ public class SingleVideoActivity extends AppCompatActivity {
         service.getAllComment(this, video.getId());
         commentIcon.setOnClickListener(new CommentListener(this, R.layout.comment_list, video.getId()));
         Integer commentCount = service.getCommentCount(this, video.getId());
-        commentNumber.setText(NumberChangeTool.numberChange(commentCount));
+        commentNumber.setText(BaseTool.numberToString(commentCount));
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
@@ -209,17 +208,13 @@ public class SingleVideoActivity extends AppCompatActivity {
 
     public void initDown(Video video) {
         ImageView downIcon = findViewById(R.id.down_icon);
-        String name = video.getUrl().substring(video.getUrl().lastIndexOf("/") + 1);
-        downIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (DownloadService.DOWN_STATUS.isStatus()) {
-                    BaseTool.shortToast(v.getContext(), "已有视频在下载！");
-                    return;
-                }
-                DownloadService downloadService = new DownloadService();
-                downloadService.downloadFile(SingleVideoActivity.this, StringPool.VIDEOS, name);
+        downIcon.setOnClickListener(v -> {
+            if (DownloadService.DOWN_STATUS.isStatus()) {
+                BaseTool.shortToast(v.getContext(), "已有视频在下载！");
+                return;
             }
+            DownloadService downloadService = new DownloadService();
+            downloadService.downloadFile(SingleVideoActivity.this, StringPool.VIDEOS, video.getVideoName());
         });
     }
 

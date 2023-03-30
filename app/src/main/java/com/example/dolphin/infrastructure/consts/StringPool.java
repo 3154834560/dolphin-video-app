@@ -74,15 +74,21 @@ public class StringPool {
 
     public static final String VIDEO_TYPE = "video/*";
 
-    public static final String VIDEOS = "videos";
-
     public static final String IMAGE_TYPE = "image/*";
-
-    public static final String IMAGES = "images";
 
     public static final String AUTHOR_ID = "authorId";
 
     public static final String SLASH = "/";
+
+    public static final String IMAGES = "images";
+
+    public static final String VIDEOS = "videos";
+
+    public static final String SLASH_IMAGES = SLASH + IMAGES;
+
+    public static final String SLASH_VIDEOS = SLASH + VIDEOS;
+
+    public static final String SLASH_STATIC = "/static";
 
     public static final String TYPE = "type";
 

@@ -9,10 +9,16 @@ import lombok.Data;
  */
 @Data
 public class CommentOutput {
-
+    /**
+     * 用户名
+     */
     private String userName;
-
+    /**
+     * 视频id
+     */
     private String videoId;
-
+    /**
+     * 评论内容
+     */
     private String content;
 }

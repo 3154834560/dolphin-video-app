@@ -97,7 +97,7 @@ public class MorePageActivity extends AppCompatActivity {
             finish();
         });
         if (user != null) {
-            Glide.with(this).load(user.getHeadPortraitUrl()).into(headPortrait);
+            Glide.with(this).load(BaseTool.toStaticImagesUrl(user.getHeadPortraitName())).into(headPortrait);
             nick.setText(user.getNick());
             logOut.setOnClickListener(v -> {
                 UserService userService = new UserService();

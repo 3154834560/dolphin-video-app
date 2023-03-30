@@ -223,46 +223,4 @@ public class HomePageActivity extends AppCompatActivity {
         BaseTool.clearCache(this);*/
         userService.writeLoginInfo(this, StringPool.CURRENT_USER);
     }
-
-    /**
-     * 模拟数据
-     */
-    public static void initVideos(List<Video> videos) {
-
-        Video data1 = new Video();
-        data1.setAuthor("@_彼岸雨敲窗_");
-        data1.setIntroduction("蜂鸟计划 中国预告片：速度与金钱版 (中文字幕)");
-        data1.setCoverUrl("https://img3.doubanio.com/img/trailer/medium/2631410731.jpg?1611566097");
-        data1.setUrl("https://vt1.doubanio.com/202102020903/722442386dcd5076fd70c4ac2bf093bb/view/movie/M/402710160.mp4");
-        videos.add(data1);
-
-        Video data2 = new Video();
-        data2.setAuthor("@_彼岸雨敲窗_");
-        data2.setIntroduction("旺达幻视 预告片");
-        data2.setCoverUrl("https://img1.doubanio.com/img/trailer/medium/2628042057.jpg?");
-        data2.setUrl("https://vt1.doubanio.com/202102011621/94e560ba4d88c562e0768f6339822d99/view/movie/M/402690624.mp4");
-        videos.add(data2);
-
-        Video data3 = new Video();
-        data3.setAuthor("@_彼岸雨敲窗_");
-        data3.setIntroduction("无耻之徒(美版) 第十一季 预告片");
-        data3.setCoverUrl("https://img1.doubanio.com/img/trailer/medium/2626877508.jpg?");
-        data3.setUrl("https://vt1.doubanio.com/202101120940/a3e7ae32c21341710eaceba2d2e56039/view/movie/M/402680931.mp4");
-        videos.add(data3);
-
-        Video data4 = new Video();
-        data4.setAuthor("@_彼岸雨敲窗_");
-        data4.setIntroduction("发现女巫 第二季 预告片");
-        data4.setCoverUrl("https://img9.doubanio.com/img/trailer/medium/2628112124.jpg?");
-        data4.setUrl("https://vt1.doubanio.com/202101120938/d05ce0af6cefa6b88dd699e1f8150f2f/view/movie/M/402690672.mp4");
-        videos.add(data4);
-
-        Video data5 = new Video();
-        data5.setAuthor("@_彼岸雨敲窗_");
-        data5.setIntroduction("天国与地狱 预告片");
-        data5.setCoverUrl("https://img2.doubanio.com/img/trailer/medium/2628313153.jpg?");
-        data5.setUrl("https://vt1.doubanio.com/202102051113/07846ae6e7dd67089ff46a4d070b5f5d/view/movie/M/402690752.mp4");
-        videos.add(data5);
-
-    }
 }

@@ -15,17 +15,29 @@ import lombok.Data;
  */
 @Data
 public class CommentInput {
-
+    /**
+     * 评论id
+     */
     private String commentId;
-
+    /**
+     * 用户名
+     */
     private String userName;
-
+    /**
+     * 昵称
+     */
     private String nick;
-
-    private String headPortraitUrl;
-
+    /**
+     * 头像名称-带后缀
+     */
+    private String headPortraitName;
+    /**
+     * 评论内容
+     */
     private String content;
-
+    /**
+     * 创建时间
+     */
     private long createAt;
 
     @SuppressLint("NewApi")
@@ -34,7 +46,7 @@ public class CommentInput {
         comment.setUserName(this.userName);
         comment.setCommentId(this.commentId);
         comment.setNick(this.nick);
-        comment.setHeadPortraitUrl(this.headPortraitUrl);
+        comment.setHeadPortraitName(this.headPortraitName);
         comment.setContent(this.content);
         comment.setCreateAt(LocalDateTime.ofEpochSecond(this.createAt, 0, ZoneOffset.ofHours(8)));
         return comment;

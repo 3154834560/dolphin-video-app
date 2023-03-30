@@ -95,7 +95,7 @@ public class CommentListViewAdapter extends SimpleAdapter {
         for (Map.Entry<String, CommentListView> m : dataSet.entrySet()) {
             CommentListView commentListView = m.getValue();
             CircleImageView headPortrait = view.findViewById(mTo[0]);
-            Glide.with(context).load(commentListView.getHeadPortraitUrl()).into(headPortrait);
+            Glide.with(context).load(BaseTool.toStaticImagesUrl(commentListView.getHeadPortraitName())).into(headPortrait);
             TextView nick = view.findViewById(mTo[1]);
             BaseTool.setTextTypeFace(nick, context.getAssets());
             nick.setText(commentListView.getNick());

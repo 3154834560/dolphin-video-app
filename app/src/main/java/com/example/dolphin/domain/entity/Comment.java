@@ -12,17 +12,28 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode
 public class Comment {
-
+    /**
+     * 评论id
+     */
     private String commentId;
-
+    /**
+     * 用户名
+     */
     private String userName;
-
+    /**
+     * 昵称
+     */
     private String nick;
-
-    private String headPortraitUrl;
-
+    /**
+     * 昵称
+     */
+    private String headPortraitName;
+    /**
+     * 评论内容
+     */
     private String content;
-
+    /**
+     * 发表时间
+     */
     private LocalDateTime createAt;
-
 }

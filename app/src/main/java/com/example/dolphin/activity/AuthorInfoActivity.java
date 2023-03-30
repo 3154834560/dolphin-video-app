@@ -92,7 +92,7 @@ public class AuthorInfoActivity extends AppCompatActivity {
                 findViewById(R.id.me_page_user_name1), findViewById(R.id.me_page_birthday1),
                 findViewById(R.id.works)), getAssets());
         BaseTool.setButtonTypeFace(concernButton, getAssets());
-        Glide.with(this).load(user.getHeadPortraitUrl()).into(headPortrait);
+        Glide.with(this).load(BaseTool.toStaticImagesUrl(user.getHeadPortraitName())).into(headPortrait);
         nick.setText(user.getNick());
         sex.setText(user.getSex().getSex());
         userName.setText(user.getUserName());

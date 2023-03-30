@@ -16,7 +16,6 @@ import com.example.dolphin.application.service.CommentService;
 import com.example.dolphin.infrastructure.adapter.CommentListViewAdapter;
 import com.example.dolphin.infrastructure.consts.StringPool;
 import com.example.dolphin.infrastructure.tool.BaseTool;
-import com.example.dolphin.infrastructure.tool.NumberChangeTool;
 
 import lombok.AllArgsConstructor;
 
@@ -47,8 +46,7 @@ public class CommentSendListener implements View.OnClickListener {
     private void updateData() {
         TextView commentNumber = activity.findViewById(R.id.comment_number);
         ListView commentList = linearLayout.findViewById(R.id.comment_list_view);
-        commentNumber.setText(NumberChangeTool.numberChange(StringPool.COMMENT_COUNT_MAP.get(videoId)));
-        System.out.println("------------------------------");
+        commentNumber.setText(BaseTool.numberToString(StringPool.COMMENT_COUNT_MAP.get(videoId)));
         ((CommentListViewAdapter) commentList.getAdapter()).notifyDataSetChanged();
 
     }

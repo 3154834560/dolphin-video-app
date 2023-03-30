@@ -5,7 +5,7 @@ import com.example.dolphin.infrastructure.rest.Result;
 import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.http.Multipart;
-import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Query;
 
@@ -16,6 +16,6 @@ import retrofit2.http.Query;
 public interface ImageApi {
 
     @Multipart
-    @POST("/dolphin/image")
+    @PUT("/dolphin/user/head/portrait")
     Call<Result<String>> uploadImage(@Query("userName") String userName, @Part MultipartBody.Part image);
 }

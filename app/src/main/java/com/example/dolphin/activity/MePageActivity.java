@@ -137,7 +137,7 @@ public class MePageActivity extends AppCompatActivity {
                 findViewById(R.id.works), findViewById(R.id.follow), findViewById(R.id.collection),
                 findViewById(R.id.me_page_phone1)), getAssets());
         BaseTool.setButtonTypeFace((Button) findViewById(R.id.modify_info), getAssets());
-        Glide.with(this).load(user.getHeadPortraitUrl()).into(headPortrait);
+        Glide.with(this).load(BaseTool.toStaticImagesUrl(user.getHeadPortraitName())).into(headPortrait);
         nick.setText(user.getNick());
         sex.setText(user.getSex().getSex());
         userName.setText(user.getUserName());

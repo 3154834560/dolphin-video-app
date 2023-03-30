@@ -2,7 +2,6 @@ package com.example.dolphin.infrastructure.tool;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.Context;
 import android.content.pm.PackageManager;
 
 import androidx.core.app.ActivityCompat;
@@ -40,6 +39,4 @@ public class PermissionTool {
             ActivityCompat.requestPermissions(activity, permissions, PERMISSION_REQUEST);
         }
     }
-
-
 }

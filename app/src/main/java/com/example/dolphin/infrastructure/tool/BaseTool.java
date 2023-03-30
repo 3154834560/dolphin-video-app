@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.dolphin.infrastructure.consts.HttpPool;
 import com.example.dolphin.infrastructure.consts.StringPool;
 
 import java.io.File;
@@ -88,5 +89,23 @@ public class BaseTool {
                 Arrays.stream(files).forEach(f -> f.delete());
             }
         }
+    }
+
+    public static String numberToString(Integer n) {
+        if (n > 10000) {
+            return (n / 10000) + "w+";
+        }
+        if (n > 1000) {
+            return (n / 1000) + "k+";
+        }
+        return n + "";
+    }
+
+    public static String toStaticImagesUrl(String name) {
+        return HttpPool.URI + StringPool.SLASH_STATIC + StringPool.SLASH_IMAGES + StringPool.SLASH + name;
+    }
+
+    public static String toStaticVideosUrl(String name) {
+        return HttpPool.URI + StringPool.SLASH_STATIC + StringPool.SLASH_VIDEOS + StringPool.SLASH + name;
     }
 }

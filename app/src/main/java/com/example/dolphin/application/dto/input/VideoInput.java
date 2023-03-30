@@ -1,6 +1,8 @@
 package com.example.dolphin.application.dto.input;
 
 
+import com.example.dolphin.domain.entity.Video;
+
 import lombok.Data;
 
 /**
@@ -9,41 +11,44 @@ import lombok.Data;
  */
 @Data
 public class VideoInput {
-
-    private String id;
-
     /**
-     * 视频播放Url
+     * 视频id
      */
-    private String url;
-
+    private String id;
     /**
-     * 视频名
+     * 视频名称-带后缀
      */
     private String videoName;
-
     /**
-     * 视频作者
+     * 视频作者，对应用户名
      */
     private String author;
-
     /**
      * 视频作者昵称
      */
     private String authorNick;
-
     /**
      * 视频简介
      */
     private String introduction;
-
     /**
-     * 视频封面
-     */
-    private String coverUrl;
-
-    /**
-     * 视频封面名
+     * 视频封面名称-带后缀
      */
     private String coverName;
+    /**
+     * 点赞数
+     */
+    private long numbers;
+
+    public Video to() {
+        Video video = new Video();
+        video.setId(id);
+        video.setVideoName(videoName);
+        video.setAuthor(author);
+        video.setAuthorNick(authorNick);
+        video.setIntroduction(introduction);
+        video.setCoverName(coverName);
+        video.setNumbers(numbers);
+        return video;
+    }
 }

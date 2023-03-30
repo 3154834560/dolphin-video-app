@@ -112,8 +112,8 @@ public class VideoService {
         File video = StringPool.VIDEO;
         File cover = StringPool.COVER;
         String videoName = System.currentTimeMillis() + getSuffix(video);
-        String coverName = cover == null ? null : System.currentTimeMillis() + getSuffix(video);
-        VideoOutput videoOutput = new VideoOutput(StringPool.CURRENT_USER.getUserName(), introduction, videoName, coverName, cover != null);
+        String coverName = cover == null ? null : System.currentTimeMillis() + getSuffix(cover);
+        VideoOutput videoOutput = new VideoOutput(StringPool.CURRENT_USER.getUserName(), introduction, videoName, coverName);
         int length = 3 * 1024 * 1024;
         byte[] bytes = new byte[length];
         int len = 0;

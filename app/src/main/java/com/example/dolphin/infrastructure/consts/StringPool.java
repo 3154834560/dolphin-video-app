@@ -3,7 +3,7 @@ package com.example.dolphin.infrastructure.consts;
 
 import com.example.dolphin.application.dto.input.CollectionInput;
 import com.example.dolphin.application.dto.input.CommentInput;
-import com.example.dolphin.domain.entity.Concern;
+import com.example.dolphin.application.dto.input.ConcernInput;
 import com.example.dolphin.domain.entity.User;
 import com.example.dolphin.domain.entity.Video;
 
@@ -27,19 +27,26 @@ public class StringPool {
 
     public static User CURRENT_USER;
 
-    public static List<Concern> CONCERN_LIST;
     /**
+     * 缓存关注
+     */
+    public static List<ConcernInput> CONCERN_LIST = new ArrayList<>();
+    /**
+     * 缓存评论
      * key: 视频id
      * value: 视频的评论
      */
     public static final Map<String, List<CommentInput>> COMMENT_INPUT_MAP = new HashMap<>();
     /**
+     * 缓存评论数量
      * key: 视频id
      * value: 视频评论数量
      */
     public static final Map<String, Integer> COMMENT_COUNT_MAP = new HashMap<>();
-
-    public static List<CollectionInput> COLLECTION_INPUT_LIST;
+    /**
+     * 缓存收藏
+     */
+    public static List<CollectionInput> COLLECTION_INPUT_LIST = new ArrayList<>();
 
     public static String RESOURCE_PATH = "";
 

@@ -1,9 +1,10 @@
 package com.example.dolphin.application.service;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 
 import com.example.dolphin.api.ConcernApi;
-import com.example.dolphin.domain.entity.Concern;
+import com.example.dolphin.application.dto.input.ConcernInput;
 import com.example.dolphin.infrastructure.consts.StringPool;
 import com.example.dolphin.infrastructure.rest.Result;
 import com.example.dolphin.infrastructure.tool.ApiTool;
@@ -22,10 +23,13 @@ public class ConcernService {
 
     private final ConcernApi CONCERN_API = RetrofitUtils.create(ConcernApi.class);
 
-    public List<Concern> getAllConcern(Context context) {
+    /**
+     * 获取指定用户的所以关注
+     */
+    public List<ConcernInput> getAllConcern(Context context) {
         try {
-            Call<Result<List<Concern>>> call = CONCERN_API.getAllConcern(StringPool.CURRENT_USER.getUserName());
-            Result<List<Concern>> result = ApiTool.sendRequest(call);
+            Call<Result<List<ConcernInput>>> call = CONCERN_API.getAllConcern(StringPool.CURRENT_USER.getUserName());
+            Result<List<ConcernInput>> result = ApiTool.sendRequest(call);
             StringPool.CONCERN_LIST = result.getData();
         } catch (Exception e) {
             BaseTool.shortToast(context, StringPool.NOT_NETWORK);
@@ -33,11 +37,14 @@ public class ConcernService {
         return StringPool.CONCERN_LIST;
     }
 
+    /**
+     * 是否关注指定用户
+     */
     public boolean isConcern(String userName) {
-        if (StringPool.CONCERN_LIST == null || StringPool.CONCERN_LIST.size() == 0) {
+        if (StringPool.CONCERN_LIST.isEmpty()) {
             return false;
         }
-        for (Concern concern : StringPool.CONCERN_LIST) {
+        for (ConcernInput concern : StringPool.CONCERN_LIST) {
             if (concern.getUserName().equals(userName)) {
                 return true;
             }
@@ -45,33 +52,30 @@ public class ConcernService {
         return false;
     }
 
-    public boolean concern(Context context, String concernedUserName) {
-        boolean isSuccess = false;
+    /**
+     * 关注指定用
+     */
+    public void concern(Context context, String concernedUserName) {
         try {
             Call<Result<Boolean>> call = CONCERN_API.concern(StringPool.CURRENT_USER.getUserName(), concernedUserName);
-            Result<Boolean> result = ApiTool.sendRequest(call);
-            isSuccess = result.getData();
-            if (isSuccess) {
-                getAllConcern(context);
-            }
+            ApiTool.sendRequest(call);
+            StringPool.CONCERN_LIST.add(new ConcernInput(concernedUserName));
         } catch (Exception e) {
             BaseTool.shortToast(context, StringPool.NOT_NETWORK);
         }
-        return isSuccess;
     }
 
-    public boolean unConcern(Context context, String concernedUserName) {
-        boolean isSuccess = false;
+    /**
+     * 取消关注指定用户
+     */
+    @SuppressLint("NewApi")
+    public void unConcern(Context context, String concernedUserName) {
         try {
             Call<Result<Boolean>> call = CONCERN_API.unconcern(StringPool.CURRENT_USER.getUserName(), concernedUserName);
-            Result<Boolean> result = ApiTool.sendRequest(call);
-            isSuccess = result.getData();
-            if (isSuccess) {
-                getAllConcern(context);
-            }
+            ApiTool.sendRequest(call);
+            StringPool.CONCERN_LIST.removeIf(c -> c.getUserName().equals(concernedUserName));
         } catch (Exception e) {
             BaseTool.shortToast(context, StringPool.NOT_NETWORK);
         }
-        return isSuccess;
     }
 }

@@ -103,8 +103,8 @@ public class MorePageActivity extends AppCompatActivity {
                 UserService userService = new UserService();
                 userService.quitLogin(MorePageActivity.this);
                 StringPool.CURRENT_USER = null;
-                StringPool.CONCERN_LIST = null;
-                StringPool.COLLECTION_INPUT_LIST = null;
+                StringPool.CONCERN_LIST.clear();
+                StringPool.COLLECTION_INPUT_LIST.clear();
                 finish();
             });
         } else {

@@ -14,10 +14,10 @@ import androidx.fragment.app.Fragment;
 
 import com.example.dolphin.R;
 import com.example.dolphin.application.dto.input.CollectionInput;
+import com.example.dolphin.application.dto.input.ConcernInput;
 import com.example.dolphin.application.service.CollectionService;
 import com.example.dolphin.application.service.ConcernService;
 import com.example.dolphin.application.service.VideoService;
-import com.example.dolphin.domain.entity.Concern;
 import com.example.dolphin.domain.entity.Video;
 import com.example.dolphin.infrastructure.adapter.VideoListViewAdapter;
 import com.example.dolphin.infrastructure.consts.StringPool;
@@ -105,8 +105,8 @@ public class VideoListViewFragment extends Fragment {
         ConcernService concernService = new ConcernService();
         CollectionService collectionService = new CollectionService();
         if (type == StringPool.CONCERN) {
-            List<Concern> concernList = concernService.getAllConcern(inflate.getContext());
-            for (Concern concern : concernList) {
+            List<ConcernInput> concernList = concernService.getAllConcern(inflate.getContext());
+            for (ConcernInput concern : concernList) {
                 List<Video> videos = videoService.getAll(inflate.getContext(), concern.getUserName());
                 videos.forEach(video -> dataList.add(VideoListView.copy(inflate.getContext(), video, videoService)));
             }

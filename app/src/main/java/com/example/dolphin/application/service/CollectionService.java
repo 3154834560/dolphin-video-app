@@ -42,7 +42,7 @@ public class CollectionService {
      * 是否收藏指定视频
      */
     public Boolean isCollection(String videoId) {
-        if (StringPool.COLLECTION_INPUT_LIST == null || StringPool.COLLECTION_INPUT_LIST.size() == 0) {
+        if (StringPool.COLLECTION_INPUT_LIST.isEmpty()) {
             return false;
         }
         for (CollectionInput input : StringPool.COLLECTION_INPUT_LIST) {

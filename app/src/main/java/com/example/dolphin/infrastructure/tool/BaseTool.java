@@ -91,7 +91,17 @@ public class BaseTool {
         }
     }
 
-    public static String numberToString(Integer n) {
+    public static String numberToString(int n) {
+        if (n > 10000) {
+            return (n / 10000) + "w+";
+        }
+        if (n > 1000) {
+            return (n / 1000) + "k+";
+        }
+        return n + "";
+    }
+
+    public static String numberToString(long n) {
         if (n > 10000) {
             return (n / 10000) + "w+";
         }

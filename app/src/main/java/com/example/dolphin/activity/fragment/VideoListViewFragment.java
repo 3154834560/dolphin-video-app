@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.dolphin.R;
+import com.example.dolphin.application.dto.input.CollectionInput;
 import com.example.dolphin.application.service.CollectionService;
 import com.example.dolphin.application.service.ConcernService;
 import com.example.dolphin.application.service.VideoService;
@@ -113,8 +114,8 @@ public class VideoListViewFragment extends Fragment {
             List<Video> videos = videoService.getAll(inflate.getContext(), StringPool.CURRENT_USER.getUserName());
             videos.forEach(video -> dataList.add(VideoListView.copy(inflate.getContext(), video, videoService)));
         } else if (type == StringPool.COLLECTION) {
-            List<Video> videos = collectionService.getAllCollection(inflate.getContext());
-            videos.forEach(video -> dataList.add(VideoListView.copy(inflate.getContext(), video, videoService)));
+            List<CollectionInput> inputs = collectionService.getAllCollection(inflate.getContext());
+            inputs.forEach(collection -> dataList.add(VideoListView.copy(inflate.getContext(), collection, videoService)));
         }
         if (textView != null) {
             String str = textView.getText().toString();

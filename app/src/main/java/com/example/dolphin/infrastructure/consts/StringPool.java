@@ -1,6 +1,7 @@
 package com.example.dolphin.infrastructure.consts;
 
 
+import com.example.dolphin.application.dto.input.CollectionInput;
 import com.example.dolphin.domain.entity.Comment;
 import com.example.dolphin.domain.entity.Concern;
 import com.example.dolphin.domain.entity.User;
@@ -32,7 +33,7 @@ public class StringPool {
 
     public static Map<String, Integer> COMMENT_COUNT_MAP = new HashMap<>();
 
-    public static List<Video> COLLECTION_LIST = null;
+    public static List<CollectionInput> COLLECTION_INPUT_LIST = null;
 
     public static String RESOURCE_PATH = "";
 

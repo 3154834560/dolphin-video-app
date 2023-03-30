@@ -12,7 +12,7 @@ import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.dolphin.R;
-import com.example.dolphin.domain.entity.Video;
+import com.example.dolphin.domain.model.Video;
 import com.example.dolphin.infrastructure.holder.RecyclerItemHolder;
 
 import java.util.List;

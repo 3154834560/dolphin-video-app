@@ -18,7 +18,7 @@ import com.example.dolphin.application.dto.input.ConcernInput;
 import com.example.dolphin.application.service.CollectionService;
 import com.example.dolphin.application.service.ConcernService;
 import com.example.dolphin.application.service.VideoService;
-import com.example.dolphin.domain.entity.Video;
+import com.example.dolphin.domain.model.Video;
 import com.example.dolphin.infrastructure.adapter.VideoListViewAdapter;
 import com.example.dolphin.infrastructure.consts.StringPool;
 import com.example.dolphin.infrastructure.structs.VideoListView;

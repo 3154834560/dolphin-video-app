@@ -1,4 +1,4 @@
-package com.example.dolphin.domain.entity;
+package com.example.dolphin.domain.model;
 
 
 import lombok.Data;

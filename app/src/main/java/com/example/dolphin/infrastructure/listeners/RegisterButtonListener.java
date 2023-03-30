@@ -9,7 +9,6 @@ import com.example.dolphin.application.dto.output.UserOutput;
 import com.example.dolphin.application.service.CollectionService;
 import com.example.dolphin.application.service.ConcernService;
 import com.example.dolphin.application.service.UserService;
-import com.example.dolphin.domain.entity.User;
 import com.example.dolphin.infrastructure.consts.StringPool;
 import com.example.dolphin.infrastructure.tool.BaseTool;
 

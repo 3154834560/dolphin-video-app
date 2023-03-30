@@ -2,8 +2,8 @@ package com.example.dolphin.application.dto.input;
 
 import android.annotation.SuppressLint;
 
-import com.example.dolphin.domain.entity.User;
 import com.example.dolphin.domain.enums.SexEnum;
+import com.example.dolphin.domain.model.User;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;

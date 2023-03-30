@@ -5,7 +5,7 @@ import android.content.Context;
 import com.example.dolphin.R;
 import com.example.dolphin.application.dto.input.CollectionInput;
 import com.example.dolphin.application.service.VideoService;
-import com.example.dolphin.domain.entity.Video;
+import com.example.dolphin.domain.model.Video;
 import com.example.dolphin.infrastructure.tool.BaseTool;
 
 import java.util.List;

@@ -7,7 +7,7 @@ import com.alibaba.fastjson.JSON;
 import com.example.dolphin.activity.fragment.FindFragment;
 import com.example.dolphin.api.VideoApi;
 import com.example.dolphin.application.dto.output.VideoOutput;
-import com.example.dolphin.domain.entity.Video;
+import com.example.dolphin.domain.model.Video;
 import com.example.dolphin.infrastructure.consts.StringPool;
 import com.example.dolphin.infrastructure.listeners.UploadVideoListener;
 import com.example.dolphin.infrastructure.rest.Result;

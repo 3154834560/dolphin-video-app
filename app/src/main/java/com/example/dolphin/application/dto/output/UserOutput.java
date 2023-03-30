@@ -5,8 +5,8 @@ import android.annotation.SuppressLint;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 
-import com.example.dolphin.domain.entity.User;
 import com.example.dolphin.domain.enums.SexEnum;
+import com.example.dolphin.domain.model.User;
 import com.example.dolphin.infrastructure.consts.StringPool;
 
 import java.time.LocalDateTime;

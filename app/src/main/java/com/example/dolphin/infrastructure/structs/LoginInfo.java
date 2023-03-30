@@ -1,7 +1,6 @@
 package com.example.dolphin.infrastructure.structs;
 
-import com.example.dolphin.domain.entity.User;
-
+import com.example.dolphin.domain.model.User;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

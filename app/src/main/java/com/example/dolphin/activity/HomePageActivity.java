@@ -25,8 +25,8 @@ import com.example.dolphin.application.service.CollectionService;
 import com.example.dolphin.application.service.ConcernService;
 import com.example.dolphin.application.service.UserService;
 import com.example.dolphin.application.service.VideoService;
-import com.example.dolphin.domain.entity.User;
-import com.example.dolphin.domain.entity.Video;
+import com.example.dolphin.domain.model.User;
+import com.example.dolphin.domain.model.Video;
 import com.example.dolphin.infrastructure.adapter.FragmentPagerAdapter;
 import com.example.dolphin.infrastructure.consts.StringPool;
 import com.example.dolphin.infrastructure.listeners.FindTextListener;
@@ -37,7 +37,6 @@ import com.example.dolphin.infrastructure.listeners.JumpIconListener;
 import com.example.dolphin.infrastructure.listeners.RewardTextListener;
 import com.example.dolphin.infrastructure.listeners.SlideTextListener;
 import com.example.dolphin.infrastructure.listeners.UploadVideoListener;
-import com.example.dolphin.infrastructure.structs.LoginInfoJson;
 import com.example.dolphin.infrastructure.tool.BaseTool;
 import com.example.dolphin.infrastructure.tool.FileTool;
 import com.example.dolphin.infrastructure.tool.PermissionTool;
@@ -106,14 +105,10 @@ public class HomePageActivity extends AppCompatActivity {
         StringPool.LOGIN_INFO_FILE_PATH = StringPool.WORKING_PATH + StringPool.LOGIN_INFO_FILE_NAME;
         File loginFile = new File(StringPool.LOGIN_INFO_FILE_PATH);
         if (loginFile.exists()) {
-            LoginInfoJson loginUserInfo = userService.getLoginUserInfo(this);
-            if (loginUserInfo.getCurrentUser() != null) {
-                User user = userService.getBy(this, loginUserInfo.getCurrentUser().getLoggedUser().getUserName());
-                StringPool.INDEX = loginUserInfo.getCurrentUser().getIndex();
+            User localUser = userService.getLoginUserInfo(this);
+            if (localUser != null) {
+                User user = userService.getBy(this,localUser.getUserName());
                 userService.writeLoginInfo(this, user);
-                if (user == null) {
-                    StringPool.INDEX = 0;
-                }
                 StringPool.CURRENT_USER = user;
                 ConcernService concernService = new ConcernService();
                 concernService.getAllConcern(this);

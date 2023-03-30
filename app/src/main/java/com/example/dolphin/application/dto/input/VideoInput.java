@@ -1,7 +1,7 @@
 package com.example.dolphin.application.dto.input;
 
 
-import com.example.dolphin.domain.entity.Video;
+import com.example.dolphin.domain.model.Video;
 
 import lombok.Data;
 

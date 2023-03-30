@@ -13,8 +13,8 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.dolphin.R;
-import com.example.dolphin.domain.entity.User;
 import com.example.dolphin.domain.enums.SexEnum;
+import com.example.dolphin.domain.model.User;
 import com.example.dolphin.infrastructure.consts.StringPool;
 import com.example.dolphin.infrastructure.listeners.FemaleButtonListener;
 import com.example.dolphin.infrastructure.listeners.MaleButtonListener;

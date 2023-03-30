@@ -1,6 +1,6 @@
 package com.example.dolphin.api;
 
-import com.example.dolphin.domain.entity.Video;
+import com.example.dolphin.domain.model.Video;
 import com.example.dolphin.infrastructure.rest.Result;
 
 import java.util.List;

@@ -20,7 +20,7 @@ import com.example.dolphin.activity.tools.minesweeper.MinesweeperActivity;
 import com.example.dolphin.activity.tools.notepad.NotePadActivity;
 import com.example.dolphin.activity.tools.translate.TranslateActivity;
 import com.example.dolphin.application.service.UserService;
-import com.example.dolphin.domain.entity.User;
+import com.example.dolphin.domain.model.User;
 import com.example.dolphin.infrastructure.adapter.ToolListViewAdapter;
 import com.example.dolphin.infrastructure.consts.StringPool;
 import com.example.dolphin.infrastructure.structs.ToolListView;

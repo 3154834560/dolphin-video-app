@@ -17,9 +17,8 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.bumptech.glide.Glide;
 import com.example.dolphin.R;
 import com.example.dolphin.activity.fragment.VideoListViewFragment;
-import com.example.dolphin.application.service.ImageService;
 import com.example.dolphin.application.service.UserService;
-import com.example.dolphin.domain.entity.User;
+import com.example.dolphin.domain.model.User;
 import com.example.dolphin.infrastructure.adapter.FragmentPagerAdapter;
 import com.example.dolphin.infrastructure.consts.StringPool;
 import com.example.dolphin.infrastructure.listeners.HomePageTextListener;
@@ -47,8 +46,6 @@ import okhttp3.RequestBody;
  * @date 2022/11/16 19:51
  */
 public class MePageActivity extends AppCompatActivity {
-
-    private final ImageService imageService = new ImageService();
 
     private final UserService userService = new UserService();
 
@@ -90,7 +87,7 @@ public class MePageActivity extends AppCompatActivity {
         File file = new File(filePath);
         RequestBody requestFile = RequestBody.create(file, MediaType.parse("multipart/form-data"));
         MultipartBody.Part image = MultipartBody.Part.createFormData("image", file.getName(), requestFile);
-        String msg = imageService.uploadImage(this, image);
+        String msg = userService.updateHeadPortrait(this, image);
         StringPool.CURRENT_USER = userService.getBy(this, StringPool.CURRENT_USER.getUserName());
         userService.writeLoginInfo(this, StringPool.CURRENT_USER);
         CircleImageView headPortrait = findViewById(R.id.user_head_portrait);

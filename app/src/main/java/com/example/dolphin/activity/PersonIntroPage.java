@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.dolphin.R;
 import com.example.dolphin.application.dto.output.UserOutput;
-import com.example.dolphin.application.service.ImageService;
 import com.example.dolphin.application.service.UserService;
 import com.example.dolphin.infrastructure.consts.StringPool;
 import com.example.dolphin.infrastructure.tool.BaseTool;

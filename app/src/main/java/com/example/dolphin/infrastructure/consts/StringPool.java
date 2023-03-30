@@ -4,8 +4,8 @@ package com.example.dolphin.infrastructure.consts;
 import com.example.dolphin.application.dto.input.CollectionInput;
 import com.example.dolphin.application.dto.input.CommentInput;
 import com.example.dolphin.application.dto.input.ConcernInput;
-import com.example.dolphin.domain.entity.User;
-import com.example.dolphin.domain.entity.Video;
+import com.example.dolphin.domain.model.User;
+import com.example.dolphin.domain.model.Video;
 
 import java.io.File;
 import java.util.ArrayList;

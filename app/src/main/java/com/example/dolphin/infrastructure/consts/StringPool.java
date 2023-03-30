@@ -2,7 +2,7 @@ package com.example.dolphin.infrastructure.consts;
 
 
 import com.example.dolphin.application.dto.input.CollectionInput;
-import com.example.dolphin.domain.entity.Comment;
+import com.example.dolphin.application.dto.input.CommentInput;
 import com.example.dolphin.domain.entity.Concern;
 import com.example.dolphin.domain.entity.User;
 import com.example.dolphin.domain.entity.Video;
@@ -21,19 +21,25 @@ public class StringPool {
 
     public static boolean LOGIN = false;
 
-    public static File VIDEO = null;
+    public static File VIDEO;
 
-    public static File COVER = null;
+    public static File COVER;
 
-    public static User CURRENT_USER = null;
+    public static User CURRENT_USER;
 
-    public static List<Concern> CONCERN_LIST = null;
+    public static List<Concern> CONCERN_LIST;
+    /**
+     * key: 视频id
+     * value: 视频的评论
+     */
+    public static final Map<String, List<CommentInput>> COMMENT_INPUT_MAP = new HashMap<>();
+    /**
+     * key: 视频id
+     * value: 视频评论数量
+     */
+    public static final Map<String, Integer> COMMENT_COUNT_MAP = new HashMap<>();
 
-    public static Map<String, List<Comment>> COMMENT_MAP = new HashMap<>();
-
-    public static Map<String, Integer> COMMENT_COUNT_MAP = new HashMap<>();
-
-    public static List<CollectionInput> COLLECTION_INPUT_LIST = null;
+    public static List<CollectionInput> COLLECTION_INPUT_LIST;
 
     public static String RESOURCE_PATH = "";
 
@@ -57,9 +63,9 @@ public class StringPool {
 
     public static final String CURRENT_NOT_LOGIN = "当前未登录！";
 
-    public static final String Followed = "已关注";
+    public static final String FOLLOWED = "已关注";
 
-    public static final String Follow = "关注";
+    public static final String FOLLOW = "关注";
 
     public static String COM_EXAMPLE_DOLPHIN_PATH = "";
 

@@ -103,10 +103,10 @@ public class AuthorInfoActivity extends AppCompatActivity {
             introduction.setText(user.getIntroduction());
         }
         if (concernService.isConcern(author)) {
-            concernButton.setText(StringPool.Followed);
+            concernButton.setText(StringPool.FOLLOWED);
             concernButton.setBackground(getDrawable(R.drawable.shape_8));
         } else {
-            concernButton.setText(StringPool.Follow);
+            concernButton.setText(StringPool.FOLLOW);
             concernButton.setBackground(getDrawable(R.drawable.shape_2));
         }
         concernButton.setOnClickListener(new ConcernButtonListener(this, concernButton, author));

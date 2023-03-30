@@ -8,6 +8,7 @@ import androidx.annotation.RequiresApi;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
@@ -72,6 +73,14 @@ public class DateTimeTool {
     public static String dateToString(Date date, DateFormat dateFormat) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormat.getFormat());
         return simpleDateFormat.format(date);
+    }
+
+    /**
+     * 将秒数转换为LocalDateTime
+     */
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public static LocalDateTime toLocalDateTime(long seconds) {
+        return LocalDateTime.ofEpochSecond(seconds, 0, ZoneOffset.ofHours(8));
     }
 
     @SuppressWarnings("all")

@@ -2,10 +2,9 @@ package com.example.dolphin.application.dto.input;
 
 import android.annotation.SuppressLint;
 
-import com.example.dolphin.domain.entity.Comment;
+import com.example.dolphin.infrastructure.tool.DateTimeTool;
 
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 
 import lombok.Data;
 
@@ -41,14 +40,7 @@ public class CommentInput {
     private long createAt;
 
     @SuppressLint("NewApi")
-    public Comment copy() {
-        Comment comment = new Comment();
-        comment.setUserName(this.userName);
-        comment.setCommentId(this.commentId);
-        comment.setNick(this.nick);
-        comment.setHeadPortraitName(this.headPortraitName);
-        comment.setContent(this.content);
-        comment.setCreateAt(LocalDateTime.ofEpochSecond(this.createAt, 0, ZoneOffset.ofHours(8)));
-        return comment;
+    public LocalDateTime getCreateAt() {
+        return DateTimeTool.toLocalDateTime(createAt);
     }
 }

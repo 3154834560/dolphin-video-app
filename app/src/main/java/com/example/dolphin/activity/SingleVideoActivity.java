@@ -182,12 +182,11 @@ public class SingleVideoActivity extends AppCompatActivity {
         supportIcon.setOnClickListener(new SupportListener(this, video, supportIcon, supportNumber));
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     private void initComment(Video video) {
         ImageView commentIcon = findViewById(R.id.comment_icon);
         TextView commentNumber = findViewById(R.id.comment_number);
         CommentService service = new CommentService();
-        service.getAllComment(this, video.getId());
+        service.updateCommentBy(this, video.getId());
         commentIcon.setOnClickListener(new CommentListener(this, R.layout.comment_list, video.getId()));
         Integer commentCount = service.getCommentCount(this, video.getId());
         commentNumber.setText(BaseTool.numberToString(commentCount));

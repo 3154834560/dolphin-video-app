@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
-import android.os.Build;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,12 +16,10 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import androidx.annotation.RequiresApi;
-
 import com.example.dolphin.R;
 import com.example.dolphin.activity.AuthorInfoActivity;
+import com.example.dolphin.application.dto.input.CommentInput;
 import com.example.dolphin.application.service.CommentService;
-import com.example.dolphin.domain.entity.Comment;
 import com.example.dolphin.infrastructure.adapter.CommentListViewAdapter;
 import com.example.dolphin.infrastructure.consts.StringPool;
 import com.example.dolphin.infrastructure.structs.CommentListView;
@@ -49,7 +46,6 @@ public class CommentListener implements View.OnClickListener {
     private String videoId;
 
     @SuppressLint("SetTextI18n")
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onClick(View v) {
         //指明Dialog容器弹出的动画风格
@@ -71,7 +67,6 @@ public class CommentListener implements View.OnClickListener {
         bindDialogAndLayout(context, dialog, linear);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     private void commentListAddListener(ListView commentList) {
         int[] layoutIds = new int[]{R.id.comment_user_head_portrait, R.id.comment_user_nick,
                 R.id.comment_date_time, R.id.comment_content};
@@ -81,15 +76,15 @@ public class CommentListener implements View.OnClickListener {
         commentList.setAdapter(listViewAdapter);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
+    @SuppressLint("NewApi")
     public static List<Map<String, CommentListView>> getCommentData(Context context, String videoId) {
         List<Map<String, CommentListView>> listItems = new ArrayList<>();
         String[] itemNames = new String[]{"commentList"};
-        if (!StringPool.COMMENT_MAP.containsKey(videoId) || StringPool.COMMENT_MAP.get(videoId) == null) {
+        if (!StringPool.COMMENT_INPUT_MAP.containsKey(videoId) || StringPool.COMMENT_INPUT_MAP.get(videoId) == null) {
             CommentService service = new CommentService();
-            service.getAllComment(context, videoId);
+            service.updateCommentBy(context, videoId);
         }
-        for (Comment m : Objects.requireNonNull(StringPool.COMMENT_MAP.get(videoId))) {
+        for (CommentInput m : Objects.requireNonNull(StringPool.COMMENT_INPUT_MAP.getOrDefault(videoId, new ArrayList<>()))) {
             CommentListView commentListView = new CommentListView();
             commentListView.setContent(m.getContent());
             commentListView.setCreateAt(m.getCreateAt());

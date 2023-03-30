@@ -144,12 +144,11 @@ public class RecyclerItemHolder extends RecyclerView.ViewHolder {
         supportIcon.setOnClickListener(new SupportListener(v.getContext(), video, supportIcon, supportNumber));
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public void initComment(Video video) {
         ImageView commentIcon = v.findViewById(R.id.comment_icon);
         TextView commentNumber = v.findViewById(R.id.comment_number);
         CommentService service = new CommentService();
-        service.getAllComment(context, video.getId());
+        service.updateCommentBy(context, video.getId());
         commentIcon.setOnClickListener(new CommentListener(v.getContext(), R.layout.comment_list, video.getId()));
         Integer commentCount = service.getCommentCount(context, video.getId());
         commentNumber.setText(BaseTool.numberToString(commentCount));

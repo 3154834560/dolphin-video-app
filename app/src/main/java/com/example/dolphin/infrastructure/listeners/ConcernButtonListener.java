@@ -7,7 +7,6 @@ import android.widget.Button;
 
 import com.example.dolphin.R;
 import com.example.dolphin.application.service.ConcernService;
-import com.example.dolphin.application.service.UserService;
 import com.example.dolphin.infrastructure.consts.StringPool;
 
 import lombok.AllArgsConstructor;
@@ -30,12 +29,12 @@ public class ConcernButtonListener implements View.OnClickListener {
     @SuppressLint("UseCompatLoadingForDrawables")
     @Override
     public void onClick(View v) {
-        if (concernButton.getText().toString().equals(StringPool.Followed)) {
-            concernButton.setText(StringPool.Follow);
+        if (concernButton.getText().toString().equals(StringPool.FOLLOWED)) {
+            concernButton.setText(StringPool.FOLLOW);
             concernButton.setBackground(context.getDrawable(R.drawable.shape_2));
             concernService.unConcern(context, author);
         } else {
-            concernButton.setText(StringPool.Followed);
+            concernButton.setText(StringPool.FOLLOWED);
             concernButton.setBackground(context.getDrawable(R.drawable.shape_8));
             concernService.concern(context, author);
         }

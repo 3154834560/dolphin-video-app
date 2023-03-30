@@ -46,9 +46,8 @@ public class CommentSendListener implements View.OnClickListener {
     private void updateData() {
         TextView commentNumber = activity.findViewById(R.id.comment_number);
         ListView commentList = linearLayout.findViewById(R.id.comment_list_view);
-        commentNumber.setText(BaseTool.numberToString(StringPool.COMMENT_COUNT_MAP.get(videoId)));
+        commentNumber.setText(BaseTool.numberToString(StringPool.COMMENT_COUNT_MAP.getOrDefault(videoId, 0)));
         ((CommentListViewAdapter) commentList.getAdapter()).notifyDataSetChanged();
-
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -59,5 +58,6 @@ public class CommentSendListener implements View.OnClickListener {
         output.setUserName(StringPool.CURRENT_USER.getUserName());
         output.setVideoId(videoId);
         service.comment(linearLayout.getContext(), output);
+        editText.setText("");
     }
 }

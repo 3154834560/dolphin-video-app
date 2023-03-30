@@ -74,12 +74,10 @@ public class CommentListViewAdapter extends SimpleAdapter {
         return v;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void notifyDataSetChanged() {
         //刷新数据源
         mData.clear();
-        ;
         mData.addAll(CommentListener.getCommentData(context, videoId));
         //通知 ListView 刷新内容
         super.notifyDataSetChanged();

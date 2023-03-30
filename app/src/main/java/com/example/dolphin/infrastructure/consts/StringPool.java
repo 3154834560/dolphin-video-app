@@ -30,7 +30,7 @@ public class StringPool {
     /**
      * 缓存关注
      */
-    public static List<ConcernInput> CONCERN_LIST = new ArrayList<>();
+    public static List<ConcernInput> CONCERN_INPUT_LIST = new ArrayList<>();
     /**
      * 缓存评论
      * key: 视频id
@@ -158,7 +158,7 @@ public class StringPool {
 
     public static final Integer ZERO = 0;
 
-    public static final Integer EIGHT = 8;
+    public static final Integer TIME_ZONE = 8;
 
     public static final Integer ONE = 1;
 

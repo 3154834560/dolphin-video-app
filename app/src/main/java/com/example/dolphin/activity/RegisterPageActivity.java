@@ -20,13 +20,15 @@ import com.example.dolphin.infrastructure.listeners.FemaleButtonListener;
 import com.example.dolphin.infrastructure.listeners.MaleButtonListener;
 import com.example.dolphin.infrastructure.listeners.RegisterButtonListener;
 import com.example.dolphin.infrastructure.tool.BaseTool;
+import com.example.dolphin.infrastructure.tool.DateTimeTool;
 
-import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 
 /**
+ * todo
+ *
  * @author 王景阳
  * @date 2022/11/14 17:47
  */
@@ -72,7 +74,7 @@ public class RegisterPageActivity extends AppCompatActivity {
         } else {
             female.setChecked(true);
         }
-        if (user.getBirthday().toEpochSecond(ZoneOffset.ofHours(StringPool.EIGHT)) != StringPool.ZERO) {
+        if (DateTimeTool.toLong(user.getBirthday()) != StringPool.ZERO) {
             birthday.setText(DateTimeFormatter.ofPattern("yyyy.MM.dd").format(user.getBirthday()));
         }
         button.setText(StringPool.UPDATE);

@@ -16,21 +16,19 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.dolphin.R;
-import com.example.dolphin.application.service.VideoService;
 import com.example.dolphin.infrastructure.adapter.ViewPagerAdapter;
+import com.example.dolphin.infrastructure.callbacks.VideoPageCallback;
 import com.example.dolphin.infrastructure.consts.StringPool;
-import com.example.dolphin.infrastructure.holder.RecyclerItemHolder;
 import com.example.dolphin.infrastructure.tool.VideoTool;
-import com.shuyu.gsyvideoplayer.GSYVideoManager;
 
 /**
+ * 视频滑动播放页面
+ *
  * @author 王景阳
  * @date 2022/10/10 16:47
  */
 
 public class FindFragment extends Fragment {
-
-    private final VideoService videoService = new VideoService();
 
     @SuppressLint("StaticFieldLeak")
     private static ViewPagerAdapter pagerAdapter;
@@ -56,48 +54,13 @@ public class FindFragment extends Fragment {
 
     private void initViewPager2(Context context, ViewPager2 viewPager2) {
         pagerAdapter = new ViewPagerAdapter(context, StringPool.videos);
-        addPagerAdapter(viewPager2, pagerAdapter);
+        addPagerAdapter(context, viewPager2, pagerAdapter);
     }
 
-    private void addPagerAdapter(ViewPager2 viewPager2, ViewPagerAdapter pagerAdapter) {
+    private void addPagerAdapter(Context context, ViewPager2 viewPager2, ViewPagerAdapter pagerAdapter) {
         viewPager2.setOrientation(ViewPager2.ORIENTATION_VERTICAL);
         viewPager2.setAdapter(pagerAdapter);
-        viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-
-            boolean first = true;
-
-            boolean upIsZero = true;
-
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                super.onPageScrolled(position, positionOffset, positionOffsetPixels);
-                if (!first && position + positionOffset + positionOffsetPixels == 0 && upIsZero) {
-                    VideoTool.stopPlay(FindFragment.getViewPager2());
-                    videoService.updateVideo(getContext());
-                }
-                if (first) {
-                    first = false;
-                }
-                upIsZero = position + positionOffset + positionOffsetPixels == 0;
-            }
-
-
-            @Override
-            public void onPageSelected(int position) {
-                super.onPageSelected(position);
-                // 大于0说明有播放
-                int playPosition = GSYVideoManager.instance().getPlayPosition();
-                if (Math.abs(StringPool.videos.size() - playPosition + 1) <= StringPool.VIDEO_UPDATE_DOT) {
-                    videoService.addVideo(getContext());
-                } else if (playPosition >= 0) {
-                    // 对应的播放列表TAG
-                    if (GSYVideoManager.instance().getPlayTag().equals(RecyclerItemHolder.TAG)
-                            && (position != playPosition)) {
-                        VideoTool.startPlay(viewPager2);
-                    }
-                }
-            }
-        });
+        viewPager2.registerOnPageChangeCallback(new VideoPageCallback(context, viewPager2));
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)

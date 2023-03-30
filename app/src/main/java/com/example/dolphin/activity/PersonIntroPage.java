@@ -15,6 +15,8 @@ import com.example.dolphin.infrastructure.consts.StringPool;
 import com.example.dolphin.infrastructure.tool.BaseTool;
 
 /**
+ * 个人信息页面
+ *
  * @author 王景阳
  * @date 2022/11/18 21:06
  */

@@ -81,12 +81,9 @@ public class RecyclerItemHolder extends RecyclerView.ViewHolder {
         gsyVideoPlayer.getBackButton().setVisibility(View.GONE);
 
         //设置全屏按键功能
-        gsyVideoPlayer.getFullscreenButton().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //全屏幕按键处理
-                gsyVideoPlayer.startWindowFullscreen(context, true, true);
-            }
+        gsyVideoPlayer.getFullscreenButton().setOnClickListener(v -> {
+            //全屏幕按键处理
+            gsyVideoPlayer.startWindowFullscreen(context, true, true);
         });
     }
 

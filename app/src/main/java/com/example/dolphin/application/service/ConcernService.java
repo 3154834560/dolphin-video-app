@@ -32,21 +32,21 @@ public class ConcernService {
         try {
             Call<Result<List<ConcernInput>>> call = CONCERN_API.getAllConcern(StringPool.CURRENT_USER.getUserName());
             Result<List<ConcernInput>> result = ApiTool.sendRequest(call);
-            StringPool.CONCERN_LIST = result.getData();
+            StringPool.CONCERN_INPUT_LIST = result.getData();
         } catch (Exception e) {
             BaseTool.shortToast(context, StringPool.NOT_NETWORK);
         }
-        return StringPool.CONCERN_LIST;
+        return StringPool.CONCERN_INPUT_LIST;
     }
 
     /**
      * 是否关注指定用户
      */
     public boolean isConcern(String userName) {
-        if (StringPool.CONCERN_LIST.isEmpty()) {
+        if (StringPool.CONCERN_INPUT_LIST.isEmpty()) {
             return false;
         }
-        for (ConcernInput concern : StringPool.CONCERN_LIST) {
+        for (ConcernInput concern : StringPool.CONCERN_INPUT_LIST) {
             if (concern.getUserName().equals(userName)) {
                 return true;
             }
@@ -61,7 +61,7 @@ public class ConcernService {
         try {
             Call<Result<Boolean>> call = CONCERN_API.concern(StringPool.CURRENT_USER.getUserName(), concernedUserName);
             ApiTool.sendRequest(call);
-            StringPool.CONCERN_LIST.add(new ConcernInput(concernedUserName));
+            StringPool.CONCERN_INPUT_LIST.add(new ConcernInput(concernedUserName));
         } catch (Exception e) {
             BaseTool.shortToast(context, StringPool.NOT_NETWORK);
         }
@@ -75,7 +75,7 @@ public class ConcernService {
         try {
             Call<Result<Boolean>> call = CONCERN_API.unconcern(StringPool.CURRENT_USER.getUserName(), concernedUserName);
             ApiTool.sendRequest(call);
-            StringPool.CONCERN_LIST.removeIf(c -> c.getUserName().equals(concernedUserName));
+            StringPool.CONCERN_INPUT_LIST.removeIf(c -> c.getUserName().equals(concernedUserName));
         } catch (Exception e) {
             BaseTool.shortToast(context, StringPool.NOT_NETWORK);
         }

@@ -35,6 +35,8 @@ import java.util.Map;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
+ * 更多页面
+ *
  * @author 王景阳
  * @date 2022/11/19 19:45
  */
@@ -84,18 +86,24 @@ public class MorePageActivity extends AppCompatActivity {
 
     private void initData() {
         User user = StringPool.CURRENT_USER;
-        LinearLayout linear = findViewById(R.id.more_linear);
-        CircleImageView headPortrait = findViewById(R.id.more_head);
         TextView nick = findViewById(R.id.more_nick);
         Button logOut = findViewById(R.id.log_out);
-
         BaseTool.setTextTypeFace(nick, getAssets());
         BaseTool.setButtonTypeFace(logOut, getAssets());
+        initLinear(user);
+        initLogOutButton(user, nick, logOut);
+    }
 
+    private void initLinear(User user) {
+        LinearLayout linear = findViewById(R.id.more_linear);
         linear.setOnClickListener(v -> {
             startActivity(new Intent(MorePageActivity.this, user == null ? LoginPageActivity.class : MePageActivity.class));
             finish();
         });
+    }
+
+    private void initLogOutButton(User user, TextView nick, Button logOut) {
+        CircleImageView headPortrait = findViewById(R.id.more_head);
         if (user != null) {
             Glide.with(this).load(BaseTool.toStaticImagesUrl(user.getHeadPortraitName())).into(headPortrait);
             nick.setText(user.getNick());
@@ -103,15 +111,13 @@ public class MorePageActivity extends AppCompatActivity {
                 UserService userService = new UserService();
                 userService.quitLogin(MorePageActivity.this);
                 StringPool.CURRENT_USER = null;
-                StringPool.CONCERN_LIST.clear();
+                StringPool.CONCERN_INPUT_LIST.clear();
                 StringPool.COLLECTION_INPUT_LIST.clear();
                 finish();
             });
         } else {
             nick.setText(StringPool.NOT_LOGIN);
-            logOut.setOnClickListener(v -> {
-                BaseTool.shortToast(MorePageActivity.this, StringPool.CURRENT_NOT_LOGIN);
-            });
+            logOut.setOnClickListener(v -> BaseTool.shortToast(MorePageActivity.this, StringPool.CURRENT_NOT_LOGIN));
         }
     }
 }

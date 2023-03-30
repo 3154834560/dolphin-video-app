@@ -16,13 +16,12 @@ import com.example.dolphin.infrastructure.listeners.LoginButtonListener;
 import com.example.dolphin.infrastructure.listeners.ProtocolButtonListener;
 import com.example.dolphin.infrastructure.tool.BaseTool;
 
-import java.io.File;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 /**
+ * 登录页面
+ *
  * @author 王景阳
  * @date 2022/11/13 20:56
  */

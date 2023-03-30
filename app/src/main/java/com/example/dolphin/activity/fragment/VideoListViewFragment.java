@@ -19,19 +19,20 @@ import com.example.dolphin.application.dto.input.VideoInput;
 import com.example.dolphin.application.service.CollectionService;
 import com.example.dolphin.application.service.ConcernService;
 import com.example.dolphin.application.service.VideoService;
-import com.example.dolphin.infrastructure.adapter.VideoListViewAdapter;
 import com.example.dolphin.infrastructure.consts.StringPool;
 import com.example.dolphin.infrastructure.structs.VideoListView;
+import com.example.dolphin.infrastructure.tool.AdapterTool;
 import com.example.dolphin.infrastructure.tool.BaseTool;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 
 /**
+ * 使用ListView的形式显示视频
+ * type表示当前ListView显示的界面类型
+ *
  * @author 王景阳
  * @date 2022/10/10 16:47
  */
@@ -39,12 +40,26 @@ public class VideoListViewFragment extends Fragment {
 
     private View inflate;
 
+    /**
+     * listview离顶部的距离
+     */
     private final int marginTop;
 
+    /**
+     * 0 表示是“我的作品”
+     * 1 表示是“关注”
+     * 2 表示是“收藏”
+     */
     private final int type;
 
+    /**
+     * listview背景颜色
+     */
     private final int backgroundColor;
 
+    /**
+     * listview上面的文字
+     */
     private final TextView textView;
 
     public VideoListViewFragment(TextView textView, int marginTop, int type, int backgroundColor) {
@@ -62,61 +77,56 @@ public class VideoListViewFragment extends Fragment {
         return inflate;
     }
 
+    private ListView listView;
+    /**
+     * 保存listview数据
+     */
+    private final List<Map<String, VideoListView>> listItems = new ArrayList<>();
+
     @SuppressLint("NewApi")
     private void initData() {
-        ListView listView = inflate.findViewById(R.id.concern_list_view);
+        listView = inflate.findViewById(R.id.concern_list_view);
         listView.setBackgroundColor(inflate.getContext().getColor(backgroundColor));
         listView.setTranslationY(marginTop);
         TextView textView = inflate.findViewById(R.id.concern_not_logging);
         BaseTool.setTextTypeFace(textView, inflate.getContext().getAssets());
         if (StringPool.CURRENT_USER != null) {
             textView.setVisibility(View.INVISIBLE);
-            addAdapter(listView);
+            AdapterTool.addVideoListViewAdapter(inflate.getContext(), listView, listItems, getData());
         } else {
             textView.setVisibility(View.VISIBLE);
         }
     }
 
-    private void addAdapter(ListView listView) {
-        List<VideoListView> dataList = getData();
-        List<Map<String, VideoListView>> listItems = new ArrayList<>();
-        String[] itemNames = new String[]{"video1", "video2", "video3"};
-        int[] layoutIds = new int[]{R.id.concern_video_1, R.id.concern_video_2, R.id.concern_video_3};
-        List<List<Integer>> childLayoutIds = new ArrayList<List<Integer>>() {{
-            add(Arrays.asList(R.id.concern_video_image_1, R.id.concern_support_image_1, R.id.concern_support_number_1));
-            add(Arrays.asList(R.id.concern_video_image_2, R.id.concern_support_image_2, R.id.concern_support_number_2));
-            add(Arrays.asList(R.id.concern_video_image_3, R.id.concern_support_image_3, R.id.concern_support_number_3));
-        }};
-        for (int i = 0; i < dataList.size(); i += 3) {
-            Map<String, VideoListView> listItem = new HashMap<>(3);
-            listItem.put(itemNames[0], dataList.get(i).setChildLayoutIds(childLayoutIds.get(0)));
-            listItem.put(itemNames[1], i + 1 >= dataList.size() ? new VideoListView().setChildLayoutIds(childLayoutIds.get(1)) : dataList.get(i + 1).setChildLayoutIds(childLayoutIds.get(1)));
-            listItem.put(itemNames[2], i + 2 >= dataList.size() ? new VideoListView().setChildLayoutIds(childLayoutIds.get(2)) : dataList.get(i + 2).setChildLayoutIds(childLayoutIds.get(2)));
-            listItems.add(listItem);
-        }
-        VideoListViewAdapter listViewAdapter = new VideoListViewAdapter(inflate.getContext(), listItems, R.layout.video_list_view_page, itemNames, layoutIds, false);
-        listView.setAdapter(listViewAdapter);
-    }
-
     @SuppressLint({"NewApi", "SetTextI18n"})
     private List<VideoListView> getData() {
         List<VideoListView> dataList = new ArrayList<>();
-        VideoService videoService = new VideoService();
-        ConcernService concernService = new ConcernService();
-        CollectionService collectionService = new CollectionService();
         if (type == StringPool.CONCERN) {
-            List<ConcernInput> concernList = concernService.getAllConcern(inflate.getContext());
-            for (ConcernInput concern : concernList) {
-                List<VideoInput> videos = videoService.getAll(inflate.getContext(), concern.getUserName());
-                videos.forEach(video -> dataList.add(VideoListView.copy(inflate.getContext(), video, videoService)));
-            }
+            addConcernTypeData(dataList);
         } else if (type == StringPool.WORKS) {
-            List<VideoInput> videos = videoService.getAll(inflate.getContext(), StringPool.CURRENT_USER.getUserName());
-            videos.forEach(video -> dataList.add(VideoListView.copy(inflate.getContext(), video, videoService)));
+            addWorksTypeData(dataList);
         } else if (type == StringPool.COLLECTION) {
-            List<CollectionInput> inputs = collectionService.getAllCollection(inflate.getContext());
-            inputs.forEach(collection -> dataList.add(VideoListView.copy(inflate.getContext(), collection, videoService)));
+            addCollectionTypeData(dataList);
         }
+        initTextView(textView, dataList);
+        return dataList;
+    }
+
+    /**
+     * 回调时刷新数据
+     */
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (inflate != null) {
+            listItems.clear();
+            AdapterTool.videoListVideoInitData(listItems, getData());
+            listView.invalidateViews();
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void initTextView(TextView textView, List<VideoListView> dataList) {
         if (textView != null) {
             String str = textView.getText().toString();
             if (str.contains(StringPool.SPACE)) {
@@ -124,15 +134,31 @@ public class VideoListViewFragment extends Fragment {
             }
             textView.setText(str + StringPool.SPACE + dataList.size());
         }
-        return dataList;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (inflate != null) {
-            initData();
+    @SuppressLint("NewApi")
+    private void addCollectionTypeData(List<VideoListView> dataList) {
+        CollectionService collectionService = new CollectionService();
+        VideoService videoService = new VideoService();
+        List<CollectionInput> inputs = collectionService.getAllCollection(inflate.getContext());
+        inputs.forEach(collection -> dataList.add(VideoListView.copy(inflate.getContext(), collection, videoService)));
+    }
+
+    @SuppressLint("NewApi")
+    private void addWorksTypeData(List<VideoListView> dataList) {
+        VideoService videoService = new VideoService();
+        List<VideoInput> videos = videoService.getAll(inflate.getContext(), StringPool.CURRENT_USER.getUserName());
+        videos.forEach(video -> dataList.add(VideoListView.copy(inflate.getContext(), video, videoService)));
+    }
+
+    @SuppressLint("NewApi")
+    private void addConcernTypeData(List<VideoListView> dataList) {
+        ConcernService concernService = new ConcernService();
+        VideoService videoService = new VideoService();
+        List<ConcernInput> concernList = concernService.getAllConcern(inflate.getContext());
+        for (ConcernInput concern : concernList) {
+            List<VideoInput> videos = videoService.getAll(inflate.getContext(), concern.getUserName());
+            videos.forEach(video -> dataList.add(VideoListView.copy(inflate.getContext(), video, videoService)));
         }
     }
-
 }

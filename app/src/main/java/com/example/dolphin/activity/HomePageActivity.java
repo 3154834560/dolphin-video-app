@@ -49,6 +49,8 @@ import java.util.List;
 
 
 /**
+ * 首页
+ *
  * @author 王景阳
  * @date 2022/10/27 16:28
  */
@@ -74,20 +76,17 @@ public class HomePageActivity extends AppCompatActivity {
 
     /**
      * 响应授权
-     * 这里不管用户是否拒绝，都进入首页，不再重复申请权限
      */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case PermissionTool.PERMISSION_REQUEST:
-                break;
-            default:
-                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-                break;
+        if (requestCode != PermissionTool.PERMISSION_REQUEST) {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
 
-
+    /**
+     * 初始化数据
+     */
     private void initData() {
         initTopData();
         initBottomData();
@@ -98,16 +97,20 @@ public class HomePageActivity extends AppCompatActivity {
         StringPool.WORKING_PATH = getFilesDir().getAbsolutePath() + File.separator;
         StringPool.RESOURCE_PATH = "android.resource://" + getPackageName() + "/";
         StringPool.COM_EXAMPLE_DOLPHIN_PATH = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "com.example.dolphin";
+        StringPool.LOGIN_INFO_FILE_PATH = StringPool.WORKING_PATH + StringPool.LOGIN_INFO_FILE_NAME;
         File file = new File(StringPool.COM_EXAMPLE_DOLPHIN_PATH);
         if (!file.exists()) {
             file.mkdirs();
         }
-        StringPool.LOGIN_INFO_FILE_PATH = StringPool.WORKING_PATH + StringPool.LOGIN_INFO_FILE_NAME;
+        checkLogin();
+    }
+
+    private void checkLogin() {
         File loginFile = new File(StringPool.LOGIN_INFO_FILE_PATH);
         if (loginFile.exists()) {
             User localUser = userService.getLoginUserInfo(this);
             if (localUser != null) {
-                User user = userService.getBy(this,localUser.getUserName());
+                User user = userService.getBy(this, localUser.getUserName());
                 userService.writeLoginInfo(this, user);
                 StringPool.CURRENT_USER = user;
                 ConcernService concernService = new ConcernService();
@@ -118,7 +121,6 @@ public class HomePageActivity extends AppCompatActivity {
         } else {
             FileTool.createFile(StringPool.LOGIN_INFO_FILE_NAME);
         }
-
     }
 
     private void initVideoList() {
@@ -126,7 +128,6 @@ public class HomePageActivity extends AppCompatActivity {
         if (videos.size() > 0) {
             StringPool.videos.addAll(videos);
         }
-        //HomePageActivity.initVideos(StringPool.videos);
     }
 
     private void initTopData() {
@@ -140,10 +141,9 @@ public class HomePageActivity extends AppCompatActivity {
                 , new SlideTextListener(viewPager2, 1)
                 , new FindTextListener(viewPager2, 2)
                 , new HintLoginTextListener(this, LoginPageActivity.class));
-
         BaseTool.addOnClickListener(topTexts, topListeners);
-        more.setOnClickListener(v -> startActivity(new Intent(HomePageActivity.this, MorePageActivity.class)));
         BaseTool.setTextTypeFace(topTexts, getAssets());
+        more.setOnClickListener(v -> startActivity(new Intent(HomePageActivity.this, MorePageActivity.class)));
     }
 
     private void initBottomData() {
@@ -168,12 +168,18 @@ public class HomePageActivity extends AppCompatActivity {
         viewPager2.registerOnPageChangeCallback(new HomePageViewListener(getResources(), topTexts, R.drawable.underline1));
     }
 
+    /**
+     * 离开首页时停止视频播放
+     */
     @Override
     public void onPause() {
         super.onPause();
         VideoTool.stopPlay(FindFragment.getViewPager2());
     }
 
+    /**
+     * 返回界面时刷新界面数据
+     */
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onResume() {
@@ -188,6 +194,9 @@ public class HomePageActivity extends AppCompatActivity {
 
     private long upDownTime = 0;
 
+    /**
+     * 连续点击退出键时退出程序
+     */
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         count++;
@@ -199,23 +208,21 @@ public class HomePageActivity extends AppCompatActivity {
             if (System.currentTimeMillis() - upDownTime <= 500) {
                 return super.onKeyDown(keyCode, event);
             } else {
-                count = 1;
-                BaseTool.shortToast(this, "再按一次返回键退出 ");
                 upDownTime = System.currentTimeMillis();
             }
         }
         return false;
     }
 
+    /**
+     * 退出程序时清除缓存
+     */
     @SuppressLint("NotifyDataSetChanged")
     @Override
     protected void onDestroy() {
         super.onDestroy();
         GSYVideoManager.releaseAllVideos();
         GSYVideoManager.instance().clearAllDefaultCache(this);
-/*        VideoTool.destroyPlay(FindFragment.getViewPager2());
-        FindFragment.getPagerAdapter().notifyDataSetChanged();
-        BaseTool.clearCache(this);*/
         userService.writeLoginInfo(this, StringPool.CURRENT_USER);
     }
 }

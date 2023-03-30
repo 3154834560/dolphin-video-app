@@ -15,6 +15,8 @@ import com.example.dolphin.infrastructure.tool.BaseTool;
 
 
 /**
+ * 打赏页面
+ *
  * @author 王景阳
  * @date 2022/10/10 16:47
  */

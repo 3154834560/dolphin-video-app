@@ -27,11 +27,10 @@ import com.example.dolphin.infrastructure.listeners.JumpIconListener;
 import com.example.dolphin.infrastructure.listeners.SlideTextListener;
 import com.example.dolphin.infrastructure.listeners.VideoAndImageListener;
 import com.example.dolphin.infrastructure.tool.BaseTool;
+import com.example.dolphin.infrastructure.tool.DateTimeTool;
 import com.example.dolphin.infrastructure.util.RealPathFromUriUtil;
 
 import java.io.File;
-import java.time.ZoneOffset;
-import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 
@@ -42,6 +41,8 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 
 /**
+ * 我的信息页面
+ *
  * @author 王景阳
  * @date 2022/11/16 19:51
  */
@@ -67,10 +68,10 @@ public class MePageActivity extends AppCompatActivity {
         }
         switch (requestCode) {
             case StringPool.IMAGE_CODE * StringPool.ALBUM_CODE:
-                updateHeadPortraitUrl(data.getData());
+                updateHeadPortrait(data.getData());
                 break;
             case StringPool.IMAGE_CODE * StringPool.CAMERA_CODE:
-                updateHeadPortraitUrl(data.getData());
+                updateHeadPortrait(data.getData());
                 break;
             default:
                 break;
@@ -78,7 +79,7 @@ public class MePageActivity extends AppCompatActivity {
     }
 
     @SuppressLint("NewApi")
-    private void updateHeadPortraitUrl(Uri uri) {
+    private void updateHeadPortrait(Uri uri) {
         String filePath = RealPathFromUriUtil.getFilePathByUri(this, uri);
         if (filePath == null) {
             BaseTool.shortToast(this, StringPool.UPLOAD_FAIL);
@@ -118,10 +119,47 @@ public class MePageActivity extends AppCompatActivity {
         viewPager2.registerOnPageChangeCallback(new HomePageViewListener(getResources(), texts, R.drawable.underline3));
     }
 
+    private void initBottomData() {
+        TextView homePageText = findViewById(R.id.home_page);
+        ImageView uploadImage = findViewById(R.id.upload_video_icon);
+        TextView meText = findViewById(R.id.me);
+        BaseTool.setTextTypeFace(homePageText, getAssets());
+        BaseTool.setTextTypeFace(meText, getAssets());
+        homePageText.setOnClickListener(new HomePageTextListener(this, MePageActivity.class, HomePageActivity.class, null));
+        meText.setOnClickListener(new JumpIconListener(this, MePageActivity.class, MePageActivity.class));
+        uploadImage.setOnClickListener(new JumpIconListener(this, LoginPageActivity.class, UploadPageActivity.class));
+    }
+
     @SuppressLint("NewApi")
     private void initTopData() {
         User user = StringPool.CURRENT_USER;
         CircleImageView headPortrait = findViewById(R.id.user_head_portrait);
+        initTopTextTypeFace();
+        initTopTextContent(user);
+        BaseTool.setButtonTypeFace((Button) findViewById(R.id.modify_info), getAssets());
+        Glide.with(this).load(BaseTool.toStaticImagesUrl(user.getHeadPortraitName())).into(headPortrait);
+    }
+
+    private void initTopTextContent(User user) {
+        TextView nick = findViewById(R.id.me_page_nick2);
+        TextView userName = findViewById(R.id.me_page_user_name2);
+        TextView sex = findViewById(R.id.me_page_sex2);
+        TextView birthday = findViewById(R.id.me_page_birthday2);
+        TextView phone = findViewById(R.id.me_page_phone2);
+        TextView introduction = findViewById(R.id.me_page_introduction);
+        nick.setText(user.getNick());
+        sex.setText(user.getSex().getSex());
+        userName.setText(user.getUserName());
+        if (DateTimeTool.toLong(user.getBirthday()) != StringPool.ZERO) {
+            birthday.setText(DateTimeTool.dateToString(user.getBirthday(), DateTimeTool.DateFormat.SIX));
+        }
+        if (user.getIntroduction() != null && !user.getIntroduction().trim().isEmpty()) {
+            introduction.setText(user.getIntroduction());
+        }
+        phone.setText(user.getPhone());
+    }
+
+    private void initTopTextTypeFace() {
         TextView nick = findViewById(R.id.me_page_nick2);
         TextView userName = findViewById(R.id.me_page_user_name2);
         TextView sex = findViewById(R.id.me_page_sex2);
@@ -133,29 +171,7 @@ public class MePageActivity extends AppCompatActivity {
                 findViewById(R.id.me_page_user_name1), findViewById(R.id.me_page_birthday1),
                 findViewById(R.id.works), findViewById(R.id.follow), findViewById(R.id.collection),
                 findViewById(R.id.me_page_phone1)), getAssets());
-        BaseTool.setButtonTypeFace((Button) findViewById(R.id.modify_info), getAssets());
-        Glide.with(this).load(BaseTool.toStaticImagesUrl(user.getHeadPortraitName())).into(headPortrait);
-        nick.setText(user.getNick());
-        sex.setText(user.getSex().getSex());
-        userName.setText(user.getUserName());
-        if (user.getBirthday().toEpochSecond(ZoneOffset.ofHours(StringPool.EIGHT)) != StringPool.ZERO) {
-            birthday.setText(DateTimeFormatter.ofPattern("yyyy年MM月dd日").format(user.getBirthday()));
-        }
-        if (user.getIntroduction() != null && !user.getIntroduction().trim().isEmpty()) {
-            introduction.setText(user.getIntroduction());
-        }
-        phone.setText(user.getPhone());
-    }
 
-    private void initBottomData() {
-        TextView homePageText = findViewById(R.id.home_page);
-        ImageView uploadImage = findViewById(R.id.upload_video_icon);
-        TextView meText = findViewById(R.id.me);
-        BaseTool.setTextTypeFace(homePageText, getAssets());
-        BaseTool.setTextTypeFace(meText, getAssets());
-        homePageText.setOnClickListener(new HomePageTextListener(this, MePageActivity.class, HomePageActivity.class, null));
-        meText.setOnClickListener(new JumpIconListener(this, MePageActivity.class, MePageActivity.class));
-        uploadImage.setOnClickListener(new JumpIconListener(this, LoginPageActivity.class, UploadPageActivity.class));
     }
 
     @Override

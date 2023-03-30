@@ -1,9 +1,8 @@
 package com.example.dolphin.infrastructure.tool;
 
 import android.annotation.SuppressLint;
-import android.os.Build;
 
-import androidx.annotation.RequiresApi;
+import com.example.dolphin.infrastructure.consts.StringPool;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -25,7 +24,7 @@ public class DateTimeTool {
      * @param str 传入字符串
      * @return 返回日期
      */
-    @RequiresApi(api = Build.VERSION_CODES.O)
+    @SuppressLint("NewApi")
     public static LocalDateTime strToLocalDateTime(String str, DateFormat dateFormat) {
         LocalDateTime date = null;
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(dateFormat.getFormat());
@@ -39,7 +38,7 @@ public class DateTimeTool {
      * @param date 传入日期
      * @return 返回字符串
      */
-    @RequiresApi(api = Build.VERSION_CODES.O)
+    @SuppressLint("NewApi")
     public static String dateToString(LocalDateTime date, DateFormat dateFormat) {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(dateFormat.getFormat());
         return dateTimeFormatter.format(date);
@@ -78,9 +77,14 @@ public class DateTimeTool {
     /**
      * 将秒数转换为LocalDateTime
      */
-    @RequiresApi(api = Build.VERSION_CODES.O)
+    @SuppressLint("NewApi")
     public static LocalDateTime toLocalDateTime(long seconds) {
         return LocalDateTime.ofEpochSecond(seconds, 0, ZoneOffset.ofHours(8));
+    }
+
+    @SuppressLint("NewApi")
+    public static long toLong(LocalDateTime localDateTime) {
+        return localDateTime.toEpochSecond(ZoneOffset.ofHours(StringPool.TIME_ZONE));
     }
 
     @SuppressWarnings("all")
@@ -90,7 +94,8 @@ public class DateTimeTool {
         TOW(2, "yyyy-MM-dd"),
         THREE(3, "HH:mm:ss"),
         FOUR(4, "yyyy/MM/dd HH:mm:ss"),
-        FIVE(5, "yyyy年MM月dd日 HH时mm分ss秒");
+        FIVE(5, "yyyy年MM月dd日 HH时mm分ss秒"),
+        SIX(6, "yyyy年MM月dd日");
 
         DateFormat(int index, String format) {
             this.index = index;

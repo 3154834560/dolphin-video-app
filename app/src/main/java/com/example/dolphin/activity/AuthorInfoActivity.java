@@ -13,11 +13,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.example.dolphin.R;
+import com.example.dolphin.application.dto.input.VideoInput;
 import com.example.dolphin.application.service.ConcernService;
 import com.example.dolphin.application.service.UserService;
 import com.example.dolphin.application.service.VideoService;
 import com.example.dolphin.domain.model.User;
-import com.example.dolphin.domain.model.Video;
 import com.example.dolphin.infrastructure.adapter.VideoListViewAdapter;
 import com.example.dolphin.infrastructure.consts.StringPool;
 import com.example.dolphin.infrastructure.listeners.ConcernButtonListener;
@@ -142,7 +142,7 @@ public class AuthorInfoActivity extends AppCompatActivity {
     private List<VideoListView> getVideos(String author) {
         VideoService videoService = new VideoService();
         List<VideoListView> dataList = new ArrayList<>();
-        List<Video> videos = videoService.getAll(this, author);
+        List<VideoInput> videos = videoService.getAll(this, author);
         videos.forEach(video -> dataList.add(VideoListView.copy(this, video, videoService)));
         return dataList;
     }

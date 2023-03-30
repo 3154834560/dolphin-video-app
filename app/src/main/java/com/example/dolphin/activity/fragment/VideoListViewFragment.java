@@ -15,10 +15,10 @@ import androidx.fragment.app.Fragment;
 import com.example.dolphin.R;
 import com.example.dolphin.application.dto.input.CollectionInput;
 import com.example.dolphin.application.dto.input.ConcernInput;
+import com.example.dolphin.application.dto.input.VideoInput;
 import com.example.dolphin.application.service.CollectionService;
 import com.example.dolphin.application.service.ConcernService;
 import com.example.dolphin.application.service.VideoService;
-import com.example.dolphin.domain.model.Video;
 import com.example.dolphin.infrastructure.adapter.VideoListViewAdapter;
 import com.example.dolphin.infrastructure.consts.StringPool;
 import com.example.dolphin.infrastructure.structs.VideoListView;
@@ -107,11 +107,11 @@ public class VideoListViewFragment extends Fragment {
         if (type == StringPool.CONCERN) {
             List<ConcernInput> concernList = concernService.getAllConcern(inflate.getContext());
             for (ConcernInput concern : concernList) {
-                List<Video> videos = videoService.getAll(inflate.getContext(), concern.getUserName());
+                List<VideoInput> videos = videoService.getAll(inflate.getContext(), concern.getUserName());
                 videos.forEach(video -> dataList.add(VideoListView.copy(inflate.getContext(), video, videoService)));
             }
         } else if (type == StringPool.WORKS) {
-            List<Video> videos = videoService.getAll(inflate.getContext(), StringPool.CURRENT_USER.getUserName());
+            List<VideoInput> videos = videoService.getAll(inflate.getContext(), StringPool.CURRENT_USER.getUserName());
             videos.forEach(video -> dataList.add(VideoListView.copy(inflate.getContext(), video, videoService)));
         } else if (type == StringPool.COLLECTION) {
             List<CollectionInput> inputs = collectionService.getAllCollection(inflate.getContext());

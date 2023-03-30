@@ -6,6 +6,7 @@ import android.content.Context;
 import com.alibaba.fastjson.JSON;
 import com.example.dolphin.activity.fragment.FindFragment;
 import com.example.dolphin.api.VideoApi;
+import com.example.dolphin.application.dto.input.VideoInput;
 import com.example.dolphin.application.dto.output.VideoOutput;
 import com.example.dolphin.domain.model.Video;
 import com.example.dolphin.infrastructure.consts.StringPool;
@@ -37,13 +38,15 @@ public class VideoService {
 
     private final VideoApi VIDEO_API = RetrofitUtils.create(VideoApi.class);
 
-
-    public List<Video> getAll(Context context, String userName) {
-        List<Video> videos = new ArrayList<>();
+    /**
+     * 获取指定用户所以视频
+     */
+    public List<VideoInput> getAll(Context context, String userName) {
+        List<VideoInput> videos = new ArrayList<>();
         try {
-            Call<Result<List<Video>>> call = VIDEO_API.getAll(userName);
-            Result<List<Video>> result = ApiTool.sendRequest(call);
-            List<Video> data = result.getData();
+            Call<Result<List<VideoInput>>> call = VIDEO_API.getAll(userName);
+            Result<List<VideoInput>> result = ApiTool.sendRequest(call);
+            List<VideoInput> data = result.getData();
             videos.addAll(data);
         } catch (Exception e) {
             BaseTool.shortToast(context, StringPool.NOT_NETWORK);
@@ -51,6 +54,9 @@ public class VideoService {
         return videos;
     }
 
+    /**
+     * 获取指定视频信息
+     */
     public Video getBy(Context context, String videoId) {
         Video video = null;
         try {
@@ -63,36 +69,39 @@ public class VideoService {
         return video;
     }
 
-    public Boolean supportVideo(Context context, Video video) {
-        boolean isSuccess = false;
+    /**
+     * 为视频点赞或
+     */
+    public void supportVideo(Context context, Video video) {
         try {
             Call<Result<Boolean>> call = VIDEO_API.supportVideo(StringPool.CURRENT_USER.getUserName(), video.getId(), StringPool.ONE);
             Result<Boolean> result = ApiTool.sendRequest(call);
-            isSuccess = result.getData();
-            if (isSuccess) {
+            if (result.getData()) {
                 video.setNumbers(video.getNumbers() + 1);
             }
         } catch (Exception e) {
             BaseTool.shortToast(context, StringPool.NOT_NETWORK);
         }
-        return isSuccess;
     }
 
-    public Boolean unSupportVideo(Context context, Video video) {
-        boolean isSuccess = false;
+    /**
+     * 取消点赞
+     */
+    public void unSupportVideo(Context context, Video video) {
         try {
             Call<Result<Boolean>> call = VIDEO_API.supportVideo(StringPool.CURRENT_USER.getUserName(), video.getId(), StringPool.NEGATIVE_ONE);
             Result<Boolean> result = ApiTool.sendRequest(call);
-            isSuccess = result.getData();
-            if (isSuccess) {
+            if (result.getData()) {
                 video.setNumbers(video.getNumbers() - 1);
             }
         } catch (Exception e) {
             BaseTool.shortToast(context, StringPool.NOT_NETWORK);
         }
-        return isSuccess;
     }
 
+    /**
+     * 验证是否点赞
+     */
     public Boolean isSupport(Context context, String videoId) {
         if (StringPool.CURRENT_USER == null) {
             return false;
@@ -108,6 +117,9 @@ public class VideoService {
         return isSuccess;
     }
 
+    /**
+     * 分块上传视频
+     */
     public void uploadVideo(Context context, String introduction) {
         File video = StringPool.VIDEO;
         File cover = StringPool.COVER;
@@ -145,6 +157,9 @@ public class VideoService {
         UploadVideoListener.UPLOAD_STATUS.compareAndSet(true, false);
     }
 
+    /**
+     * 获取指定页数的视频，视频会随机打乱
+     */
     public List<Video> randomGet(Context context, int n) {
         List<Video> videos = new ArrayList<>();
         if (n == StringPool.THREE) {
@@ -202,5 +217,4 @@ public class VideoService {
         String name = file.getName();
         return name.substring(name.lastIndexOf(StringPool.DOT));
     }
-
 }

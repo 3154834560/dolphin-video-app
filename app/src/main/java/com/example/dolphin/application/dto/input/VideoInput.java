@@ -16,22 +16,6 @@ public class VideoInput {
      */
     private String id;
     /**
-     * 视频名称-带后缀
-     */
-    private String videoName;
-    /**
-     * 视频作者，对应用户名
-     */
-    private String author;
-    /**
-     * 视频作者昵称
-     */
-    private String authorNick;
-    /**
-     * 视频简介
-     */
-    private String introduction;
-    /**
      * 视频封面名称-带后缀
      */
     private String coverName;
@@ -43,10 +27,6 @@ public class VideoInput {
     public Video to() {
         Video video = new Video();
         video.setId(id);
-        video.setVideoName(videoName);
-        video.setAuthor(author);
-        video.setAuthorNick(authorNick);
-        video.setIntroduction(introduction);
         video.setCoverName(coverName);
         video.setNumbers(numbers);
         return video;

@@ -4,8 +4,8 @@ import android.content.Context;
 
 import com.example.dolphin.R;
 import com.example.dolphin.application.dto.input.CollectionInput;
+import com.example.dolphin.application.dto.input.VideoInput;
 import com.example.dolphin.application.service.VideoService;
-import com.example.dolphin.domain.model.Video;
 import com.example.dolphin.infrastructure.tool.BaseTool;
 
 import java.util.List;
@@ -33,7 +33,7 @@ public class VideoListView {
 
     private List<Integer> childLayoutIds;
 
-    public static VideoListView copy(Context context, Video video, VideoService videoService) {
+    public static VideoListView copy(Context context, VideoInput video, VideoService videoService) {
         Boolean support = videoService.isSupport(context, video.getId());
         VideoListView videoListView = new VideoListView();
         videoListView.setVideoId(video.getId());
@@ -42,7 +42,6 @@ public class VideoListView {
         videoListView.setNumbers(BaseTool.numberToString(video.getNumbers()));
         return videoListView;
     }
-
 
     public static VideoListView copy(Context context, CollectionInput input, VideoService videoService) {
         Boolean support = videoService.isSupport(context, input.getVideoId());

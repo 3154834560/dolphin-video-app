@@ -208,7 +208,7 @@ public class SingleVideoActivity extends AppCompatActivity {
     public void initDown(Video video) {
         ImageView downIcon = findViewById(R.id.down_icon);
         downIcon.setOnClickListener(v -> {
-            if (DownloadService.DOWN_STATUS.isStatus()) {
+            if (DownloadService.DOWN_STATUS.get()) {
                 BaseTool.shortToast(v.getContext(), "已有视频在下载！");
                 return;
             }

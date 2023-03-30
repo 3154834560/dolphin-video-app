@@ -174,7 +174,7 @@ public class RecyclerItemHolder extends RecyclerView.ViewHolder {
                 context.startActivity(new Intent(context, LoginPageActivity.class));
                 return;
             }
-            if (DownloadService.DOWN_STATUS.isStatus()) {
+            if (DownloadService.DOWN_STATUS.get()) {
                 BaseTool.shortToast(v.getContext(), "已有视频在下载！");
                 return;
             }

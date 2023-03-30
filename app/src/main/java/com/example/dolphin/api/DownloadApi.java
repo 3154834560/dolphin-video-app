@@ -3,11 +3,12 @@ package com.example.dolphin.api;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.GET;
-import retrofit2.http.Query;
 import retrofit2.http.Streaming;
 import retrofit2.http.Url;
 
 /**
+ * 下载接口
+ *
  * @author 王景阳
  * @date 2022/11/27 15:25
  */

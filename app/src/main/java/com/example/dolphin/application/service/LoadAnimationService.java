@@ -74,7 +74,7 @@ public class LoadAnimationService {
         dialogWindow.setAttributes(layoutParams);
         //设置setCancelable(true)时，点击ProgressDialog以外的区域的时候ProgressDialog就会关闭
         // 反之设置setCancelable(false)时，点击ProgressDialog以外的区域不会关闭ProgressDialog
-        dialog.setCancelable(true);
+        dialog.setCancelable(false);
         dialog.show();
     }
 }

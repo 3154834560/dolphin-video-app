@@ -5,8 +5,9 @@ import android.content.Intent;
 import android.view.View;
 
 import com.example.dolphin.infrastructure.consts.StringPool;
-import com.example.dolphin.infrastructure.structs.Status;
 import com.example.dolphin.infrastructure.tool.BaseTool;
+
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import lombok.AllArgsConstructor;
 
@@ -17,7 +18,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class UploadVideoListener implements View.OnClickListener {
 
-    public static Status UPLOAD_STATUS = new Status(false);
+    public static volatile AtomicBoolean UPLOAD_STATUS = new AtomicBoolean(false);
 
     private Activity activity;
 
@@ -27,7 +28,7 @@ public class UploadVideoListener implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        if (UPLOAD_STATUS.isStatus()) {
+        if (UPLOAD_STATUS.get()) {
             BaseTool.shortToast(activity, "视频上传中！");
             return;
         }

@@ -8,7 +8,6 @@ import androidx.annotation.NonNull;
 import com.example.dolphin.api.DownloadApi;
 import com.example.dolphin.infrastructure.consts.HttpPool;
 import com.example.dolphin.infrastructure.consts.StringPool;
-import com.example.dolphin.infrastructure.structs.Status;
 import com.example.dolphin.infrastructure.threads.DownThread;
 import com.example.dolphin.infrastructure.threads.LoadAnimationThread;
 import com.example.dolphin.infrastructure.tool.BaseTool;
@@ -16,6 +15,7 @@ import com.example.dolphin.infrastructure.util.RetrofitUtils;
 
 import java.io.File;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import okhttp3.Headers;
 import okhttp3.ResponseBody;
@@ -24,12 +24,14 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
+ * 下载服务类
+ *
  * @author 王景阳
  * @date 2022/11/27 15:24
  */
 public class DownloadService {
 
-    public final static Status DOWN_STATUS = new Status(false);
+    public static volatile AtomicBoolean DOWN_STATUS = new AtomicBoolean(false);
 
     private final DownloadApi DOWN_API = RetrofitUtils.create(DownloadApi.class);
 
@@ -38,10 +40,7 @@ public class DownloadService {
      */
     @SuppressLint("NewApi")
     public void downloadFile(Activity activity, String type, String name) {
-        DOWN_STATUS.setStatus(true);
-        LoadAnimationService loadAnimationService = new LoadAnimationService(activity);
-        LoadAnimationThread animationThread = LoadAnimationThread.getInstance(loadAnimationService.getDialog(), loadAnimationService.getImageView(), DownloadService.DOWN_STATUS);
-        CompletableFuture.runAsync(animationThread);
+        addLoadAnimation(activity);
         Call<ResponseBody> call = DOWN_API.download(HttpPool.URI + "/dolphin/down?type=" + type + "&name=" + name);
         call.enqueue(new Callback<ResponseBody>() {
             @SuppressLint("NewApi")
@@ -60,9 +59,17 @@ public class DownloadService {
                     BaseTool.shortToast(activity, t.getMessage());
                     BaseTool.shortToast(activity, StringPool.DOWN_FAIL);
                 });
-                DOWN_STATUS.setStatus(false);
+                DOWN_STATUS.compareAndSet(true, false);
             }
         });
+    }
+
+    @SuppressLint("NewApi")
+    private void addLoadAnimation(Activity activity) {
+        DOWN_STATUS.compareAndSet(false, true);
+        LoadAnimationService loadAnimationService = new LoadAnimationService(activity);
+        LoadAnimationThread animationThread = LoadAnimationThread.getInstance(loadAnimationService.getDialog(), loadAnimationService.getImageView(), DownloadService.DOWN_STATUS);
+        CompletableFuture.runAsync(animationThread);
     }
 
 }

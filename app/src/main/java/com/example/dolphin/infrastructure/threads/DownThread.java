@@ -1,20 +1,13 @@
 package com.example.dolphin.infrastructure.threads;
 
 import android.app.Activity;
-import android.content.ContentResolver;
-import android.content.ContentValues;
-import android.content.Context;
-import android.content.Intent;
 import android.media.MediaScannerConnection;
-import android.net.Uri;
-import android.provider.MediaStore;
 
 import com.example.dolphin.application.service.DownloadService;
 import com.example.dolphin.infrastructure.consts.StringPool;
 import com.example.dolphin.infrastructure.tool.BaseTool;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 
@@ -53,12 +46,13 @@ public class DownThread implements Runnable {
             //添加到相册
             MediaScannerConnection.scanFile(activity, new String[]{file.toString()}, null, null);
         } catch (Exception e) {
-            DownloadService.DOWN_STATUS.setStatus(false);
+            file.deleteOnExit();
+            DownloadService.DOWN_STATUS.compareAndSet(true, false);
             activity.runOnUiThread(() -> BaseTool.shortToast(activity, StringPool.DOWN_FAIL));
             return;
         }
         activity.runOnUiThread(() -> BaseTool.shortToast(activity, StringPool.DOWN_SUCCESS));
-        DownloadService.DOWN_STATUS.setStatus(false);
+        DownloadService.DOWN_STATUS.compareAndSet(true, false);
     }
 
 }

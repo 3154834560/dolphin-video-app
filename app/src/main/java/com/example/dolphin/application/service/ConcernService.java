@@ -16,6 +16,8 @@ import java.util.List;
 import retrofit2.Call;
 
 /**
+ * 关注服务类
+ *
  * @author 王景阳
  * @date 2022/11/20 13:13
  */

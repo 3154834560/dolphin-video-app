@@ -142,7 +142,7 @@ public class VideoService {
         }
         StringPool.VIDEO = null;
         StringPool.COVER = null;
-        UploadVideoListener.UPLOAD_STATUS.setStatus(false);
+        UploadVideoListener.UPLOAD_STATUS.compareAndSet(true, false);
     }
 
     public List<Video> randomGet(Context context, int n) {

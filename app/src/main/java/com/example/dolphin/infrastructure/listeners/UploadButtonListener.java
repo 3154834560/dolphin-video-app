@@ -35,7 +35,7 @@ public class UploadButtonListener implements View.OnClickListener {
             BaseTool.shortToast(activity, "请添加视频！");
             return;
         }
-        UploadVideoListener.UPLOAD_STATUS.setStatus(true);
+        UploadVideoListener.UPLOAD_STATUS.compareAndSet(false, true);
         LoadAnimationService loadAnimationService = new LoadAnimationService(activity);
         LoadAnimationThread animationThread = LoadAnimationThread.getInstance(loadAnimationService.getDialog(), loadAnimationService.getImageView(), UploadVideoListener.UPLOAD_STATUS);
         CompletableFuture.runAsync(animationThread);

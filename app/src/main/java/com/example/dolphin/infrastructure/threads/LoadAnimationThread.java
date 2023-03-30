@@ -3,7 +3,7 @@ package com.example.dolphin.infrastructure.threads;
 import android.app.Dialog;
 import android.widget.ImageView;
 
-import com.example.dolphin.infrastructure.structs.Status;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import lombok.Setter;
 import lombok.SneakyThrows;
@@ -19,12 +19,12 @@ public class LoadAnimationThread implements Runnable {
 
     private ImageView imageView;
 
-    private static Status status;
+    private static AtomicBoolean status;
 
     private LoadAnimationThread() {
     }
 
-    public static LoadAnimationThread getInstance(Dialog dialog, ImageView imageView, Status status) {
+    public static LoadAnimationThread getInstance(Dialog dialog, ImageView imageView, AtomicBoolean status) {
         LoadAnimationThread thread = new LoadAnimationThread();
         thread.setDialog(dialog);
         thread.setImageView(imageView);
@@ -36,7 +36,7 @@ public class LoadAnimationThread implements Runnable {
     @Override
     public void run() {
         int angle = 90;
-        while (status.isStatus()) {
+        while (status.get()) {
             //支点在图片中心
             imageView.setPivotX(imageView.getWidth() / 2.0f);
             imageView.setPivotY(imageView.getHeight() / 2.0f);

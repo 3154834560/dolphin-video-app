@@ -223,6 +223,7 @@ public class HomePageActivity extends AppCompatActivity {
         super.onDestroy();
         GSYVideoManager.releaseAllVideos();
         GSYVideoManager.instance().clearAllDefaultCache(this);
+        BaseTool.clearCache(this);
         userService.writeLoginInfo(this, StringPool.CURRENT_USER);
     }
 }

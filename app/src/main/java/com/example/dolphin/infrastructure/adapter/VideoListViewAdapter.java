@@ -20,6 +20,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * 视频ListView的适配器
+ *
  * @author 王景阳
  * @date 2022/11/23 19:32
  */
@@ -35,15 +37,12 @@ public class VideoListViewAdapter extends SimpleAdapter {
 
     private final int[] mTo;
 
-    private final boolean needFinish;
-
-    public VideoListViewAdapter(Context context, List<Map<String, VideoListView>> data, int resource, String[] from, int[] to, boolean needFinish) {
+    public VideoListViewAdapter(Context context, List<Map<String, VideoListView>> data, int resource, String[] from, int[] to) {
         super(context, data, resource, from, to);
         this.mData = data;
         this.mResource = resource;
         this.mFrom = from;
         this.mTo = to;
-        this.needFinish = needFinish;
         this.mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -76,28 +75,30 @@ public class VideoListViewAdapter extends SimpleAdapter {
         for (int i = 0; i < count; i++) {
             View v = view.findViewById(mTo[i]);
             VideoListView videoListView = dataSet.get(mFrom[i]);
-            v.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(view.getContext(), SingleVideoActivity.class);
-                    intent.putExtra(StringPool.VIDEO_ID, videoListView.getVideoId());
-                    view.getContext().startActivity(intent);
-                }
+            v.setOnClickListener(v1 -> {
+                Intent intent = new Intent(view.getContext(), SingleVideoActivity.class);
+                intent.putExtra(StringPool.VIDEO_ID, videoListView.getVideoId());
+                view.getContext().startActivity(intent);
             });
-            List<Integer> childLayoutIds = videoListView.getChildLayoutIds();
-            ImageView cover = v.findViewById(childLayoutIds.get(0));
-            ImageView support = v.findViewById(childLayoutIds.get(1));
-            TextView number = v.findViewById(childLayoutIds.get(2));
-            if (videoListView.getCoverUrl() == null) {
-                cover.setVisibility(View.INVISIBLE);
-                support.setVisibility(View.INVISIBLE);
-                number.setVisibility(View.INVISIBLE);
-                continue;
-            }
-            Glide.with(view.getContext()).load(videoListView.getCoverUrl()).into(cover);
-            support.setBackground(view.getContext().getDrawable(videoListView.getSupportResource()));
-            BaseTool.setTextTypeFace(number, view.getContext().getAssets());
-            number.setText(videoListView.getNumbers());
+            initChildLayout(videoListView, v, view);
         }
+    }
+
+    @SuppressLint("UseCompatLoadingForDrawables")
+    private void initChildLayout(VideoListView videoListView, View v, View view) {
+        List<Integer> childLayoutIds = videoListView.getChildLayoutIds();
+        ImageView cover = v.findViewById(childLayoutIds.get(0));
+        ImageView support = v.findViewById(childLayoutIds.get(1));
+        TextView number = v.findViewById(childLayoutIds.get(2));
+        if (videoListView.getCoverUrl() == null) {
+            cover.setVisibility(View.INVISIBLE);
+            support.setVisibility(View.INVISIBLE);
+            number.setVisibility(View.INVISIBLE);
+            return;
+        }
+        Glide.with(view.getContext()).load(videoListView.getCoverUrl()).into(cover);
+        support.setBackground(view.getContext().getDrawable(videoListView.getSupportResource()));
+        BaseTool.setTextTypeFace(number, view.getContext().getAssets());
+        number.setText(videoListView.getNumbers());
     }
 }

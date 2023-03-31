@@ -13,7 +13,7 @@ import lombok.SneakyThrows;
  * @date 2022/11/27 20:36
  */
 @Setter
-public class LoadAnimationThread implements Runnable {
+public class LoadAnimationRunnable implements Runnable {
 
     private Dialog dialog;
 
@@ -21,14 +21,14 @@ public class LoadAnimationThread implements Runnable {
 
     private static AtomicBoolean status;
 
-    private LoadAnimationThread() {
+    private LoadAnimationRunnable() {
     }
 
-    public static LoadAnimationThread getInstance(Dialog dialog, ImageView imageView, AtomicBoolean status) {
-        LoadAnimationThread thread = new LoadAnimationThread();
+    public static LoadAnimationRunnable getInstance(Dialog dialog, ImageView imageView, AtomicBoolean status) {
+        LoadAnimationRunnable thread = new LoadAnimationRunnable();
         thread.setDialog(dialog);
         thread.setImageView(imageView);
-        LoadAnimationThread.status = status;
+        LoadAnimationRunnable.status = status;
         return thread;
     }
 

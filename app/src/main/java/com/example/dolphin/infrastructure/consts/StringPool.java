@@ -20,11 +20,17 @@ import java.util.Map;
 public class StringPool {
 
     public static boolean LOGIN = false;
-
+    /**
+     * 记录需要上传的视频
+     */
     public static File VIDEO;
-
+    /**
+     * 记录需要上传的视频的封面
+     */
     public static File COVER;
-
+    /**
+     * 记录当前登录的用户
+     */
     public static User CURRENT_USER;
 
     /**
@@ -78,12 +84,6 @@ public class StringPool {
 
     public static final String MSG_STR = "msg";
 
-    public static final String TRUE_STR = "true";
-
-    public static final String FALSE_STR = "false";
-
-    public static final String UPLOAD_VIDEO_BROADCAST_NAME = "com.example.dolphin.upload.video";
-
     public static final String VIDEO_ID = "videoId";
 
     public static final String VIDEO_TYPE = "video/*";
@@ -106,19 +106,11 @@ public class StringPool {
 
     public static final String TYPE = "type";
 
-    public static final String PHOTO_TYPE = ".jpg";
-
     public static final long MAX_VIDEO_SIZE = 1024 * 1024 * 70;
 
     public static final String VIDEO_TOO_LARGE = "视频过大！最大为70MB";
 
     public static String WORKING_PATH = "";
-
-    public static boolean IS_UPLOAD = false;
-
-    public static String MALE = "男";
-
-    public static String FEMALE = "女";
 
     public static final String LOGIN_INFO_FILE_NAME = "login-info.json";
 
@@ -212,8 +204,6 @@ public class StringPool {
 
     public final static String PERCENT_SIGN_STR = "%";
 
-    public final static String EQUAL_SIGN_STR = "=";
-
     public final static char MULTIPLICATION = 'x';
 
     public final static char MINUS_SIGN = '-';
@@ -227,7 +217,4 @@ public class StringPool {
     public final static String EXPRESSION_ERROR = "表达式错误";
 
     public final static String CALCULATION_SYMBOL = MULTIPLICATION_SIGN + MINUS_SIGN_STR + PLUS_SIGN_STR + DIVISION_SIGN_STR;
-
-    public final static String PLEASE_ENTER__SEARCH_CONTENT = "请输入搜索内容";
-
 }

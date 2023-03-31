@@ -5,6 +5,8 @@ import com.shuyu.gsyvideoplayer.listener.GSYSampleCallBack;
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 
 /**
+ * Gsy回调类
+ *
  * @author 王景阳
  * @date 2023/3/31 9:23
  */

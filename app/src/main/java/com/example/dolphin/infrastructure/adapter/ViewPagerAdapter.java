@@ -18,6 +18,8 @@ import com.example.dolphin.infrastructure.holder.RecyclerItemHolder;
 import java.util.List;
 
 /**
+ * 滑动播放视频（即viewPager2）的适配器
+ *
  * @author 王景阳
  * @date 2022/10/27 16:28
  */

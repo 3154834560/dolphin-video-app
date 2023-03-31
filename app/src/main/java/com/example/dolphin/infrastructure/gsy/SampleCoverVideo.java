@@ -1,4 +1,4 @@
-package com.example.dolphin.infrastructure.video;
+package com.example.dolphin.infrastructure.gsy;
 
 import android.content.Context;
 import android.graphics.Point;

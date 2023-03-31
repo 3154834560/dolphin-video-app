@@ -8,8 +8,8 @@ import androidx.annotation.NonNull;
 import com.example.dolphin.api.DownloadApi;
 import com.example.dolphin.infrastructure.consts.HttpPool;
 import com.example.dolphin.infrastructure.consts.StringPool;
-import com.example.dolphin.infrastructure.threads.DownThread;
-import com.example.dolphin.infrastructure.threads.LoadAnimationThread;
+import com.example.dolphin.infrastructure.threads.DownRunnable;
+import com.example.dolphin.infrastructure.threads.LoadAnimationRunnable;
 import com.example.dolphin.infrastructure.tool.BaseTool;
 import com.example.dolphin.infrastructure.util.RetrofitUtils;
 
@@ -50,7 +50,7 @@ public class DownloadService {
                 File file = new File(filePath);
                 ResponseBody body = response.body();
                 Headers headers = response.headers();
-                CompletableFuture.runAsync(new DownThread(activity, body, headers, file));
+                CompletableFuture.runAsync(new DownRunnable(activity, body, headers, file));
             }
 
             @Override
@@ -68,7 +68,7 @@ public class DownloadService {
     private void addLoadAnimation(Activity activity) {
         DOWN_STATUS.compareAndSet(false, true);
         LoadAnimationService loadAnimationService = new LoadAnimationService(activity);
-        LoadAnimationThread animationThread = LoadAnimationThread.getInstance(loadAnimationService.getDialog(), loadAnimationService.getImageView(), DownloadService.DOWN_STATUS);
+        LoadAnimationRunnable animationThread = LoadAnimationRunnable.getInstance(loadAnimationService.getDialog(), loadAnimationService.getImageView(), DownloadService.DOWN_STATUS);
         CompletableFuture.runAsync(animationThread);
     }
 

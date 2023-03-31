@@ -60,16 +60,20 @@ public class RegisterButtonListener implements View.OnClickListener {
             if (!verify.equals(StringPool.ZERO)) {
                 BaseTool.shortToast(activity, "用户名：" + userOutput.getUserName() + " 已存在！");
             } else {
-                StringPool.CURRENT_USER = userService.create(activity, userOutput);
-                ConcernService concernService=new ConcernService();
-                concernService.getAllConcern(activity);
-                CollectionService collectionService=new CollectionService();
-                collectionService.getAllCollection(activity);
-                StringPool.INDEX = 0;
-                userService.writeLoginInfo(activity, StringPool.CURRENT_USER);
-                activity.finish();
+                sendRegisterRequest(userOutput);
             }
         }
+    }
+
+    private void sendRegisterRequest(UserOutput userOutput) {
+        StringPool.CURRENT_USER = userService.create(activity, userOutput);
+        ConcernService concernService = new ConcernService();
+        concernService.getAllConcern(activity);
+        CollectionService collectionService = new CollectionService();
+        collectionService.getAllCollection(activity);
+        StringPool.INDEX = 0;
+        userService.writeLoginInfo(activity, StringPool.CURRENT_USER);
+        activity.finish();
     }
 
 }

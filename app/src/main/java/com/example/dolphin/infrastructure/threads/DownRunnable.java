@@ -20,7 +20,7 @@ import okhttp3.ResponseBody;
  * @date 2022/11/27 17:39
  */
 @AllArgsConstructor
-public class DownThread implements Runnable {
+public class DownRunnable implements Runnable {
 
     private final Activity activity;
     private final ResponseBody body;

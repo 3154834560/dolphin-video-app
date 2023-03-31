@@ -8,6 +8,6 @@ public class HttpPool {
     /**
      * todo uri配置
      */
-    public final static String URI = "http://192.168.1.8:8090";
+    public final static String URI = "http://192.168.1.13:8090";
 
 }

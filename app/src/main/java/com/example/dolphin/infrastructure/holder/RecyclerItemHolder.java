@@ -89,26 +89,34 @@ public class RecyclerItemHolder extends RecyclerView.ViewHolder {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void initData(Video video) {
-        TextView author = v.findViewById(R.id.video_author);
-        TextView introduction = v.findViewById(R.id.video_introduction);
-        CircleImageView headPortrait = v.findViewById(R.id.video_author_head_portrait);
-        UserService userService = new UserService();
-        User user = userService.getBy(context, video.getAuthor());
-        BaseTool.setTextTypeFace(Arrays.asList(author, introduction), context.getAssets());
-        author.setText(video.getAuthor());
-        introduction.setText(video.getIntroduction());
-        Glide.with(context).load(BaseTool.toStaticImagesUrl(video.getCoverName())).into(imageView);
-        Glide.with(context).load(BaseTool.toStaticImagesUrl(user.getHeadPortraitName())).into(headPortrait);
-        headPortrait.setOnClickListener(v -> {
-            Intent intent = new Intent(v.getContext(), AuthorInfoActivity.class);
-            intent.putExtra(StringPool.AUTHOR_ID, user.getUserName());
-            v.getContext().startActivity(intent);
-        });
+        initAuthorInfo(video);
         initConcern(video);
         initSupport(video);
         initComment(video);
         initCollection(video);
         initDown(video);
+    }
+
+    private void initAuthorInfo(Video video) {
+        TextView author = v.findViewById(R.id.video_author);
+        TextView introduction = v.findViewById(R.id.video_introduction);
+        CircleImageView headPortrait = v.findViewById(R.id.video_author_head_portrait);
+        UserService userService = new UserService();
+        User user = userService.getBy(context, video.getAuthor());
+
+        BaseTool.setTextTypeFace(Arrays.asList(author, introduction), context.getAssets());
+
+        author.setText(video.getAuthor());
+        introduction.setText(video.getIntroduction());
+
+        Glide.with(context).load(BaseTool.toStaticImagesUrl(video.getCoverName())).into(imageView);
+        Glide.with(context).load(BaseTool.toStaticImagesUrl(user.getHeadPortraitName())).into(headPortrait);
+
+        headPortrait.setOnClickListener(v -> {
+            Intent intent = new Intent(v.getContext(), AuthorInfoActivity.class);
+            intent.putExtra(StringPool.AUTHOR_ID, user.getUserName());
+            v.getContext().startActivity(intent);
+        });
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")

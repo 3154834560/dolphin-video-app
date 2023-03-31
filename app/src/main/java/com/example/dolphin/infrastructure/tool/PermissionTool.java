@@ -17,6 +17,7 @@ import java.util.List;
 public class PermissionTool {
 
     private static final String[] PERMISSIONS = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+
     private static final List<String> M_PERMISSION_LIST = new ArrayList<>();
 
     public static final int PERMISSION_REQUEST = 1;

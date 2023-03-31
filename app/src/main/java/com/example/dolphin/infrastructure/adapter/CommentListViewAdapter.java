@@ -25,6 +25,8 @@ import java.util.Map;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
+ * 评论ListView的适配器
+ *
  * @author 王景阳
  * @date 2023/3/28 21:54
  */
@@ -93,20 +95,35 @@ public class CommentListViewAdapter extends SimpleAdapter {
         for (Map.Entry<String, CommentListView> m : dataSet.entrySet()) {
             CommentListView commentListView = m.getValue();
             CircleImageView headPortrait = view.findViewById(mTo[0]);
-            Glide.with(context).load(BaseTool.toStaticImagesUrl(commentListView.getHeadPortraitName())).into(headPortrait);
-            TextView nick = view.findViewById(mTo[1]);
-            BaseTool.setTextTypeFace(nick, context.getAssets());
-            nick.setText(commentListView.getNick());
-            TextView createAt = view.findViewById(mTo[2]);
-            BaseTool.setTextTypeFace(createAt, context.getAssets());
-            createAt.setText(DateTimeTool.dateToString(commentListView.getCreateAt(), DateTimeTool.DateFormat.FOUR));
-            TextView content = view.findViewById(mTo[3]);
-            BaseTool.setTextTypeFace(content, context.getAssets());
-            content.setText(commentListView.getContent());
             Intent intent = new Intent(context, commentListView.getNextClass());
             intent.putExtra(StringPool.AUTHOR_ID, commentListView.getUserName());
             headPortrait.setOnClickListener(v -> context.startActivity(intent));
+            Glide.with(context).load(BaseTool.toStaticImagesUrl(commentListView.getHeadPortraitName())).into(headPortrait);
+
+            TextView nick = view.findViewById(mTo[1]);
             nick.setOnClickListener(v -> context.startActivity(intent));
+
+            setTextContent(commentListView, view);
+            setTextTypeFace(view);
         }
+    }
+
+    private void setTextContent(CommentListView commentListView, View view) {
+        TextView nick = view.findViewById(mTo[1]);
+        TextView createAt = view.findViewById(mTo[2]);
+        TextView content = view.findViewById(mTo[3]);
+        nick.setText(commentListView.getNick());
+        createAt.setText(DateTimeTool.dateToString(commentListView.getCreateAt(), DateTimeTool.DateFormat.FOUR));
+        content.setText(commentListView.getContent());
+
+    }
+
+    private void setTextTypeFace(View view) {
+        TextView nick = view.findViewById(mTo[1]);
+        TextView createAt = view.findViewById(mTo[2]);
+        TextView content = view.findViewById(mTo[3]);
+        BaseTool.setTextTypeFace(nick, context.getAssets());
+        BaseTool.setTextTypeFace(createAt, context.getAssets());
+        BaseTool.setTextTypeFace(content, context.getAssets());
     }
 }

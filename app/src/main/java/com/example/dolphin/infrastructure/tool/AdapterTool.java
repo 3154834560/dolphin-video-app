@@ -23,7 +23,7 @@ public class AdapterTool {
         String[] itemNames = new String[]{"video1", "video2", "video3"};
         int[] layoutIds = new int[]{R.id.concern_video_1, R.id.concern_video_2, R.id.concern_video_3};
         videoListVideoInitData(listItems, dataList);
-        VideoListViewAdapter listViewAdapter = new VideoListViewAdapter(context, listItems, R.layout.video_list_view_page, itemNames, layoutIds, false);
+        VideoListViewAdapter listViewAdapter = new VideoListViewAdapter(context, listItems, R.layout.video_list_view_page, itemNames, layoutIds);
         listView.setAdapter(listViewAdapter);
     }
 

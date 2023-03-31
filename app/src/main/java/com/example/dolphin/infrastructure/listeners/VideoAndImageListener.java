@@ -65,11 +65,6 @@ public class VideoAndImageListener implements View.OnClickListener {
                 deleteDialog(dialog);
                 //发送打开相机通知
                 BaseTool.shortToast(activity, "该功能暂未实现！");
-        /*    String dir = StringPool.ALBUM_PATH + System.currentTimeMillis() + StringPool.PHOTO_TYPE;
-            Uri headCacheUri = Uri.fromFile(new File(dir));
-            Intent takePicIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            takePicIntent.putExtra(MediaStore.EXTRA_OUTPUT, headCacheUri);
-            activity.startActivityForResult(takePicIntent, StringPool.CAMERA_CODE * requestCode);*/
             });
             //点击相册，发送相册的广播，这个相册广播是在 MainActivity中注册的
             album.setOnClickListener(view -> {

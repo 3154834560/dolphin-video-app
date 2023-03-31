@@ -8,7 +8,7 @@ import android.widget.EditText;
 import com.example.dolphin.application.service.LoadAnimationService;
 import com.example.dolphin.application.service.VideoService;
 import com.example.dolphin.infrastructure.consts.StringPool;
-import com.example.dolphin.infrastructure.threads.LoadAnimationThread;
+import com.example.dolphin.infrastructure.threads.LoadAnimationRunnable;
 import com.example.dolphin.infrastructure.tool.BaseTool;
 
 import java.util.concurrent.CompletableFuture;
@@ -37,7 +37,7 @@ public class UploadButtonListener implements View.OnClickListener {
         }
         UploadVideoListener.UPLOAD_STATUS.compareAndSet(false, true);
         LoadAnimationService loadAnimationService = new LoadAnimationService(activity);
-        LoadAnimationThread animationThread = LoadAnimationThread.getInstance(loadAnimationService.getDialog(), loadAnimationService.getImageView(), UploadVideoListener.UPLOAD_STATUS);
+        LoadAnimationRunnable animationThread = LoadAnimationRunnable.getInstance(loadAnimationService.getDialog(), loadAnimationService.getImageView(), UploadVideoListener.UPLOAD_STATUS);
         CompletableFuture.runAsync(animationThread);
         CompletableFuture.runAsync(() -> {
             videoService.uploadVideo(activity, uploadIntro.getText().toString());

@@ -17,6 +17,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * 显示小工具的ListView的适配器
+ *
  * @author 王景阳
  * @date 2022/11/23 19:32
  */

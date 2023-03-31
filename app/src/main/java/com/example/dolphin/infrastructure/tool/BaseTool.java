@@ -86,7 +86,7 @@ public class BaseTool {
         for (File file : cacheFiles) {
             File[] files = file.listFiles();
             if (files != null) {
-                Arrays.stream(files).forEach(f -> f.delete());
+                Arrays.stream(files).forEach(File::delete);
             }
         }
     }

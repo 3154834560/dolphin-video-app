@@ -22,12 +22,11 @@ import com.example.dolphin.infrastructure.listeners.RegisterButtonListener;
 import com.example.dolphin.infrastructure.tool.BaseTool;
 import com.example.dolphin.infrastructure.tool.DateTimeTool;
 
-import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 
 /**
- * todo
+ * 注册页面
  *
  * @author 王景阳
  * @date 2022/11/14 17:47
@@ -39,6 +38,13 @@ public class RegisterPageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register_page);
         initTypeFace();
+        checkAndInitData();
+    }
+
+    /**
+     * 检查是注册类型，还是更新用户信息类型，并初始化数据
+     */
+    private void checkAndInitData() {
         Intent intent = getIntent();
         String type = intent.getStringExtra(StringPool.TYPE);
         if (type != null && type.equals(StringPool.UPDATE)) {
@@ -60,6 +66,7 @@ public class RegisterPageActivity extends AppCompatActivity {
         RadioButton male = findViewById(R.id.male);
         RadioButton female = findViewById(R.id.female);
         Button button = findViewById(R.id.register_and_login);
+
         linear.setBackground(getDrawable(R.drawable.shape_6));
         userName.setBackground(getDrawable(R.drawable.shape_7));
         userName.setFocusable(false);
@@ -68,15 +75,18 @@ public class RegisterPageActivity extends AppCompatActivity {
         password.setText(user.getPassword());
         nick.setText(user.getNick());
         phone.setText(user.getPhone());
+
         sex.clearCheck();
         if (user.getSex().equals(SexEnum.MALE)) {
             male.setChecked(true);
         } else {
             female.setChecked(true);
         }
+
         if (DateTimeTool.toLong(user.getBirthday()) != StringPool.ZERO) {
-            birthday.setText(DateTimeFormatter.ofPattern("yyyy.MM.dd").format(user.getBirthday()));
+            birthday.setText(DateTimeTool.dateToString(user.getBirthday(), DateTimeTool.DateFormat.SEVEN));
         }
+
         button.setText(StringPool.UPDATE);
     }
 

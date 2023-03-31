@@ -95,7 +95,8 @@ public class DateTimeTool {
         THREE(3, "HH:mm:ss"),
         FOUR(4, "yyyy/MM/dd HH:mm:ss"),
         FIVE(5, "yyyy年MM月dd日 HH时mm分ss秒"),
-        SIX(6, "yyyy年MM月dd日");
+        SIX(6, "yyyy年MM月dd日"),
+        SEVEN(7, "yyyy.MM.dd");
 
         DateFormat(int index, String format) {
             this.index = index;

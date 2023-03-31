@@ -22,6 +22,8 @@ import com.example.dolphin.infrastructure.tool.VideoTool;
 import lombok.SneakyThrows;
 
 /**
+ * 上传视频页面
+ *
  * @author 王景阳
  * @date 2022/11/15 16:50
  */

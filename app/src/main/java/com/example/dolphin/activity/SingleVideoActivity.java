@@ -22,15 +22,14 @@ import com.example.dolphin.application.service.UserService;
 import com.example.dolphin.application.service.VideoService;
 import com.example.dolphin.domain.model.User;
 import com.example.dolphin.domain.model.Video;
+import com.example.dolphin.infrastructure.callbacks.GsyCallBack;
 import com.example.dolphin.infrastructure.consts.StringPool;
 import com.example.dolphin.infrastructure.listeners.CollectionListener;
 import com.example.dolphin.infrastructure.listeners.CommentListener;
 import com.example.dolphin.infrastructure.listeners.ConcernIconListener;
 import com.example.dolphin.infrastructure.listeners.SupportListener;
 import com.example.dolphin.infrastructure.tool.BaseTool;
-import com.shuyu.gsyvideoplayer.GSYVideoManager;
 import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder;
-import com.shuyu.gsyvideoplayer.listener.GSYSampleCallBack;
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 
 import java.util.Arrays;
@@ -38,10 +37,13 @@ import java.util.Arrays;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
+ * 单个视频页面
+ *
  * @author 王景阳
  * @date 2022/11/26 16:19
  */
 public class SingleVideoActivity extends AppCompatActivity {
+    public static final String SINGLE_VIDEO_TAG = "singleVideo";
 
     private final VideoService videoService = new VideoService();
 
@@ -88,6 +90,14 @@ public class SingleVideoActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (gsyVideoPlayer != null) {
+            gsyVideoPlayer.release();
+        }
+    }
+
     private void initVideoPlayer(Video video) {
         gsyVideoPlayer = findViewById(R.id.video_item_player);
         //增加title
@@ -120,31 +130,13 @@ public class SingleVideoActivity extends AppCompatActivity {
                 .setCacheWithPlay(true)
                 .setRotateViewAuto(true)
                 .setLockLand(true)
-                .setPlayTag("singleVideo")
+                .setPlayTag(SINGLE_VIDEO_TAG)
                 .setPlayPosition(0)
                 .setShowFullAnimation(true)
                 .setLooping(true)
                 .setNeedLockFull(true)
-                .setVideoAllCallBack(new GSYSampleCallBack() {
-                    @Override
-                    public void onPrepared(String url, Object... objects) {
-                        super.onPrepared(url, objects);
-                        GSYVideoManager.instance().setNeedMute(false);
-                    }
-
-                    @Override
-                    public void onQuitFullscreen(String url, Object... objects) {
-                        super.onQuitFullscreen(url, objects);
-                        GSYVideoManager.instance().setNeedMute(false);
-                    }
-
-                    @Override
-                    public void onEnterFullscreen(String url, Object... objects) {
-                        super.onEnterFullscreen(url, objects);
-                        GSYVideoManager.instance().setNeedMute(false);
-                        gsyVideoPlayer.getCurrentPlayer().getTitleTextView().setText((String) objects[0]);
-                    }
-                }).build(gsyVideoPlayer);
+                .setVideoAllCallBack(new GsyCallBack(gsyVideoPlayer))
+                .build(gsyVideoPlayer);
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")

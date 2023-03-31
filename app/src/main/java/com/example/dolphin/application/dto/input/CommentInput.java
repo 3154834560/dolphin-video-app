@@ -2,6 +2,8 @@ package com.example.dolphin.application.dto.input;
 
 import android.annotation.SuppressLint;
 
+import com.example.dolphin.infrastructure.consts.StringPool;
+import com.example.dolphin.infrastructure.structs.CommentListView;
 import com.example.dolphin.infrastructure.tool.DateTimeTool;
 
 import java.time.LocalDateTime;
@@ -42,5 +44,19 @@ public class CommentInput {
     @SuppressLint("NewApi")
     public LocalDateTime getCreateAt() {
         return DateTimeTool.toLocalDateTime(createAt);
+    }
+
+    public CommentListView toCommentListView(Class<?> nextClass) {
+        CommentListView commentListView = new CommentListView();
+        commentListView.setContent(content);
+        commentListView.setCreateAt(getCreateAt());
+        commentListView.setNick(nick);
+        commentListView.setUserName(userName);
+        commentListView.setCommentId(commentId);
+        commentListView.setHeadPortraitName(headPortraitName);
+        commentListView.setContent(content);
+        commentListView.setNextClass(nextClass);
+        commentListView.setCurrentUser(StringPool.CURRENT_USER != null && StringPool.CURRENT_USER.getUserName().equals(userName));
+        return commentListView;
     }
 }

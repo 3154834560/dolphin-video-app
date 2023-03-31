@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
 
 /**
  * @author 王景阳
@@ -12,8 +11,9 @@ import lombok.experimental.Accessors;
  */
 @EqualsAndHashCode
 @Data
-@Accessors(chain = true)
 public class CommentListView {
+    private String commentId;
+
     private String userName;
 
     private String nick;
@@ -23,6 +23,8 @@ public class CommentListView {
     private String content;
 
     private LocalDateTime createAt;
+
+    private boolean isCurrentUser;
 
     private Class<?> nextClass;
 }

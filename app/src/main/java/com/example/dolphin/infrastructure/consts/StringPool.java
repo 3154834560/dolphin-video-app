@@ -18,8 +18,6 @@ import java.util.Map;
  * @date 2022/10/27 18:46
  */
 public class StringPool {
-
-    public static boolean LOGIN = false;
     /**
      * 记录需要上传的视频
      */
@@ -75,6 +73,8 @@ public class StringPool {
     public static final String NOT_LOGIN = "未登录";
 
     public static final String CURRENT_NOT_LOGIN = "当前未登录！";
+
+    public static final String PLEASE_LOGIN = "请先登录！";
 
     public static final String FOLLOWED = "已关注";
 

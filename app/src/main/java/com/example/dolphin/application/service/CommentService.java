@@ -35,7 +35,9 @@ public class CommentService {
         try {
             Call<Result<List<CommentInput>>> call = COMMENT_API.getAllComment(videoId);
             Result<List<CommentInput>> result = ApiTool.sendRequest(call);
-            StringPool.COMMENT_INPUT_MAP.put(videoId, result.getData() == null ? new ArrayList<>() : result.getData());
+            List<CommentInput> data = result.getData() == null ? new ArrayList<>() : result.getData();
+            StringPool.COMMENT_INPUT_MAP.put(videoId, data);
+            StringPool.COMMENT_COUNT_MAP.put(videoId, data.size());
         } catch (Exception e) {
             BaseTool.shortToast(context, StringPool.NOT_NETWORK);
         }
@@ -75,14 +77,12 @@ public class CommentService {
     /**
      * 取消评论
      */
-    public boolean unComment(Context context, String id) {
+    public void unComment(Context context, String id) {
         try {
             Call<Result<Boolean>> call = COMMENT_API.unComment(id);
             Result<Boolean> result = ApiTool.sendRequest(call);
-            return result.getData();
         } catch (Exception e) {
             BaseTool.shortToast(context, StringPool.NOT_NETWORK);
         }
-        return false;
     }
 }

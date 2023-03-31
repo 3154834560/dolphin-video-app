@@ -1,5 +1,6 @@
 package com.example.dolphin.infrastructure.listeners;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Build;
 import android.view.View;
@@ -26,6 +27,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class CommentSendListener implements View.OnClickListener {
     private Activity activity;
+
     private LinearLayout linearLayout;
 
     private String videoId;
@@ -33,6 +35,10 @@ public class CommentSendListener implements View.OnClickListener {
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onClick(View v) {
+        if (StringPool.CURRENT_USER == null) {
+            BaseTool.shortToast(linearLayout.getContext(), StringPool.PLEASE_LOGIN);
+            return;
+        }
         EditText editText = linearLayout.findViewById(R.id.comment_edit_text);
         if (editText.getText() == null || editText.getText().toString().trim().isEmpty()) {
             BaseTool.shortToast(linearLayout.getContext(), StringPool.CONTENT_CANNOT_BE_EMPTY);
@@ -42,12 +48,15 @@ public class CommentSendListener implements View.OnClickListener {
         updateData();
     }
 
+    @SuppressLint("SetTextI18n")
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void updateData() {
         TextView commentNumber = activity.findViewById(R.id.comment_number);
         ListView commentList = linearLayout.findViewById(R.id.comment_list_view);
+        TextView topText = linearLayout.findViewById(R.id.comment_top_text);
         commentNumber.setText(BaseTool.numberToString(StringPool.COMMENT_COUNT_MAP.getOrDefault(videoId, 0)));
         ((CommentListViewAdapter) commentList.getAdapter()).notifyDataSetChanged();
+        topText.setText(StringPool.COMMENT_COUNT_MAP.getOrDefault(videoId, 0) + "条评论");
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)

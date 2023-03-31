@@ -91,4 +91,5 @@
     <string name="nine">9</string>
     <string name="calculator">计算器</string>
     <string name="comment_top_cancel">comment_top_cancel</string>
+    <string name="delete">删除</string>
 </resources>

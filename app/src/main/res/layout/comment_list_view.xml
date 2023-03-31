@@ -22,13 +22,13 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="15dp">
+            android:layout_height="18dp">
 
             <TextView
                 android:id="@+id/comment_user_nick"
                 android:layout_width="0dp"
-                android:layout_height="15dp"
-                android:layout_weight="0.5"
+                android:layout_height="match_parent"
+                android:layout_weight="0.35"
                 android:ellipsize="end"
                 android:textColor="#535050"
                 android:textSize="10sp"
@@ -37,13 +37,25 @@
             <TextView
                 android:id="@+id/comment_date_time"
                 android:layout_width="0dp"
-                android:layout_height="15dp"
+                android:layout_height="match_parent"
                 android:ellipsize="end"
                 android:textColor="#535050"
                 android:textSize="10sp"
                 android:layout_weight="0.5"
                 tools:ignore="SmallSp" />
 
+            <TextView
+                android:id="@+id/delete_comment"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:ellipsize="end"
+                android:textColor="#F49191"
+                android:textSize="10sp"
+                android:gravity="right"
+                android:paddingEnd="5dp"
+                android:text="@string/delete"
+                android:layout_weight="0.15"
+                tools:ignore="RtlHardcoded,RtlSymmetry,SmallSp" />
         </LinearLayout>
 
         <TextView

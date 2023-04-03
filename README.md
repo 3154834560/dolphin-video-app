@@ -25,4 +25,4 @@ android端已实现功能：
 
   ## 注意！！！程序运行前一点要记得修改后端IP地址
 
-![image-20230325222516624](C:\Users\d\AppData\Roaming\Typora\typora-user-images\image-20230325222516624.png)
+![image](https://user-images.githubusercontent.com/90910005/229433363-b95c3db8-7c85-4f63-a7b8-5542bb66be70.png)
